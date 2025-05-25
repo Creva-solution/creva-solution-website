@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CREVA Solutions</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="contact.css">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+        <link rel="icon" type="png" href="img/logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <nav>
+        <div class="nav-logo">
+            <img src="img\creva logo.svg">
+        </div>
+        <div class="hamburger" onclick="toggleMenu()">
+            &#9776; <!-- Unicode for ☰ -->
+        </div>
+        <div class="nav-link">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About us</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <button id="getStartedBtn" type="button">Get Started</button>
+        </div>
+    </nav>
+    <section class="contact">
+        <div class="contact-us">
+            <h1>Contact</h1>
+            <div id="line"></div>
+        </div>
+        <div class="location-bar">
+            <div class="location-text">
+                <img src="img\Beverly 1.svg">
+                <h1> Let’s Collaborate</h1>
+                <p>Got a project, brand, or crazy idea?
+                    We’d love to help you bring it to life .</p>
+            </div>
+            <div class="location">
+                <img src="img\map.png">
+            </div>
+        </div>
+        <div class="contact-link">
+            <div class="link">
+                <p style="font-size: 17.778px; font-weight: 400;">Follow Us</p>
+                <a href="#"><i style="margin-left: 40px;" class="fa-brands fa-facebook-f"></i></a>
+                <a href="#"> <i class="fa-brands fa-twitter"></i></a>
+                <a href="#"> <i class="fa-brands fa-instagram"></i></a>
+                <a href="#"> <i class="fa-brands fa-linkedin-in"></i></a>
+            </div>
+            <div class="phone-num">
+                <i class="fa-solid fa-phone"></i>
+                <p>+919445104205</p>
+            </div>
+            <div class="location-pin">
+                <i class="fa-solid fa-location-dot"></i>
+                <p>Sankarapuram, Kallakurichi Dt, Tamil Nadu, India</p>
+            </div>
+        </div>
+    </section>
+    <form action="contact.php" method="POST">
+  <section class="contact-details">
+    <div class="form-details">
+      <h1>Say Hello</h1>
+      <p>Have an idea or question? Let’s connect.</p>
+    </div>
+
+    <div class="form-table">
+      <div class="form-name">
+        <label>First Name</label><br>
+        <input type="text" name="firstname" required>
+      </div>
+      <div style="margin-left: 20px;" class="form-name">
+        <label>Last Name</label><br>
+        <input type="text" name="lastname" required>
+      </div>
+    </div>
+
+    <div class="form-mail">
+      <div class="email">
+        <label>Email</label><br>
+        <input type="email" name="email" required>
+      </div>
+    </div>
+
+    <div class="form-message">
+      <div class="message">
+        <label>Message</label><br>
+        <textarea name="message" required></textarea>
+      </div>
+    </div>
+    <section class="get-touch">
+      <div class="start-text">
+        <button type="submit">Get in touch</button>
+      </div>
+    </section>
+  </section>
+</form>
+    <footer class="footer-bar">
+        <img class="logo" src="img\creva logo.svg">
+        <div class="footer">
+            <div class="footer-description">
+                <p>
+                    We help businesses establish a strong online
+                    presence through creative design and robust
+                    development. Our expert team creates
+                    tailored digital solutions to help you achieve
+                    your goals
+                </p>
+            </div>
+            <div class="footer-description">
+                <h3>Quick Links</h3>
+                <ul class="footer-nav">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About us</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-description">
+                <h3>Services</h3>
+                <h3> Website development</h3>
+                <h3> UX/UI design</h3>
+                <h3> Graphic design </h3>
+            </div>
+            <div class="footer-description">
+                <h3 style="width: 400px;">Sankarapuram, Kallakurichi Dt, Tamil Nadu, India</h3>
+                <h3>+919445104205</h3>
+                <a style="color: white;">crevasolution@gmail.com</a>
+            </div>
+        </div>
+        <div class="footer-icon">
+            <a href="#"><i style="margin-left: 40px;" class="fa-brands fa-facebook-f"></i></a>
+            <a href="#"> <i class="fa-brands fa-twitter"></i></a>
+            <a href="#"> <i class="fa-brands fa-instagram"></i></a>
+            <a href="#"> <i class="fa-brands fa-linkedin-in"></i></a>
+        </div>
+        <div class="copyright">
+            Copyright ® 2025 Creva Solution All rights Reserved
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="contact.js"></script>
+    <script src="https://smtpjs.com/v3/smtp.js">
+</script>
+</body>
+
+</html>

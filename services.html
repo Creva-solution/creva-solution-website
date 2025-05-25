@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+        <link rel="icon" type="png" href="img/logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="services.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- navigation bar -->
+    <nav>
+        <div class="nav-logo">
+            <img src="img\creva logo.svg">
+        </div>
+        <div class="hamburger" onclick="toggleMenu()">
+            &#9776; <!-- Unicode for ☰ -->
+        </div>
+        <div class="nav-link">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About us</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <button id="getStartedBtn" type="button">Get Started</button>
+        </div>
+    </nav>
+
+    <!-- our service -->
+
+    <section class="services">
+        <div class="serv-tittle">
+            <h1><span>Our</span> Services</h1>
+            <div id="line"></div>
+            <p> We offer everything you need to build your brand</p>
+        </div>
+        <div class="work-process">
+            <div class="work-box">
+                <img style="background: #EFEAFF;" src="img\web-icon.svg">
+                <h1>Web Application</h1>
+                <p>Fast, mobile-friendly sites</p>
+            </div>
+            <div class="work-box">
+                <img style="background: #ECFFDA;" src="img\ux-icon.svg">
+                <h1>UI/UX Design</h1>
+                <p>Simple and smart user experiencest</p>
+            </div>
+            <div class="work-box">
+                <img style="background: #DAE6FF;" src="img\graphic-icon.svg">
+                <h1>Graphic Design</h1>
+                <p>Logos, posters, branding visuals</p>
+            </div>
+            <div class="work-box">
+                <img style="background: #FFE7FB;" src="img\tabler_video.svg">
+                <h1>Video Editing</h1>
+                <p>Short reels, promo videos, or edits </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="our-project">
+        <div class="works">
+            <h1>Our <span>Work</span></h1>
+            <div id="line-bar"></div>
+        </div>
+        <div class="projects">
+            <div class="project-box">
+                <img src="img/Rectangle 20.png">
+                <h3>Lorem Ipsum is simply
+                    dummy text of the printing.</h3>
+                <p> Lorem Ipsum is simply dummy text of
+                    the printing and typesetting industry. </p>
+            </div>
+            <div class="project-box">
+                <img src="img/Rectangle 21.png">
+                <h3>Lorem Ipsum is simply
+                    dummy text of the printing.</h3>
+                <p> Lorem Ipsum is simply dummy text of
+                    the printing and typesetting industry. </p>
+            </div>
+            <div class="project-box">
+                <img src="img/Rectangle 22.png">
+                <h3>Lorem Ipsum is simply
+                    dummy text of the printing.</h3>
+                <p> Lorem Ipsum is simply dummy text of
+                    the printing and typesetting industry. </p>
+            </div>
+        </div>
+    </section>
+    <section class="get-touch">
+        <div class="start-text">
+            <h1>Ready to Get Started?</h1>
+            <button  id="getInTouchBtn">Get in touch</button>
+        </div>
+    </section>
+    <footer class="footer-bar">
+        <img class="logo" src="img\creva logo.svg">
+        <div class="footer">
+            <div class="footer-description">
+                <p>
+                    We help businesses establish a strong online
+                    presence through creative design and robust
+                    development. Our expert team creates
+                    tailored digital solutions to help you achieve
+                    your goals
+                </p>
+            </div>
+            <div class="footer-description">
+                <h3>Quick Links</h3>
+                <ul class="footer-nav">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About us</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-description">
+                <h3>Services</h3>
+                <h3> Website development</h3>
+                <h3> UX/UI design</h3>
+                <h3> Graphic design </h3>
+            </div>
+            <div class="footer-description">
+                <h3 style="width: 400px;">Sankarapuram, Kallakurichi Dt, Tamil Nadu, India</h3>
+                <h3>+919445104205</h3>
+                <a style="color: white;">crevasolution@gmail.com</a>
+            </div>
+        </div>
+        <div class="footer-icon">
+            <a href="#"><i style="margin-left: 40px;" class="fa-brands fa-facebook-f"></i></a>
+            <a href="#"> <i class="fa-brands fa-twitter"></i></a>
+            <a href="#"> <i class="fa-brands fa-instagram"></i></a>
+            <a href="#"> <i class="fa-brands fa-linkedin-in"></i></a>
+        </div>
+        <div class="copyright">
+            Copyright ® 2025 Creva Solution All rights Reserved
+        </div>
+    </footer>
+
+   <script src="script.js"></script>
+
+</body>
+
+</html>
