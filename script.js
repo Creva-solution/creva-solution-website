@@ -17,3 +17,5 @@
   // Attach event listeners
   document.getElementById("getStartedBtn").addEventListener("click", sendEmail);
   document.getElementById("getInTouchBtn").addEventListener("click", sendEmail);
+  document.getElementById("StartYourBtn").addEventListener("click", sendEmail);
+  document.getElementById("a").addEventListener("click", sendEmail);
