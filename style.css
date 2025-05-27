@@ -192,6 +192,10 @@ nav {
     font-size: 32px;
     font-weight: 600;
 }
+.project-box img{
+  border-radius: 45px;
+  border: 0.5px solid #D3D3D3;
+}
 
 .work-tittle span {
     color: #0077cc;
@@ -312,6 +316,7 @@ span {
     justify-content: space-around;
 }
 
+
 .logo {
     padding-left: 20px;
     width: 173px;
@@ -377,6 +382,10 @@ span {
     background: white;
     border-radius: 50%;
     padding: 10px;
+}
+.footer-icon i:hover{
+  background: #0077cc;
+  color:#ffffff;
 }
 
 .copyright {
