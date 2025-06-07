@@ -19,3 +19,5 @@
   document.getElementById("getInTouchBtn").addEventListener("click", sendEmail);
   document.getElementById("StartYourBtn").addEventListener("click", sendEmail);
   document.getElementById("a").addEventListener("click", sendEmail);
+
+  
