@@ -1,19 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?> 
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"> 
-<url>
-  <loc>http://crevasolution.netlify.app/</loc>
-  <lastmod>2025-06-07</lastmod>
-</url>
-<url>
-  <loc>http://crevasolution.netlify.app/about</loc>
-  <lastmod>undefined-undefined-2025-06-07</lastmod>
-</url>
-<url>
-  <loc>http://crevasolution.netlify.app/services</loc>
-  <lastmod>undefined-undefined-undefined-undefined-2025-06-07</lastmod>
-</url>
-<url>
-  <loc>http://crevasolution.netlify.app/contact</loc>
-  <lastmod>undefined-undefined-undefined-undefined-undefined-undefined-2025-06-07</lastmod>
-</url>
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://www.crevasolution.in/</loc>
+    <priority>1.00</priority>
+  </url>
 </urlset>
