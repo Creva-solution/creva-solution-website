@@ -19,6 +19,7 @@ document.getElementById("getStartedBtn").addEventListener("click", sendEmail);
 document.getElementById("hero-btn1").addEventListener("click", sendEmail);
 document.getElementById("gettouch").addEventListener("click", sendEmail);
 document.getElementById("a").addEventListener("click", sendEmail);
+document.getElementById("ab").addEventListener("click", sendEmail);
 
 // ===== Project Filter =====
 function filterCards(category) {
