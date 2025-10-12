@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://crevasolution.in/sitemap.xml
+Host: https://crevasolution.in
