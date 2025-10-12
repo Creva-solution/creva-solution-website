@@ -859,6 +859,11 @@ nav {
   margin: 4px 0;
   color: #555;
 }
+#num{
+  color: #555;
+  display: flex;
+  text-decoration: none;
+}
 
 /* Social Icons */
 .social-icons img {
@@ -915,10 +920,12 @@ nav {
 #a{
   text-decoration: none;
   color: white;
+  
 }
 #ab{
   text-decoration: none;
   color: white;
+  display: flex;
 }
 .footer-socials a img {
   width: 36px;
@@ -1007,6 +1014,10 @@ nav {
 
   .footer-socials {
     justify-content: center;
+  }
+  #ab{
+    flex-direction: column;
+    text-align: center;
   }
 }
 /* SEO */
