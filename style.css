@@ -173,7 +173,7 @@ nav {
     padding-left: 36.5px;
 }
 
-.hero-text h1 {
+.hero-text h2 {
     padding-left: 36.5px;
     color: rgba(60, 119, 195, 0.70);
     font-family: Poppins;
@@ -298,7 +298,7 @@ nav {
         width: 250px;
     }
 
-    .hero-text h1 {
+    .hero-text h2 {
         font-size: 50px;
         line-height: normal;
         padding-left: 16.5px;
@@ -328,7 +328,7 @@ nav {
   background: #f9fafb;
 }
 
-.about-heading h1 {
+.about-heading h3 {
   color: #414141;
   text-align: center;
   font-family: 'Poppins', sans-serif;
@@ -407,7 +407,7 @@ nav {
 }
 
 @media screen and (max-width: 768px) {
-  .about-heading h1 {
+  .about-heading h3 {
     font-size: 32px;
   }
 
@@ -428,7 +428,7 @@ nav {
 }
 
 @media screen and (max-width: 480px) {
-  .about-heading h1 {
+  .about-heading h3 {
     font-size: 26px;
     line-height: 1.2;
   }
@@ -451,7 +451,7 @@ nav {
   padding: 80px 20px;
 }
 
-.our-heading h1 {
+.our-heading h3 {
   color: #414141;
   text-align: center;
   font-family: Poppins, sans-serif;
@@ -472,7 +472,7 @@ nav {
   line-height: 29px;
 }
 
-.our-IT h1 {
+.our-IT h4{
   color: #000;
   margin-top: 60px;
   text-align: center;
@@ -525,7 +525,7 @@ nav {
 
 /* 📱 Responsive */
 @media screen and (max-width: 768px) {
-  .our-heading h1 {
+  .our-heading h3 {
     font-size: 32px;
     line-height: 45px;
   }
@@ -547,7 +547,7 @@ nav {
     border-radius: 12px;
 }
 
-.btn-box h1 {
+.btn-box h2 {
     font-size: 30px;
     color: #fff;
     margin-bottom: 20px;
@@ -720,7 +720,7 @@ nav {
         gap: 20px;
     }
 
-    .btn-box h1 {
+    .btn-box h2 {
         font-size: 22px;
     }
 
@@ -745,11 +745,11 @@ nav {
   text-align: center;
   margin-bottom: 40px;
 }
-.contact-header h1 {
+.contact-header h4 {
   font-size: 36px;
   font-weight: bold;
 }
-.contact-header h1 span {
+.contact-header h4 span {
   color: #3C77C3;
 }
 .contact-header p {
