@@ -706,7 +706,15 @@ nav {
     border-radius: 999px;
     font-size: 13px;
 }
-
+.Our-pro-heading h3 {
+  color: #414141;
+  text-align: center;
+  font-family: 'Poppins', sans-serif;
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 1.4;
+  margin: 0;
+}
 /* Responsive Grid */
 @media (max-width: 1024px) {
     .portfolio {
@@ -732,6 +740,9 @@ nav {
         width: 150px;
         font-size: 16px;
     }
+      .Our-pro-heading h3 {
+    font-size: 32px;
+  }
 }
 /* Wrapper */
 .contact-wrapper {
