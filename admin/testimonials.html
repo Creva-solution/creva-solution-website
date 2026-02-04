@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Testimonials - Creva Admin</title>
+    <link rel="stylesheet" href="css/admin.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .testimonial-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .testimonial-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .testimonial-card img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .quote-text {
+            color: #555;
+            font-style: italic;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+            border-left: 3px solid var(--primary-color);
+            padding-left: 1rem;
+        }
+
+        .btn-delete {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #ffebe9;
+            color: #d63333;
+            border: none;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+
+<body class="dashboard-body">
+    <!-- Nav -->
+    <nav class="dashboard-nav">
+        <div class="nav-brand"><a href="dashboard.html" style="text-decoration:none; color:inherit;">Creva Admin</a> /
+            Testimonials</div>
+        <button id="logout-btn" class="btn-logout">Logout</button>
+    </nav>
+
+    <main class="dashboard-content">
+        <div class="dashboard-card">
+            <h1>Manage Testimonials</h1>
+
+            <!-- Add Testimonial Form -->
+            <div style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #eee;">
+                <h3>Add New Testimonial</h3>
+                <div style="margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px dashed #eee;">
+                    <h5>Bulk Import</h5>
+                    <div style="display:flex; gap:0.5rem; align-items:center;">
+                        <input type="file" id="csv-file" accept=".csv" class="form-control" style="width:auto;">
+                        <button onclick="handleCSVUpload()" class="btn-primary"
+                            style="padding: 0.5rem 1rem; font-size: 0.9rem;">Import CSV</button>
+                    </div>
+                    <small style="color:#666;">Format: name, role, quote, photo_url</small>
+                </div>
+                <form id="add-testimonial-form" style="margin-top: 1rem;">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div class="form-group">
+                            <label>Client Name</label>
+                            <input type="text" id="t-name" class="form-control" required placeholder="e.g. Arjun Mehta">
+                        </div>
+                        <div class="form-group">
+                            <label>Role / Title</label>
+                            <input type="text" id="t-role" class="form-control" required
+                                placeholder="e.g. Business Owner">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Quote</label>
+                        <textarea id="t-quote" class="form-control" rows="3" required
+                            placeholder="Creva Solutions delivered..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Client Photo (Optional)</label>
+                        <input type="file" id="t-file" class="form-control" accept="image/*">
+                        <small style="color: #666;">Image will be automatically converted to WebP format.</small>
+                    </div>
+
+                    <button type="submit" class="btn-primary" style="width: auto;">Add Testimonial</button>
+                </form>
+                <div id="upload-status" style="margin-top: 0.5rem; font-size: 0.9rem;"></div>
+            </div>
+
+            <!-- List Testimonials -->
+            <div id="testimonials-list" class="testimonials-grid">
+                <p style="color:#666; grid-column: 1/-1;">Loading testimonials...</p>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/cms.js"></script>
+    <script>
+        // Page Logic
+        const listEl = document.getElementById('testimonials-list');
+        const addForm = document.getElementById('add-testimonial-form');
+        const statusDiv = document.getElementById('upload-status');
+
+        async function loadTestimonials() {
+            try {
+                const testimonials = await fetchTestimonials();
+                listEl.innerHTML = '';
+
+                if (testimonials.length === 0) {
+                    listEl.innerHTML = '<p style="color:#666; grid-column: 1/-1;">No testimonials found.</p>';
+                }
+
+                testimonials.forEach(item => {
+                    const card = document.createElement('div');
+                    card.className = 'testimonial-card';
+
+                    card.innerHTML = `
+                        <button class="btn-delete" onclick="removeTestimonial('${item.id}')">&times;</button>
+                        <div class="quote-text">"${item.quote}"</div>
+                        <div class="testimonial-header">
+                            <img src="${item.photo_url || 'https://via.placeholder.com/50'}" alt="${item.name}">
+                            <div>
+                                <div style="font-weight:600;">${item.name}</div>
+                                <div style="color:var(--primary-color); font-size:0.85rem;">${item.role}</div>
+                            </div>
+                        </div>
+                    `;
+                    listEl.appendChild(card);
+                });
+            } catch (err) {
+                console.error(err);
+                listEl.innerHTML = `<p style="color:red; grid-column: 1/-1;">Error loading testimonials: ${err.message}</p>`;
+            }
+        }
+
+        async function removeTestimonial(id) {
+            if (!confirm('Are you sure you want to delete this testimonial?')) return;
+            try {
+                await deleteTestimonial(id);
+                loadTestimonials();
+            } catch (err) {
+                alert('Failed to delete: ' + err.message);
+            }
+        }
+
+        addForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = addForm.querySelector('button');
+
+            try {
+                btn.disabled = true;
+                btn.innerText = 'Adding...';
+                statusDiv.innerText = '';
+
+                const data = {
+                    name: document.getElementById('t-name').value,
+                    role: document.getElementById('t-role').value,
+                    quote: document.getElementById('t-quote').value,
+                };
+                const file = document.getElementById('t-file').files[0];
+
+                await addTestimonial(data, file);
+
+                addForm.reset();
+                loadTestimonials();
+                statusDiv.innerHTML = '<span style="color:green">Testimonial added successfully!</span>';
+            } catch (err) {
+                console.error(err);
+                statusDiv.innerHTML = `<span style="color:red">${err.message}</span>`;
+            } finally {
+                btn.disabled = false;
+                btn.innerText = 'Add Testimonial';
+            }
+        });
+
+        // CSV Upload Logic
+        async function handleCSVUpload() {
+            const fileInput = document.getElementById('csv-file');
+            const file = fileInput.files[0];
+            if (!file) {
+                alert('Please select a CSV file first.');
+                return;
+            }
+
+            if (!confirm('Import testimonials from this CSV?')) return;
+
+            try {
+                statusDiv.innerText = 'Importing...';
+                await importTestimonialsFromCSV(file);
+                loadTestimonials();
+                statusDiv.innerHTML = '<span style="color:green">CSV Imported Successfully!</span>';
+                fileInput.value = '';
+            } catch (err) {
+                console.error(err);
+                statusDiv.innerHTML = `<span style="color:red">Import Failed: ${err.message}</span>`;
+            }
+        }
+
+        // Init
+        document.addEventListener('DOMContentLoaded', loadTestimonials);
+    </script>
+</body>
+
+</html>

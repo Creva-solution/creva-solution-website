@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Creva Solutions</title>
+    <link rel="stylesheet" href="css/admin.css">
+    <!-- Supabase CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body class="dashboard-body">
+    <nav class="dashboard-nav">
+        <div class="nav-brand">Creva Admin Panel</div>
+        <button id="logout-btn" class="btn-logout">Logout</button>
+    </nav>
+
+    <main class="dashboard-content">
+        <div class="dashboard-card">
+            <h1>Welcome to Dashboard</h1>
+            <p style="margin-top: 1rem; color: #6b7280;">
+                Select an option below to manage your website content.
+            </p>
+        </div>
+
+        <div
+            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+            <!-- Manage Clients -->
+            <a href="clients.html" style="text-decoration: none; color: inherit;">
+                <div class="dashboard-card" style="margin-bottom: 0; transition: transform 0.2s; cursor: pointer;"
+                    onmouseover="this.style.transform='translateY(-5px)'"
+                    onmouseout="this.style.transform='translateY(0)'">
+                    <h2 style="color: var(--primary-color);">Clients & Partners</h2>
+                    <p style="color: var(--text-muted); margin-top: 0.5rem;">Manage logos, categories, and links.</p>
+                </div>
+            </a>
+
+            <!-- Manage Services -->
+            <a href="services.html" style="text-decoration: none; color: inherit;">
+                <div class="dashboard-card" style="margin-bottom: 0; transition: transform 0.2s; cursor: pointer;"
+                    onmouseover="this.style.transform='translateY(-5px)'"
+                    onmouseout="this.style.transform='translateY(0)'">
+                    <h2 style="color: var(--primary-color);">Services</h2>
+                    <p style="color: var(--text-muted); margin-top: 0.5rem;">Manage IT & Civil services.</p>
+                </div>
+            </a>
+
+            <!-- Manage Team -->
+            <a href="team.html" style="text-decoration: none; color: inherit;">
+                <div class="dashboard-card" style="margin-bottom: 0; transition: transform 0.2s; cursor: pointer;"
+                    onmouseover="this.style.transform='translateY(-5px)'"
+                    onmouseout="this.style.transform='translateY(0)'">
+                    <h2 style="color: var(--primary-color);">Team</h2>
+                    <p style="color: var(--text-muted); margin-top: 0.5rem;">Manage team members and bios.</p>
+                </div>
+            </a>
+
+            <!-- Manage Testimonials -->
+            <a href="testimonials.html" style="text-decoration: none; color: inherit;">
+                <div class="dashboard-card" style="margin-bottom: 0; transition: transform 0.2s; cursor: pointer;"
+                    onmouseover="this.style.transform='translateY(-5px)'"
+                    onmouseout="this.style.transform='translateY(0)'">
+                    <h2 style="color: var(--primary-color);">Testimonials</h2>
+                    <p style="color: var(--text-muted); margin-top: 0.5rem;">Manage client feedback and quotes.</p>
+                </div>
+            </a>
+
+            <!-- Manage Messages -->
+            <a href="contacts.html" style="text-decoration: none; color: inherit;">
+                <div class="dashboard-card" style="margin-bottom: 0; transition: transform 0.2s; cursor: pointer;"
+                    onmouseover="this.style.transform='translateY(-5px)'"
+                    onmouseout="this.style.transform='translateY(0)'">
+                    <h2 style="color: var(--primary-color);">Inquiries</h2>
+                    <p style="color: var(--text-muted); margin-top: 0.5rem;">View contact form messages.</p>
+                </div>
+            </a>
+        </div>
+
+        <div class="dashboard-card">
+            <h2>Quick Stats</h2>
+            <!-- Placeholders for future data -->
+            <div
+                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem;">
+                <div style="background: #f3f4f6; padding: 1rem; border-radius: 6px;">
+                    <span style="display: block; font-size: 0.875rem; color: #6b7280;">Total Visits</span>
+                    <span style="font-size: 1.5rem; font-weight: bold;">--</span>
+                </div>
+                <div style="background: #f3f4f6; padding: 1rem; border-radius: 6px;">
+                    <span style="display: block; font-size: 0.875rem; color: #6b7280;">Inquiries</span>
+                    <span style="font-size: 1.5rem; font-weight: bold;">--</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Init Config First, then Auth -->
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+</body>
+
+</html>

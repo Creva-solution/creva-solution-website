@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Team - Creva Admin</title>
+    <link rel="stylesheet" href="css/admin.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .team-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .team-card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .team-card img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .btn-delete {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #ffebe9;
+            color: #d63333;
+            border: none;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .social-tag {
+            background: #f3f4f6;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            color: #666;
+        }
+    </style>
+</head>
+
+<body class="dashboard-body">
+    <!-- Nav -->
+    <nav class="dashboard-nav">
+        <div class="nav-brand"><a href="dashboard.html" style="text-decoration:none; color:inherit;">Creva Admin</a> /
+            Team</div>
+        <button id="logout-btn" class="btn-logout">Logout</button>
+    </nav>
+
+    <main class="dashboard-content">
+        <div class="dashboard-card">
+            <h1>Manage Team Members</h1>
+
+            <!-- Add Team Form -->
+            <div style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #eee;">
+                <h3>Add New Team Member</h3>
+                <form id="add-team-form" style="margin-top: 1rem;">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input type="text" id="team-name" class="form-control" required placeholder="e.g. John Doe">
+                        </div>
+                        <div class="form-group">
+                            <label>Role / Job Title</label>
+                            <input type="text" id="team-role" class="form-control" required
+                                placeholder="e.g. CEO & Founder">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Bio (Short Description)</label>
+                        <textarea id="team-bio" class="form-control" rows="3"
+                            placeholder="Founder of Creva Solutions..."></textarea>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem;">
+                        <div class="form-group">
+                            <label>LinkedIn URL</label>
+                            <input type="url" id="team-linkedin" class="form-control"
+                                placeholder="https://linkedin.com/in/...">
+                        </div>
+                        <div class="form-group">
+                            <label>Instagram URL</label>
+                            <input type="url" id="team-instagram" class="form-control"
+                                placeholder="https://instagram.com/...">
+                        </div>
+                        <div class="form-group">
+                            <label>Facebook URL</label>
+                            <input type="url" id="team-facebook" class="form-control"
+                                placeholder="https://facebook.com/...">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Profile Photo</label>
+                        <input type="file" id="team-file" class="form-control" accept="image/*" required>
+                        <small style="color: #666;">Image will be automatically converted to WebP format.</small>
+                    </div>
+
+                    <button type="submit" class="btn-primary" style="width: auto;">Add Team Member</button>
+                </form>
+                <div id="upload-status" style="margin-top: 0.5rem; font-size: 0.9rem;"></div>
+            </div>
+
+            <!-- List Team -->
+            <div id="team-list" class="team-grid">
+                <p style="color:#666; grid-column: 1/-1;">Loading team...</p>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/cms.js"></script>
+    <script>
+        // Page Logic
+        const teamList = document.getElementById('team-list');
+        const addForm = document.getElementById('add-team-form');
+        const statusDiv = document.getElementById('upload-status');
+
+        async function loadTeam() {
+            try {
+                const team = await fetchTeamMembers();
+                teamList.innerHTML = '';
+
+                if (team.length === 0) {
+                    teamList.innerHTML = '<p style="color:#666; grid-column: 1/-1;">No team members found.</p>';
+                }
+
+                team.forEach(member => {
+                    const card = document.createElement('div');
+                    card.className = 'team-card';
+
+                    let socialHtml = '';
+                    if (member.linkedin_url) socialHtml += '<span class="social-tag">LinkedIn</span>';
+                    if (member.instagram_url) socialHtml += '<span class="social-tag">Instagram</span>';
+                    if (member.facebook_url) socialHtml += '<span class="social-tag">Facebook</span>';
+
+                    card.innerHTML = `
+                        <button class="btn-delete" onclick="removeTeamMember('${member.id}')">&times;</button>
+                        <div class="team-card-header">
+                            <img src="${member.photo_url || 'https://via.placeholder.com/60'}" alt="${member.name}">
+                            <div>
+                                <div style="font-weight:bold; font-size:1.1rem;">${member.name}</div>
+                                <div style="color:var(--primary-color); font-size:0.9rem; font-weight:500;">${member.role}</div>
+                            </div>
+                        </div>
+                        <p style="font-size:0.9rem; color:#555; line-height:1.5; margin-bottom:1rem;">${member.bio || ''}</p>
+                        <div class="social-links">${socialHtml}</div>
+                    `;
+                    teamList.appendChild(card);
+                });
+            } catch (err) {
+                console.error(err);
+                teamList.innerHTML = `<p style="color:red; grid-column: 1/-1;">Error loading team: ${err.message}</p>`;
+            }
+        }
+
+        async function removeTeamMember(id) {
+            if (!confirm('Are you sure you want to delete this team member?')) return;
+            try {
+                await deleteTeamMember(id);
+                loadTeam();
+            } catch (err) {
+                alert('Failed to delete: ' + err.message);
+            }
+        }
+
+        addForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = addForm.querySelector('button');
+
+            try {
+                btn.disabled = true;
+                btn.innerText = 'Processing & Uploading...';
+                statusDiv.innerText = '';
+
+                const teamData = {
+                    name: document.getElementById('team-name').value,
+                    role: document.getElementById('team-role').value,
+                    bio: document.getElementById('team-bio').value,
+                    linkedin_url: document.getElementById('team-linkedin').value,
+                    instagram_url: document.getElementById('team-instagram').value,
+                    facebook_url: document.getElementById('team-facebook').value,
+                };
+                const file = document.getElementById('team-file').files[0];
+
+                await addTeamMember(teamData, file);
+
+                addForm.reset();
+                loadTeam();
+                statusDiv.innerHTML = '<span style="color:green">Team member added successfully!</span>';
+            } catch (err) {
+                console.error(err)
+                statusDiv.innerHTML = `<span style="color:red">${err.message}</span>`;
+            } finally {
+                btn.disabled = false;
+                btn.innerText = 'Add Team Member';
+            }
+        });
+
+        // Init
+        document.addEventListener('DOMContentLoaded', loadTeam);
+    </script>
+</body>
+
+</html>

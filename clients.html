@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clients - Creva Solutions</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- AOS Animation CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" type="image/svg+xml" href="assets/creva-logo.svg">
+</head>
+
+<body class="bg-secondary text-dark font-body flex flex-col min-h-screen">
+
+    <!-- Navbar -->
+    <nav
+        class="bg-white border-b border-gray-100/50 sticky top-0 z-50 font-body backdrop-blur-md bg-white/95 supports-[backdrop-filter]:bg-white/60">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center">
+                    <a href="index.html">
+                        <img src="assets/creva-logo.svg" alt="Creva Solutions" class="h-8 md:h-10 w-auto">
+                    </a>
+                </div>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex flex-1 justify-center space-x-8 items-center">
+                    <a href="index.html"
+                        class="transition-all duration-300 font-medium text-sm tracking-wide uppercase relative group py-1 text-gray-600 hover:text-primary after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-primary after:transform after:scale-x-0 group-hover:after:scale-x-100 after:transition-transform after:duration-300">Home</a>
+                    <a href="about.html"
+                        class="transition-all duration-300 font-medium text-sm tracking-wide uppercase relative group py-1 text-gray-600 hover:text-primary after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-primary after:transform after:scale-x-0 group-hover:after:scale-x-100 after:transition-transform after:duration-300">About
+                        Us</a>
+                    <a href="services.html"
+                        class="transition-all duration-300 font-medium text-sm tracking-wide uppercase relative group py-1 text-gray-600 hover:text-primary after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-primary after:transform after:scale-x-0 group-hover:after:scale-x-100 after:transition-transform after:duration-300">Services</a>
+                    <a href="clients.html"
+                        class="transition-all duration-300 font-medium text-sm tracking-wide uppercase relative group py-1 text-primary font-bold after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-primary after:transform after:scale-x-100 after:transition-transform after:duration-300">Clients</a>
+                    <a href="contact.html"
+                        class="transition-all duration-300 font-medium text-sm tracking-wide uppercase relative group py-1 text-gray-600 hover:text-primary after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-primary after:transform after:scale-x-0 group-hover:after:scale-x-100 after:transition-transform after:duration-300">Contact</a>
+                </div>
+
+                <!-- CTA Button -->
+                <div class="hidden md:flex">
+                    <a href="contact.html"
+                        class="bg-primary text-white px-6 py-2.5 rounded-lg font-semibold hover:bg-opacity-90 transition-all shadow-lg hover:shadow-primary/30 transform hover:-translate-y-0.5">
+                        Get a Quote
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-dark hover:text-primary focus:outline-none">
+                        <i data-lucide="menu" class="w-7 h-7"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 absolute w-full shadow-xl">
+            <div class="px-4 pt-4 pb-6 space-y-2 flex flex-col">
+                <a href="index.html"
+                    class="block px-3 py-2 rounded-md text-lg font-medium transition-colors border-l-4 text-dark hover:text-primary hover:bg-gray-50 border-transparent">Home</a>
+                <a href="about.html"
+                    class="block px-3 py-2 rounded-md text-lg font-medium transition-colors border-l-4 text-dark hover:text-primary hover:bg-gray-50 border-transparent">About
+                    Us</a>
+                <a href="services.html"
+                    class="block px-3 py-2 rounded-md text-lg font-medium transition-colors border-l-4 text-dark hover:text-primary hover:bg-gray-50 border-transparent">Services</a>
+                <a href="clients.html"
+                    class="block px-3 py-2 rounded-md text-lg font-medium transition-colors border-l-4 text-primary bg-blue-50 border-primary font-bold">Clients</a>
+                <a href="contact.html"
+                    class="block px-3 py-2 rounded-md text-lg font-medium transition-colors border-l-4 text-dark hover:text-primary hover:bg-gray-50 border-transparent">Contact</a>
+                <a href="contact.html"
+                    class="block w-full text-center px-4 py-3 mt-4 rounded-lg text-white bg-primary font-bold hover:bg-opacity-90 shadow-md">Get
+                    a Quote</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow">
+        <!-- Page Header -->
+        <section class="bg-white pt-24 pb-12 relative overflow-hidden">
+            <div
+                class="absolute inset-0 bg-[linear-gradient(to_right,#80808008_1px,transparent_1px),linear-gradient(to_bottom,#80808008_1px,transparent_1px)] bg-[size:32px_32px]">
+            </div>
+            <div class="container mx-auto px-4 relative z-10 text-center">
+                <span
+                    class="inline-block px-4 py-1.5 mb-6 rounded-full bg-blue-50 text-primary text-xs font-bold tracking-widest uppercase border border-blue-100">
+                    Our Partners
+                </span>
+                <h1 class="text-4xl md:text-5xl font-bold font-heading mb-6 text-dark tracking-tight">Our Valued Clients
+                </h1>
+                <p class="text-lg text-gray-500 max-w-2xl mx-auto leading-relaxed">
+                    Building lasting value through successful partnerships and technical excellence.
+                </p>
+            </div>
+        </section>
+
+        <!-- IT Services Clients -->
+        <section class="py-16 bg-white">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex items-center mb-12 border-b border-gray-100 pb-6">
+                    <div class="p-3 bg-blue-50 text-primary rounded-xl mr-5 border border-blue-100">
+                        <i data-lucide="globe" class="w-7 h-7"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-bold text-dark">IT Services Clients</h2>
+                        <p class="text-sm text-gray-500 mt-1">Digital Transformation Partners</p>
+                    </div>
+                </div>
+
+                <div id="it-clients-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    <p class="text-gray-500 col-span-4 text-center">Loading IT Clients...</p>
+                </div>
+            </div>
+        </section>
+
+
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white pt-16 pb-8 font-body">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+                <!-- Company Info -->
+                <div>
+                    <img src="assets/creva-logo.svg" alt="Creva Solutions" class="h-10 mb-6 bg-white/10 p-2 rounded-lg">
+                    <p class="text-gray-400 mb-6 leading-relaxed">
+                        We provide top-notch IT services to help businesses achieve their
+                        goals with quality and trust.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="https://www.facebook.com/profile.php?id=61581264656154"
+                            class="text-gray-400 hover:text-white transition-colors bg-gray-800 p-2 rounded-full hover:bg-primary"><i
+                                data-lucide="facebook" class="w-4.5 h-4.5"></i></a>
+                        <a href="https://www.instagram.com/crevasolution06?igsh=MTlzcWdpcXo0ZXV2OQ%3D%3D"
+                            class="text-gray-400 hover:text-white transition-colors bg-gray-800 p-2 rounded-full hover:bg-primary"><i
+                                data-lucide="instagram" class="w-4.5 h-4.5"></i></a>
+                        <a href="https://www.linkedin.com/company/creva-solution/"
+                            class="text-gray-400 hover:text-white transition-colors bg-gray-800 p-2 rounded-full hover:bg-primary"><i
+                                data-lucide="linkedin" class="w-4.5 h-4.5"></i></a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-6 text-white border-b border-gray-700 pb-2 inline-block">Quick
+                        Links</h4>
+                    <ul class="space-y-3">
+                        <li><a href="index.html"
+                                class="text-gray-400 hover:text-primary transition-colors flex items-center"><span
+                                    class="mr-2">›</span>Home</a></li>
+                        <li><a href="about.html"
+                                class="text-gray-400 hover:text-primary transition-colors flex items-center"><span
+                                    class="mr-2">›</span>About Us</a></li>
+                        <li><a href="services.html"
+                                class="text-gray-400 hover:text-primary transition-colors flex items-center"><span
+                                    class="mr-2">›</span>Services</a></li>
+                        <li><a href="clients.html"
+                                class="text-gray-400 hover:text-primary transition-colors flex items-center"><span
+                                    class="mr-2">›</span>Clients</a></li>
+                        <li><a href="contact.html"
+                                class="text-gray-400 hover:text-primary transition-colors flex items-center"><span
+                                    class="mr-2">›</span>Contact</a></li>
+                    </ul>
+                </div>
+
+                <!-- Services -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-6 text-white border-b border-gray-700 pb-2 inline-block">
+                        Services</h4>
+                    <ul class="space-y-3">
+                        <li><a href="services.html"
+                                class="text-gray-400 hover:text-primary transition-colors flex items-center"><span
+                                    class="mr-2">›</span>Web Development</a></li>
+                        <li><a href="services.html"
+                                class="text-gray-400 hover:text-primary transition-colors flex items-center"><span
+                                    class="mr-2">›</span>App Development</a></li>
+                        <li><a href="services.html"
+                                class="text-gray-400 hover:text-primary transition-colors flex items-center"><span
+                                    class="mr-2">›</span>Digital Marketing</a></li>
+                        <li><a href="services.html"
+                                class="text-gray-400 hover:text-primary transition-colors flex items-center"><span
+                                    class="mr-2">›</span>Social Media</a></li>
+                        <li><a href="services.html"
+                                class="text-gray-400 hover:text-primary transition-colors flex items-center"><span
+                                    class="mr-2">›</span>UI/UX Design</a></li>
+                    </ul>
+                </div>
+
+                <!-- Locations -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-6 text-white border-b border-gray-700 pb-2 inline-block">
+                        Our Locations</h4>
+                    <ul class="space-y-3">
+                        <li><a href="it-company-sankarapuram.html"
+                                class="text-gray-400 hover:text-primary transition-colors flex items-center"><span
+                                    class="mr-2">›</span>IT Company Sankarapuram</a></li>
+                        <li><a href="best-it-company-kallakurichi.html"
+                                class="text-gray-400 hover:text-primary transition-colors flex items-center"><span
+                                    class="mr-2">›</span>IT Company Kallakurichi</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-6 text-white border-b border-gray-700 pb-2 inline-block">Contact
+                        Us</h4>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <i data-lucide="map-pin" class="mr-3 text-primary mt-1 flex-shrink-0 w-5 h-5"></i>
+                            <span class="text-gray-400">Sankarapuram, Kallakurichi (dt), TamilNadu-606401</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i data-lucide="phone" class="mr-3 text-primary flex-shrink-0 w-5 h-5"></i>
+                            <a href="tel:+919445104205" class="text-gray-400 hover:text-white transition-colors">+91
+                                94451 04205</a>
+                            <span class="text-gray-400 mx-2">|</span>
+                            <a href="tel:+919043341815" class="text-gray-400 hover:text-white transition-colors">+91
+                                90433 41815</a>
+                        </li>
+                        <li class="flex items-center">
+                            <i data-lucide="mail" class="mr-3 text-primary flex-shrink-0 w-5 h-5"></i>
+                            <a href="mailto:crevasolution@gmail.com"
+                                class="text-gray-400 hover:text-white transition-colors">crevasolution@gmail.com</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 pt-8 mt-8 text-center text-gray-500 text-sm">
+                <p>&copy; <span id="current-year"></span> Creva Solutions. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Client Modal -->
+    <div id="client-modal"
+        class="fixed inset-0 z-[100] flex items-center justify-center p-4 hidden opacity-0 transition-opacity duration-300">
+        <div class="absolute inset-0 bg-dark/60 backdrop-blur-sm transition-opacity" id="client-modal-backdrop"></div>
+        <div class="relative bg-white rounded-3xl p-8 md:p-12 max-w-lg w-full shadow-2xl animate-fade-in-up transform transition-all duration-300 scale-95"
+            id="client-modal-content">
+            <button id="client-modal-close"
+                class="absolute top-4 right-4 p-2 text-gray-400 hover:text-dark hover:bg-gray-100 rounded-full transition-all">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+
+            <div class="text-center mb-8">
+                <div id="client-modal-icon"
+                    class="w-20 h-20 mx-auto rounded-2xl flex items-center justify-center text-3xl font-bold mb-4">
+                    <!-- Initials handled by JS -->
+                </div>
+                <h3 id="client-modal-name" class="text-2xl font-bold text-dark mb-2"></h3>
+                <span id="client-modal-category"
+                    class="inline-block px-3 py-1 rounded-full text-xs font-bold tracking-wide uppercase">
+                    <!-- Category Label handled by JS -->
+                </span>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl p-6 mb-8 relative">
+                <div class="absolute top-0 left-0 transform -translate-x-2 -translate-y-2 opacity-10">
+                    <i data-lucide="quote" class="w-10 h-10"></i>
+                </div>
+                <p id="client-modal-review" class="text-gray-600 italic relative z-10 leading-relaxed text-center">
+                </p>
+            </div>
+
+            <div class="text-center">
+                <a id="client-modal-website" href="#" target="_blank" rel="noopener noreferrer"
+                    class="inline-flex items-center justify-center w-full py-4 rounded-xl font-bold text-white transition-all transform hover:-translate-y-1 shadow-lg">
+                    Visit Website <i data-lucide="external-link" class="ml-2 w-5 h-5"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <!-- Supabase & Dynamic Content -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const PROJECT_URL = 'https://xtivwelnoccdontbrxft.supabase.co';
+        const ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh0aXZ3ZWxub2NjZG9udGJyeGZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAyMDk2NjgsImV4cCI6MjA4NTc4NTY2OH0.zImQM_l1437a62HpO-lAqkWbp0KxOqz9Hg9OmqHgoXU';
+        window.supabaseClient = supabase.createClient(PROJECT_URL, ANON_KEY);
+    </script>
+    <script src="js/dynamic-content.js"></script>
+    <script src="js/script.js"></script>
+</body>
+
+</html>

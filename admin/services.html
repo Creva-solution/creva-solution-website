@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Services - Creva Admin</title>
+    <link rel="stylesheet" href="css/admin.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .service-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            position: relative;
+            border-top: 4px solid transparent;
+        }
+
+        .service-card.IT {
+            border-top-color: var(--primary-color);
+        }
+
+        .service-card.Civil {
+            border-top-color: #ea580c;
+        }
+
+        .icon-preview {
+            width: 40px;
+            height: 40px;
+            background: #f3f4f6;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            color: #555;
+        }
+
+        .btn-delete {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #ffebe9;
+            color: #d63333;
+            border: none;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-left: auto;
+        }
+    </style>
+</head>
+
+<body class="dashboard-body">
+    <!-- Nav -->
+    <nav class="dashboard-nav">
+        <div class="nav-brand"><a href="dashboard.html" style="text-decoration:none; color:inherit;">Creva Admin</a> /
+            Services</div>
+        <button id="logout-btn" class="btn-logout">Logout</button>
+    </nav>
+
+    <main class="dashboard-content">
+        <div class="dashboard-card">
+            <h1>Manage Services</h1>
+
+            <!-- Add Service Form -->
+            <div style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #eee;">
+                <h3>Add New Service</h3>
+                <form id="add-service-form" style="margin-top: 1rem;">
+                    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1rem;">
+                        <div class="form-group">
+                            <label>Service Title</label>
+                            <input type="text" id="service-title" class="form-control" required
+                                placeholder="e.g. Web Development">
+                        </div>
+                        <div class="form-group">
+                            <label>Category</label>
+                            <select id="service-category" class="form-control" required>
+                                <option value="IT">IT Service</option>
+                                <option value="Civil">Civil Service</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 1rem;">
+                        <div class="form-group">
+                            <label>Icon Name (<a href="https://lucide.dev/icons" target="_blank">Lucide</a>)</label>
+                            <input type="text" id="service-icon" class="form-control" required
+                                placeholder="e.g. code, hammer, smartphone">
+                        </div>
+                        <div class="form-group">
+                            <label>Description</label>
+                            <input type="text" id="service-desc" class="form-control" required
+                                placeholder="Short description of service...">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-primary" style="width: auto;">Add Service</button>
+                </form>
+                <div id="upload-status" style="margin-top: 0.5rem; font-size: 0.9rem;"></div>
+            </div>
+
+            <!-- List Services -->
+            <div id="services-list" class="services-grid">
+                <p style="color:#666; grid-column: 1/-1;">Loading services...</p>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/cms.js"></script>
+    <script>
+        // Page Logic
+        const listEl = document.getElementById('services-list');
+        const addForm = document.getElementById('add-service-form');
+        const statusDiv = document.getElementById('upload-status');
+
+        async function loadServices() {
+            try {
+                const services = await fetchServices();
+                listEl.innerHTML = '';
+
+                if (services.length === 0) {
+                    listEl.innerHTML = '<p style="color:#666; grid-column: 1/-1;">No services found.</p>';
+                }
+
+                services.forEach(item => {
+                    const card = document.createElement('div');
+                    card.className = `service-card ${item.category}`; // IT or Civil
+
+                    card.innerHTML = `
+                        <button class="btn-delete" onclick="removeService('${item.id}')">&times;</button>
+                        <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                            <div class="icon-preview">
+                                <i data-lucide="${item.icon}"></i>
+                            </div>
+                            <span class="badge" style="background: ${item.category === 'IT' ? '#e0f2fe; color:#0284c7' : '#ffedd5; color:#ea580c'}">${item.category}</span>
+                        </div>
+                        <h3 style="font-size:1.1rem; margin-bottom:0.5rem;">${item.title}</h3>
+                        <p style="color:#666; font-size:0.9rem; line-height:1.4;">${item.description}</p>
+                    `;
+                    listEl.appendChild(card);
+                });
+                lucide.createIcons();
+            } catch (err) {
+                console.error(err);
+                listEl.innerHTML = `<p style="color:red; grid-column: 1/-1;">Error loading services: ${err.message}</p>`;
+            }
+        }
+
+        async function removeService(id) {
+            if (!confirm('Are you sure you want to delete this service?')) return;
+            try {
+                await deleteService(id);
+                loadServices();
+            } catch (err) {
+                alert('Failed to delete: ' + err.message);
+            }
+        }
+
+        addForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = addForm.querySelector('button');
+
+            try {
+                btn.disabled = true;
+                btn.innerText = 'Adding...';
+                statusDiv.innerText = '';
+
+                const data = {
+                    title: document.getElementById('service-title').value,
+                    category: document.getElementById('service-category').value,
+                    icon: document.getElementById('service-icon').value.toLowerCase(),
+                    description: document.getElementById('service-desc').value,
+                };
+
+                await addService(data);
+
+                addForm.reset();
+                loadServices();
+                statusDiv.innerHTML = '<span style="color:green">Service added successfully!</span>';
+            } catch (err) {
+                console.error(err);
+                statusDiv.innerHTML = `<span style="color:red">${err.message}</span>`;
+            } finally {
+                btn.disabled = false;
+                btn.innerText = 'Add Service';
+            }
+        });
+
+        // Init
+        document.addEventListener('DOMContentLoaded', loadServices);
+    </script>
+</body>
+
+</html>

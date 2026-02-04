@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Partners - Creva Admin</title>
+    <link rel="stylesheet" href="css/admin.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        .clients-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .client-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .client-card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .client-card img {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+            border-radius: 4px;
+            border: 1px solid #eee;
+            padding: 2px;
+        }
+
+        .btn-delete {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #ffebe9;
+            color: #d63333;
+            border: none;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .badge-it {
+            background: #e0f2fe;
+            color: #0284c7;
+        }
+
+        .badge-civil {
+            background: #ffedd5;
+            color: #ea580c;
+        }
+    </style>
+</head>
+
+<body class="dashboard-body">
+    <!-- Nav -->
+    <nav class="dashboard-nav">
+        <div class="nav-brand"><a href="dashboard.html" style="text-decoration:none; color:inherit;">Creva Admin</a> /
+            Partners</div>
+        <button id="logout-btn" class="btn-logout">Logout</button>
+    </nav>
+
+    <main class="dashboard-content">
+        <div class="dashboard-card">
+            <h1>Manage Partners & Clients</h1>
+
+            <!-- Add Client Form -->
+            <div style="margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #eee;">
+                <h3>Add New Partner</h3>
+                <form id="add-client-form" style="margin-top: 1rem;">
+                    <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1rem;">
+                        <div class="form-group">
+                            <label>Partner Name</label>
+                            <input type="text" id="client-name" class="form-control" required
+                                placeholder="e.g. Construction Co 1">
+                        </div>
+                        <div class="form-group">
+                            <label>Category</label>
+                            <select id="client-category" class="form-control" required>
+                                <option value="IT">IT Partner</option>
+                                <option value="Civil">Civil Partner</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Description / Quote (for Popup)</label>
+                        <textarea id="client-desc" class="form-control" rows="2"
+                            placeholder="Exceptional results..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Website URL</label>
+                        <input type="url" id="client-website" class="form-control" placeholder="https://example.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Logo Image</label>
+                        <input type="file" id="client-file" class="form-control" accept="image/*" required>
+                        <small style="color: #666;">Image will be automatically converted to WebP format.</small>
+                    </div>
+
+                    <button type="submit" class="btn-primary" style="width: auto;">Add Partner</button>
+                </form>
+                <div id="upload-status" style="margin-top: 0.5rem; font-size: 0.9rem;"></div>
+            </div>
+
+            <!-- List Clients -->
+            <div id="clients-list" class="clients-grid">
+                <p style="color:#666; grid-column: 1/-1;">Loading partners...</p>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/cms.js"></script>
+    <script>
+        // Page Logic
+        const clientsList = document.getElementById('clients-list');
+        const addForm = document.getElementById('add-client-form');
+        const statusDiv = document.getElementById('upload-status');
+
+        async function loadClients() {
+            try {
+                const clients = await fetchClients();
+                clientsList.innerHTML = '';
+
+                if (clients.length === 0) {
+                    clientsList.innerHTML = '<p style="color:#666; grid-column: 1/-1;">No partners found.</p>';
+                }
+
+                clients.forEach(client => {
+                    const card = document.createElement('div');
+                    card.className = 'client-card';
+
+                    const badgeClass = client.category === 'IT' ? 'badge-it' : 'badge-civil';
+                    const categoryLabel = client.category ? client.category + ' PARTNER' : 'PARTNER';
+
+                    card.innerHTML = `
+                        <button class="btn-delete" onclick="removeClient('${client.id}')">&times;</button>
+                        <div class="client-card-header">
+                            <img src="${client.logo_url}" alt="${client.name}">
+                            <div>
+                                <div style="font-weight:600;">${client.name}</div>
+                                <span class="badge ${badgeClass}">${categoryLabel}</span>
+                            </div>
+                        </div>
+                        <p style="font-size:0.9rem; color:#666; margin-top:0.5rem; line-height:1.4;">${client.description || 'No description.'}</p>
+                        ${client.website_url ? `<a href="${client.website_url}" target="_blank" style="font-size:0.85rem; color:var(--primary-color); text-decoration:none; margin-top:auto;">Visit Website &nearr;</a>` : ''}
+                    `;
+                    clientsList.appendChild(card);
+                });
+            } catch (err) {
+                console.error(err);
+                clientsList.innerHTML = `<p style="color:red; grid-column: 1/-1;">Error loading partners: ${err.message}</p>`;
+            }
+        }
+
+        async function removeClient(id) {
+            if (!confirm('Are you sure you want to delete this partner?')) return;
+            try {
+                await deleteClient(id);
+                loadClients();
+            } catch (err) {
+                alert('Failed to delete: ' + err.message);
+            }
+        }
+
+        addForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = addForm.querySelector('button');
+
+            try {
+                btn.disabled = true;
+                btn.innerText = 'Processing & Uploading...';
+                statusDiv.innerText = '';
+
+                const clientData = {
+                    name: document.getElementById('client-name').value,
+                    category: document.getElementById('client-category').value,
+                    description: document.getElementById('client-desc').value,
+                    website_url: document.getElementById('client-website').value,
+                };
+                const file = document.getElementById('client-file').files[0];
+
+                await addClient(clientData, file);
+
+                addForm.reset();
+                loadClients();
+                statusDiv.innerHTML = '<span style="color:green">Partner added successfully!</span>';
+            } catch (err) {
+                statusDiv.innerHTML = `<span style="color:red">${err.message}</span>`;
+            } finally {
+                btn.disabled = false;
+                btn.innerText = 'Add Partner';
+            }
+        });
+
+        // Init
+        document.addEventListener('DOMContentLoaded', loadClients);
+    </script>
+</body>
+
+</html>
