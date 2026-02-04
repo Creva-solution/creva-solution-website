@@ -137,16 +137,35 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 function renderClients(clients, container) {
-    // Render clients once for static layout
-    const html = clients.map(client => {
+    // Generate the HTML for one set of clients
+    const clientItems = clients.map(client => {
         if (client.logo_url) {
-            return `<img src="${client.logo_url}" alt="${client.name}" title="${client.name}" class="h-12 md:h-16 w-auto object-contain hover:opacity-100 transition-all opacity-80 grayscale hover:grayscale-0">`;
+            // Increased size to h-16 md:h-20 based on user preference
+            return `<img src="${client.logo_url}" alt="${client.name}" class="h-16 md:h-20 w-auto object-contain hover:opacity-100 transition-all opacity-80 grayscale hover:grayscale-0">`;
         } else {
-            return `<span class="text-xl md:text-2xl font-bold font-heading text-gray-300 hover:text-primary transition-colors cursor-default select-none whitespace-nowrap">${client.name}</span>`;
+            return `<span class="text-2xl md:text-3xl font-bold font-heading text-gray-300 hover:text-primary transition-colors cursor-default select-none whitespace-nowrap">${client.name}</span>`;
         }
     }).join('');
 
-    container.innerHTML = html;
+    // Create the group wrapper with specific spacing
+    const groupHtml = `
+        <div class="flex items-center gap-16 md:gap-32 px-16">
+            ${clientItems}
+        </div>
+    `;
+
+    // Duplicate the group for infinite scroll
+    const trackContent = groupHtml + groupHtml;
+
+    // Apply proper classes to the container
+    container.className = "relative w-full overflow-hidden group py-4";
+
+    // Inject the scrolling track
+    container.innerHTML = `
+        <div class="flex w-max animate-scroll hover:pause">
+            ${trackContent}
+        </div>
+    `;
 }
 
 function renderTestimonials(items, container) {
