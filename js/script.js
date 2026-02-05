@@ -25,11 +25,11 @@ document.addEventListener('DOMContentLoaded', function () {
         currentYearSpan.textContent = new Date().getFullYear();
     }
 
-    // Scroll to Top on Load
-    // Check if there is a hash in the URL (for anchor links)
-    if (!window.location.hash) {
-        window.scrollTo(0, 0);
+    // Scroll to Top on Refresh
+    if ('scrollRestoration' in history) {
+        history.scrollRestoration = 'manual';
     }
+    window.scrollTo(0, 0);
 
     // --- Team Modal Logic (About Page) ---
     const teamModal = document.getElementById('team-modal');
@@ -125,20 +125,27 @@ document.addEventListener('DOMContentLoaded', function () {
         window.openClientModal = function (client) {
             modalName.textContent = client.name;
             modalReview.textContent = client.review;
-            modalWebsite.href = client.website;
+            if (client.website && client.website !== '#' && client.website.trim() !== '') {
+                modalWebsite.href = client.website;
+                // Show button and set URL
+                modalWebsite.classList.remove('hidden');
+                modalWebsite.classList.add('inline-flex'); // Ensure flex display when shown
+            } else {
+                modalWebsite.classList.add('hidden');
+                modalWebsite.classList.remove('inline-flex');
+            }
 
-            // Category Styling
+            // Category Styling (Icons & Labels only)
             if (client.category === 'IT') {
                 modalIcon.className = 'w-20 h-20 mx-auto rounded-2xl flex items-center justify-center text-3xl font-bold mb-4 bg-blue-50 text-blue-600';
                 modalCategory.className = 'inline-block px-3 py-1 rounded-full text-xs font-bold tracking-wide uppercase bg-blue-100 text-blue-600';
                 modalCategory.textContent = 'IT Partner';
-                modalWebsite.className = 'inline-flex items-center justify-center w-full py-4 rounded-xl font-bold text-white transition-all transform hover:-translate-y-1 shadow-lg bg-primary hover:bg-blue-700 shadow-blue-500/20';
             } else {
                 modalIcon.className = 'w-20 h-20 mx-auto rounded-2xl flex items-center justify-center text-3xl font-bold mb-4 bg-orange-50 text-orange-600';
                 modalCategory.className = 'inline-block px-3 py-1 rounded-full text-xs font-bold tracking-wide uppercase bg-orange-100 text-orange-600';
                 modalCategory.textContent = 'Civil Partner';
-                modalWebsite.className = 'inline-flex items-center justify-center w-full py-4 rounded-xl font-bold text-white transition-all transform hover:-translate-y-1 shadow-lg bg-orange-500 hover:bg-orange-600 shadow-orange-500/20';
             }
+
 
             if (client.logo) {
                 // If logo exists, show image instead of initials

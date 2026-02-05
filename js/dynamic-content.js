@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // 2. Load Clients (Partners)
     const clientsContainer = document.getElementById('clients-container');
     if (clientsContainer) {
+        showSkeleton(clientsContainer, 'clients-scroll'); // Show skeleton
         try {
             const { data: clients, error } = await client
                 .from('clients')
@@ -34,6 +35,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // 3. Load Testimonials
     const testimonialsContainer = document.getElementById('testimonials-container');
     if (testimonialsContainer) {
+        showSkeleton(testimonialsContainer, 'testimonials'); // Show skeleton
         try {
             const { data: testimonials, error } = await client
                 .from('testimonials')
@@ -58,6 +60,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     const civilContainer = document.getElementById('civil-services-grid');
 
     if (itContainer || civilContainer) {
+        if (itContainer) showSkeleton(itContainer, 'services');
+        if (civilContainer) showSkeleton(civilContainer, 'services');
+
         try {
             const { data: services, error } = await client
                 .from('services')
@@ -91,6 +96,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // 5. Load Team Members (for about.html)
     const teamContainer = document.getElementById('team-container');
     if (teamContainer) {
+        showSkeleton(teamContainer, 'team');
         try {
             const { data: team, error } = await client.from('team_members').select('*').order('created_at', { ascending: true });
             if (error) throw error;
@@ -109,6 +115,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     const itClientsGrid = document.getElementById('it-clients-grid');
     const civilClientsGrid = document.getElementById('civil-clients-grid');
     if (itClientsGrid || civilClientsGrid) {
+        if (itClientsGrid) showSkeleton(itClientsGrid, 'clients-grid');
+        if (civilClientsGrid) showSkeleton(civilClientsGrid, 'clients-grid');
+
         try {
             const { data: clients, error } = await client.from('clients').select('*').order('created_at', { ascending: false });
             if (error) throw error;
@@ -290,7 +299,7 @@ function renderClientsGrid(items, container) {
         const bgOverlay = isCivil ? 'bg-orange-50/50' : 'bg-blue-50/50';
 
         const div = document.createElement('div');
-        div.className = `group bg-white border border-gray-100 ${hoverBorder} rounded-2xl p-8 flex items-center justify-center h-40 transition-all duration-300 hover:shadow-lg ${shadowColor} hover:-translate-y-1 cursor-pointer relative overflow-hidden`;
+        div.className = `group bg-white border border-gray-100 ${hoverBorder} rounded-2xl p-8 flex items-center justify-center h-48 transition-all duration-300 hover:shadow-lg ${shadowColor} hover:-translate-y-1 cursor-pointer relative overflow-hidden`;
 
         // Use addEventListener directly
         div.addEventListener('click', () => {
@@ -307,7 +316,7 @@ function renderClientsGrid(items, container) {
 
         let content = '';
         if (client.logo_url) {
-            content = `<img src="${client.logo_url}" alt="${client.name}" class="relative z-10 max-h-20 max-w-full object-contain transition-all duration-300">`;
+            content = `<img src="${client.logo_url}" alt="${client.name}" class="relative z-10 max-h-28 max-w-full object-contain transition-all duration-300">`;
         } else {
             content = `<span class="relative z-10 text-lg font-bold text-gray-400 ${textColor} transition-colors duration-300">${client.name}</span>`;
         }
@@ -318,4 +327,71 @@ function renderClientsGrid(items, container) {
         `;
         container.appendChild(div);
     });
+}
+
+// Skeleton Loader Function
+function showSkeleton(container, type) {
+    container.innerHTML = ''; // Clear previous content
+    let skeletonHTML = '';
+    const count = 3; // Default number of skeletons
+
+    if (type === 'services') {
+        const itemHTML = `
+            <div class="h-full p-8 bg-white rounded-xl">
+                <div class="w-14 h-14 rounded-xl skeleton mb-6"></div>
+                <div class="h-6 w-3/4 skeleton mb-3"></div>
+                <div class="h-4 w-full skeleton mb-2"></div>
+                <div class="h-4 w-5/6 skeleton mb-6"></div>
+            </div>
+        `;
+        skeletonHTML = Array(count).fill(itemHTML).join('');
+
+    } else if (type === 'testimonials') {
+        const itemHTML = `
+            <div class="bg-white rounded-xl p-8 h-full">
+               <div class="h-4 w-full skeleton mb-2"></div>
+               <div class="h-4 w-full skeleton mb-2"></div>
+               <div class="h-4 w-2/3 skeleton mb-6"></div>
+               <div class="flex items-center pt-6">
+                   <div class="w-14 h-14 rounded-full skeleton mr-4"></div>
+                   <div>
+                       <div class="h-4 w-32 skeleton mb-2"></div>
+                       <div class="h-3 w-20 skeleton"></div>
+                   </div>
+               </div>
+            </div>
+        `;
+        skeletonHTML = Array(count).fill(itemHTML).join('');
+
+    } else if (type === 'team') {
+        const itemHTML = `
+            <div class="flex flex-col items-center text-center">
+                <div class="w-32 h-32 md:w-40 md:h-40 rounded-full skeleton mb-6"></div>
+                <div class="h-5 w-32 skeleton mb-2"></div>
+                <div class="h-4 w-24 skeleton"></div>
+            </div>
+        `;
+        skeletonHTML = Array(4).fill(itemHTML).join('');
+
+    } else if (type === 'clients-grid') {
+        const itemHTML = `
+            <div class="bg-white rounded-2xl p-8 flex items-center justify-center h-48">
+                <div class="w-32 h-16 skeleton rounded-lg"></div>
+            </div>
+        `;
+        skeletonHTML = Array(4).fill(itemHTML).join('');
+
+    } else if (type === 'clients-scroll') {
+        // Horizontal scroll skeleton
+        const itemHTML = `
+            <div class="flex items-center gap-16 md:gap-32 px-16">
+                 ${Array(5).fill('<div class="w-32 h-16 skeleton rounded-lg"></div>').join('')}
+            </div>
+        `;
+        skeletonHTML = itemHTML;
+        // Adjust container for simple flex display momentarily
+        container.className = "flex w-full overflow-hidden py-4 justify-center opacity-50";
+    }
+
+    container.innerHTML = skeletonHTML;
 }
