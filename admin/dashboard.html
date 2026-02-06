@@ -92,6 +92,19 @@
                     <p style="color: var(--text-muted); margin-top: 0.5rem;">View contact form messages.</p>
                 </div>
             </a>
+
+            <!-- Attendance System -->
+            <a href="attendance_dashboard.html" style="text-decoration: none; color: inherit;">
+                <div class="dashboard-card"
+                    style="margin-bottom: 0; transition: transform 0.2s; cursor: pointer; border-left: 4px solid #10b981;"
+                    onmouseover="this.style.transform='translateY(-5px)'"
+                    onmouseout="this.style.transform='translateY(0)'">
+                    <h2 style="color: #10b981; display: flex; align-items: center; gap: 0.5rem;">
+                        <span>📅</span> Attendance
+                    </h2>
+                    <p style="color: var(--text-muted); margin-top: 0.5rem;">Manage employees, logs & daily codes.</p>
+                </div>
+            </a>
         </div>
 
         <div class="dashboard-card">
@@ -100,12 +113,12 @@
             <div
                 style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem;">
                 <div style="background: #f3f4f6; padding: 1rem; border-radius: 6px;">
-                    <span style="display: block; font-size: 0.875rem; color: #6b7280;">Total Visits</span>
-                    <span style="font-size: 1.5rem; font-weight: bold;">--</span>
+                    <span style="display: block; font-size: 0.875rem; color: #6b7280;">Total Visits (Attendance)</span>
+                    <span id="stat-visits" style="font-size: 1.5rem; font-weight: bold;">--</span>
                 </div>
                 <div style="background: #f3f4f6; padding: 1rem; border-radius: 6px;">
                     <span style="display: block; font-size: 0.875rem; color: #6b7280;">Inquiries</span>
-                    <span style="font-size: 1.5rem; font-weight: bold;">--</span>
+                    <span id="stat-inquiries" style="font-size: 1.5rem; font-weight: bold;">--</span>
                 </div>
             </div>
         </div>
@@ -114,6 +127,7 @@
     <!-- Init Config First, then Auth -->
     <script src="js/config.js"></script>
     <script src="js/auth.js"></script>
+    <script src="js/dashboard.js"></script>
 </body>
 
 </html>

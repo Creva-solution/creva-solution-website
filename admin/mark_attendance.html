@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Mark Attendance - Creva Solutions</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --primary-dark: #1d4ed8;
+            --success-color: #10b981;
+            --error-color: #ef4444;
+            --bg-color: #f3f4f6;
+            --card-bg: #ffffff;
+            --text-main: #1f2937;
+            --text-muted: #6b7280;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .kiosk-container {
+            background: var(--card-bg);
+            width: 100%;
+            max-width: 480px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .brand-header {
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .brand-header img {
+            height: 48px;
+            margin-bottom: 0.5rem;
+        }
+
+        .brand-header h1 {
+            font-size: 1.5rem;
+            color: var(--text-main);
+            font-weight: 700;
+        }
+
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .step-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #e5e7eb;
+            transition: background 0.3s;
+        }
+
+        .step-dot.active {
+            background: var(--primary-color);
+        }
+
+        /* Form Elements */
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        label {
+            font-weight: 500;
+            color: var(--text-main);
+            font-size: 0.95rem;
+        }
+
+        select,
+        input[type="text"],
+        input[type="password"],
+        input[type="tel"] {
+            padding: 1rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            background: #f9fafb;
+            width: 100%;
+            transition: border-color 0.2s;
+            appearance: none;
+            /* Remove default arrow for iOS */
+        }
+
+        select:focus,
+        input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            background: white;
+        }
+
+        /* Large Touch Buttons */
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.2s, transform 0.1s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary:active {
+            transform: scale(0.98);
+            background-color: var(--primary-dark);
+        }
+
+        .btn-secondary {
+            background: #e5e7eb;
+            color: var(--text-main);
+            border: none;
+            padding: 1rem;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 0.5rem;
+        }
+
+        /* Camera View */
+        .camera-container {
+            position: relative;
+            background: black;
+            border-radius: 12px;
+            overflow: hidden;
+            aspect-ratio: 3/4;
+            display: none;
+            /* Hidden initially */
+        }
+
+        video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: scaleX(-1);
+            /* Mirror effect */
+        }
+
+        canvas {
+            display: none;
+        }
+
+        /* Status Messages */
+        .status-message {
+            text-align: center;
+            padding: 1.5rem;
+            border-radius: 12px;
+            background: #fdf2f2;
+            color: var(--error-color);
+            font-weight: 500;
+            display: none;
+        }
+
+        .status-message.success {
+            background: #ecfdf5;
+            color: var(--success-color);
+        }
+
+        /* Full Screen Loader */
+        .loader-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            display: none;
+        }
+
+        .spinner {
+            width: 48px;
+            height: 48px;
+            border: 5px solid #e5e7eb;
+            border-top: 5px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Animation Classes */
+        .slide-section {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .slide-section.active {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="kiosk-container">
+        <div class="brand-header">
+            <img src="../assets/creva-logo.svg" alt="Creva Logo">
+            <!-- <h1>Mark Attendance</h1> -->
+            <p style="color:var(--text-muted)">Creva Attendance</p>
+        </div>
+
+        <div class="step-indicator">
+            <div class="step-dot active" id="dot-1"></div>
+            <div class="step-dot" id="dot-2"></div>
+            <div class="step-dot" id="dot-3"></div>
+        </div>
+
+        <div id="status-box" class="status-message"></div>
+
+        <!-- STEP 1: Select Employee -->
+        <div id="step-1" class="slide-section active">
+            <div class="form-group">
+                <label>Select Your Name</label>
+                <select id="employee-select">
+                    <option value="">Select Employee...</option>
+                    <!-- Populated via JS -->
+                </select>
+            </div>
+
+            <button class="btn-primary" onclick="goToStep2()">Next &rarr;</button>
+        </div>
+
+        <!-- STEP 2: Enter Code -->
+        <div id="step-2" class="slide-section">
+            <div class="form-group">
+                <label>Enter Daily Code</label>
+                <input type="tel" id="daily-code" placeholder="Enter 4-digit PIN" maxlength="6"
+                    style="text-align: center; letter-spacing: 0.5rem; font-weight: 700;">
+            </div>
+
+            <button class="btn-primary" onclick="verifyCodeAndStartCamera()">Verify & Start Camera 📷</button>
+            <button class="btn-secondary" onclick="prevStep(1)">&larr; Back</button>
+        </div>
+
+        <!-- STEP 3: Selfie -->
+        <div id="step-3" class="slide-section">
+            <p style="text-align:center; font-weight:500;">Take a Selfie</p>
+
+            <div class="camera-container">
+                <video id="camera-feed" autoplay playsinline></video>
+            </div>
+            <canvas id="photo-canvas"></canvas>
+
+            <button class="btn-primary" id="capture-btn" onclick="captureAndSubmit()">
+                <div style="width:20px; height:20px; background:white; border-radius:50%;"></div>
+                Capture & Submit
+            </button>
+
+            <button class="btn-secondary" onclick="prevStep(2)" id="retake-btn" style="display:none;">Retake</button>
+        </div>
+
+        <!-- SUCCESS SCREEN -->
+        <div id="step-success" class="slide-section" style="text-align: center; padding: 2rem 0;">
+            <div style="font-size: 4rem; margin-bottom: 1rem;">✅</div>
+            <h2 style="margin-bottom: 0.5rem;">Attendance Marked!</h2>
+            <p style="color: var(--text-muted); margin-bottom: 2rem;">Have a great day, <span id="success-name"></span>!
+            </p>
+            <button class="btn-primary" onclick="resetKiosk()">Done</button>
+        </div>
+    </div>
+
+    <!-- Loader -->
+    <div class="loader-overlay" id="loader">
+        <div class="spinner"></div>
+        <p style="margin-top: 1rem; font-weight: 600; color: var(--text-main);">Processing...</p>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/attendance_kiosk.js"></script>
+</body>
+
+</html>
