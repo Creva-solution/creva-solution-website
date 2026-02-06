@@ -77,7 +77,7 @@ function renderTable(clients) {
                 <td data-label="Last Call">${lastCalled}</td>
                 <td data-label="Actions" onclick="event.stopPropagation()">
                     <button class="btn-icon" onclick="showActionPopover(event, '${client.whatsapp_number}', '${client.phone_number || client.whatsapp_number}')">📞</button>
-                    <!-- <button class="btn-icon">✏️</button> -->
+                    <button class="btn-icon" style="color:#ef4444;" onclick="deleteClient('${client.id}', event)">🗑️</button>
                 </td>
             </tr>
         `;
@@ -368,6 +368,22 @@ async function addNote(id) {
     else {
         // Refresh drawer details
         openClientDetails(id);
+    }
+}
+
+async function deleteClient(id, e) {
+    if (e) e.stopPropagation();
+    if (!confirm('Are you sure you want to delete this client? This cannot be undone.')) return;
+
+    const { error } = await window.supabaseClient
+        .from('crm_clients')
+        .delete()
+        .eq('id', id);
+
+    if (error) {
+        alert('Error deleting client: ' + error.message);
+    } else {
+        fetchCrmClients(); // Refresh list
     }
 }
 
