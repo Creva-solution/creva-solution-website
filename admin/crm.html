@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client CRM - Creva Solutions</title>
+    <link rel="stylesheet" href="css/admin.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CRM Specific Styles */
+        body {
+            height: 100vh;
+            overflow: hidden;
+            /* App interaction */
+        }
+
+        .crm-layout {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            height: 100vh;
+        }
+
+        /* Sidebar Styles */
+        .crm-sidebar {
+            background: white;
+            border-right: 1px solid #e5e7eb;
+            display: flex;
+            flex-direction: column;
+            padding: 1.5rem;
+            height: 100%;
+            overflow-y: auto;
+        }
+
+        .crm-search-box {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+
+        .crm-search-box input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        .crm-search-box::before {
+            content: '🔍';
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.9rem;
+            opacity: 0.5;
+        }
+
+        .filter-group {
+            margin-bottom: 2rem;
+        }
+
+        .filter-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: #6b7280;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            letter-spacing: 0.05em;
+        }
+
+        .filter-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.5rem 0.75rem;
+            margin: 0 -0.75rem;
+            border-radius: 6px;
+            cursor: pointer;
+            color: #374151;
+            font-size: 0.95rem;
+            transition: background 0.15s;
+        }
+
+        .filter-item:hover,
+        .filter-item.active {
+            background: #eff6ff;
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        .filter-count {
+            background: #f3f4f6;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.75rem;
+            color: #6b7280;
+        }
+
+        .filter-item.active .filter-count {
+            background: #dbeafe;
+            color: var(--primary-color);
+        }
+
+        /* Main Content */
+        .crm-main {
+            background: #f9fafb;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .crm-header {
+            padding: 1.5rem 2rem;
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .crm-header h1 {
+            font-size: 1.5rem;
+            color: #111827;
+        }
+
+        .crm-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 2rem;
+        }
+
+        /* Table Styles */
+        .crm-table-container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            overflow-x: auto;
+        }
+
+        .crm-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .crm-table th {
+            text-align: left;
+            padding: 1rem 1.5rem;
+            background: #f9fafb;
+            color: #6b7280;
+            font-weight: 500;
+            font-size: 0.875rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .crm-table td {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid #f3f4f6;
+            color: #1f2937;
+            font-size: 0.95rem;
+        }
+
+        .crm-table tr:hover {
+            background: #fdfdfd;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .status-new {
+            background: #e0f2fe;
+            color: #0284c7;
+        }
+
+        .status-discussion {
+            background: #fef9c3;
+            color: #ca8a04;
+        }
+
+        .status-confirmed {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+
+        .status-progress {
+            background: #f3e8ff;
+            color: #9333ea;
+        }
+
+        .status-completed {
+            background: #f3f4f6;
+            color: #374151;
+        }
+
+        .client-name {
+            font-weight: 600;
+            color: #111827;
+        }
+
+        .client-business {
+            font-size: 0.85rem;
+            color: #6b7280;
+        }
+
+        .btn-icon {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 4px;
+            color: #6b7280;
+            transition: color 0.2s, background 0.2s;
+        }
+
+        .btn-icon:hover {
+            background: #f3f4f6;
+            color: var(--primary-color);
+        }
+
+        /* Drawer / Modal */
+        .drawer-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 50;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+
+        .drawer {
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 500px;
+            background: white;
+            z-index: 51;
+            transform: translateX(100%);
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            flex-direction: column;
+            box-shadow: -4px 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .drawer.open {
+            transform: translateX(0);
+        }
+
+        .drawer-overlay.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .drawer-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+        }
+
+        .drawer-body {
+            flex: 1;
+            padding: 1.5rem;
+            overflow-y: auto;
+        }
+
+        .drawer-footer {
+            padding: 1.5rem;
+            border-top: 1px solid #e5e7eb;
+            background: #f9fafb;
+        }
+
+        /* Call Popover */
+        .call-popover {
+            position: absolute;
+            background: white;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border-radius: 6px;
+            z-index: 100;
+            min-width: 160px;
+            display: none;
+        }
+
+        .call-popover.active {
+            display: block;
+        }
+
+        .call-option {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            text-decoration: none;
+            color: #374151;
+            font-size: 0.9rem;
+            transition: background 0.15s;
+        }
+
+        .call-option:hover {
+            background: #f3f4f6;
+        }
+
+        .note-item {
+            border-left: 3px solid #e5e7eb;
+            padding-left: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .note-meta {
+            font-size: 0.75rem;
+            color: #9ca3af;
+            margin-bottom: 0.25rem;
+        }
+
+        .note-content {
+            font-size: 0.9rem;
+            color: #374151;
+            line-height: 1.5;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 1280px) {
+            .crm-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .crm-sidebar {
+                display: flex;
+                position: fixed;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                width: 280px;
+                z-index: 60;
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+                box-shadow: 4px 0 12px rgba(0, 0, 0, 0.1);
+            }
+
+            .crm-sidebar.show {
+                transform: translateX(0);
+            }
+
+            /* Mobile Header Layout */
+            .crm-header {
+                padding: 1rem;
+                flex-direction: row;
+                gap: 0.75rem;
+                align-items: center;
+            }
+
+            .hamburger-btn {
+                display: flex;
+                margin-right: 0.5rem;
+                /* Visible on mobile */
+            }
+
+            .mobile-brand {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                margin-right: auto;
+            }
+
+            .crm-header h1 {
+                font-size: 1.1rem;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            .crm-content {
+                padding: 1rem;
+            }
+
+            .drawer {
+                width: 100%;
+            }
+        }
+
+        /* Utilities */
+        .mobile-brand {
+            display: none;
+        }
+
+        .hamburger-btn {
+            display: none;
+            /* Hidden on desktop */
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            font-size: 1.5rem;
+            color: var(--text-main);
+        }
+
+        .crm-sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 55;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+
+        .crm-sidebar-overlay.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Close button for sidebar on mobile */
+        .sidebar-close-btn {
+            display: none;
+        }
+
+        @media (max-width: 1280px) {
+            .sidebar-close-btn {
+                display: block;
+                position: absolute;
+                top: 1rem;
+                right: 1rem;
+                background: none;
+                border: none;
+                font-size: 1.5rem;
+                cursor: pointer;
+                color: var(--text-muted);
+            }
+
+            /* Bottom Nav */
+            .mobile-bottom-nav {
+                display: flex;
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                background: white;
+                border-top: 1px solid #e5e7eb;
+                justify-content: space-around;
+                padding: 0.5rem 0;
+                z-index: 50;
+                box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.05);
+            }
+
+            .nav-item {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                text-decoration: none;
+                color: #6b7280;
+                font-size: 0.75rem;
+                gap: 0.25rem;
+                padding: 0.5rem;
+                flex: 1;
+            }
+
+            .nav-item.active {
+                color: var(--primary-color);
+            }
+
+            .nav-item span {
+                font-weight: 500;
+            }
+
+            /* FAB */
+            .fab-btn {
+                display: flex;
+                position: fixed;
+                bottom: 5rem;
+                right: 1.5rem;
+                width: 56px;
+                height: 56px;
+                background: var(--primary-color);
+                color: white;
+                border-radius: 50%;
+                border: none;
+                box-shadow: 0 4px 6px rgba(37, 99, 235, 0.4);
+                align-items: center;
+                justify-content: center;
+                z-index: 50;
+                cursor: pointer;
+                transition: transform 0.2s;
+            }
+
+            .fab-btn:active {
+                transform: scale(0.95);
+            }
+
+            /* Content Padding for Bottom Nav */
+            .crm-content {
+                padding-bottom: 6rem;
+            }
+
+            /* Hide Sidebar Toggler since we have bottom nav? No, keep it for filters */
+        }
+
+        /* Default hide desktop */
+        .mobile-bottom-nav,
+        .fab-btn {
+            display: none;
+        }
+
+        .crm-table-container {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* Bottom Sheet Styles */
+        .bottom-sheet-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 100;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+
+        .bottom-sheet-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .bottom-sheet {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: white;
+            border-radius: 16px 16px 0 0;
+            transform: translateY(100%);
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 101;
+            padding: 1.5rem;
+            box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .bottom-sheet.active {
+            transform: translateY(0);
+        }
+
+        .sheet-header h3 {
+            margin: 0;
+            color: #111827;
+            font-size: 1.1rem;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .sheet-action {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 1rem;
+            border-radius: 12px;
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 1rem;
+            gap: 0.5rem;
+            transition: transform 0.1s;
+        }
+
+        .sheet-action:active {
+            transform: scale(0.98);
+        }
+
+        .sheet-action.primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .sheet-action.whatsapp {
+            background: #25D366;
+            color: white;
+        }
+
+        .sheet-action.secondary {
+            background: #f3f4f6;
+            color: #374151;
+        }
+
+        /* Quick Date Buttons */
+        .quick-date-group {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+            overflow-x: auto;
+            padding-bottom: 0.25rem;
+        }
+
+        .btn-quick-date {
+            padding: 0.4rem 0.8rem;
+            background: #e0f2fe;
+            color: #0284c7;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            white-space: nowrap;
+            cursor: pointer;
+        }
+
+        .btn-quick-date:hover {
+            background: #bae6fd;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="crm-layout">
+        <!-- Sidebar -->
+        <aside class="crm-sidebar" id="crm-sidebar">
+            <button class="sidebar-close-btn" onclick="toggleSidebar()">✕</button>
+            <div style="margin-bottom: 2rem; display: flex; align-items: center; gap: 0.75rem;">
+                <img src="../assets/creva-logo.svg" alt="Creva Solutions" style="height: 28px;">
+                <h2 style="font-weight: 700; color: var(--primary-color); margin: 0;">CRM</h2>
+            </div>
+
+            <div class="crm-search-box">
+                <input type="text" id="global-search" placeholder="Search clients, phones...">
+            </div>
+
+            <button class="btn-primary" onclick="openAddClientModal()" style="margin-bottom: 2rem;">+ Add New
+                Client</button>
+
+            <div class="filter-group">
+                <div class="filter-title">Follow-ups</div>
+                <div class="filter-item" onclick="filterClients('followup_today'); toggleSidebar()">
+                    <span>Due Today</span>
+                    <span class="filter-count" id="count-today">0</span>
+                </div>
+                <div class="filter-item" onclick="filterClients('followup_pending'); toggleSidebar()">
+                    <span>Pending</span>
+                    <span class="filter-count" id="count-pending">0</span>
+                </div>
+            </div>
+
+            <div class="filter-group">
+                <div class="filter-title">Client Status</div>
+                <div class="filter-item active" onclick="filterClients('all'); toggleSidebar()">
+                    <span>All Clients</span>
+                    <span class="filter-count" id="count-all">0</span>
+                </div>
+                <!-- Generated dynamically or static -->
+                <div class="filter-item" onclick="filterClients('New'); toggleSidebar()"><span>New</span></div>
+                <div class="filter-item" onclick="filterClients('In Discussion'); toggleSidebar()"><span>In
+                        Discussion</span></div>
+                <div class="filter-item" onclick="filterClients('Confirmed'); toggleSidebar()"><span>Confirmed</span>
+                </div>
+            </div>
+
+            <a href="dashboard.html"
+                style="margin-top:auto; font-size: 0.9rem; color: #6b7280; text-decoration: none;">&larr; Back to
+                Dashboard</a>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="crm-main">
+            <header class="crm-header">
+                <button class="hamburger-btn" onclick="toggleSidebar()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </button>
+                <div class="mobile-brand">
+                    <img src="../assets/creva-logo.svg" alt="Creva" style="height: 24px;">
+                    <span style="font-weight: 700; color: var(--primary-color);">CRM</span>
+                </div>
+                <h1 id="page-title">All Clients</h1>
+                <div>
+                    <!-- Header Actions if needed -->
+                </div>
+            </header>
+
+            <div class="crm-content">
+                <div class="crm-table-container">
+                    <table class="crm-table">
+                        <thead>
+                            <tr>
+                                <th>Client Name</th>
+                                <th>Service</th>
+                                <th>Status</th>
+                                <th>Next Follow-up</th>
+                                <th>Last Call</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="client-table-body">
+                            <!-- Dynamic Rows -->
+                            <tr>
+                                <td colspan="6" style="text-align: center; padding: 3rem; color: #9ca3af;">Loading
+                                    clients...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add Client Drawer/Modal -->
+    <div class="drawer-overlay" id="client-drawer-overlay" onclick="closeDrawer()"></div>
+    <div class="drawer" id="client-drawer">
+        <!-- Dynamic Content Injected Here -->
+    </div>
+
+    <!-- Mobile Sidebar Overlay -->
+    <div class="crm-sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <!-- Hidden Call Popover (Relative to click) -->
+    <div id="action-popover" class="call-popover">
+        <a href="#" id="act-call" class="call-option">
+            <span>📞</span> Call Now
+        </a>
+        <a href="#" id="act-whatsapp" target="_blank" class="call-option">
+            <span>💬</span> WhatsApp
+        </a>
+    </div>
+
+    <!-- Floating Action Button (Mobile) -->
+    <button class="fab-btn" onclick="openAddClientModal()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+    </button>
+
+    <!-- Bottom Navigation (Mobile) -->
+    <nav class="mobile-bottom-nav">
+        <a href="#" class="nav-item active" onclick="filterClients('all'); setActiveNav(this); return false;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+            <span>Clients</span>
+        </a>
+        <a href="#" class="nav-item" onclick="filterClients('followup_today'); setActiveNav(this); return false;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
+            <span>Follow-ups</span>
+        </a>
+        <a href="dashboard.html" class="nav-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="7" height="7"></rect>
+                <rect x="14" y="3" width="7" height="7"></rect>
+                <rect x="14" y="14" width="7" height="7"></rect>
+                <rect x="3" y="14" width="7" height="7"></rect>
+            </svg>
+            <span>Dash</span>
+        </a>
+    </nav>
+
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/crm.js"></script>
+</body>
+
+</html>

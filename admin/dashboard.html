@@ -12,7 +12,10 @@
 
 <body class="dashboard-body">
     <nav class="dashboard-nav">
-        <div class="nav-brand">Creva Admin Panel</div>
+        <div class="nav-brand" style="display: flex; align-items: center; gap: 0.75rem;">
+            <img src="../assets/creva-logo.svg" alt="Creva Solutions" style="height: 32px;">
+            <span>Admin Panel</span>
+        </div>
         <button id="logout-btn" class="btn-logout">Logout</button>
     </nav>
 
@@ -26,6 +29,20 @@
 
         <div
             style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+            <!-- CRM Module -->
+            <a href="crm.html" style="text-decoration: none; color: inherit;">
+                <div class="dashboard-card"
+                    style="margin-bottom: 0; transition: transform 0.2s; cursor: pointer; border-left: 4px solid var(--primary-color);"
+                    onmouseover="this.style.transform='translateY(-5px)'"
+                    onmouseout="this.style.transform='translateY(0)'">
+                    <h2 style="color: var(--primary-color); display: flex; align-items: center; gap: 0.5rem;">
+                        <span>📞</span> Client CRM
+                    </h2>
+                    <p style="color: var(--text-muted); margin-top: 0.5rem;">Manage leads, calls, notes & follow-ups.
+                    </p>
+                </div>
+            </a>
+
             <!-- Manage Clients -->
             <a href="clients.html" style="text-decoration: none; color: inherit;">
                 <div class="dashboard-card" style="margin-bottom: 0; transition: transform 0.2s; cursor: pointer;"

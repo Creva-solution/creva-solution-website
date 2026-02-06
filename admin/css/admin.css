@@ -117,6 +117,20 @@ body.dashboard-body {
     align-items: center;
 }
 
+@media (max-width: 640px) {
+    .dashboard-nav {
+        padding: 1rem;
+    }
+
+    .nav-brand span {
+        font-size: 1rem;
+    }
+
+    .nav-brand img {
+        height: 28px !important;
+    }
+}
+
 .nav-brand {
     font-weight: bold;
     font-size: 1.25rem;
