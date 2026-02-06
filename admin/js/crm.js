@@ -213,6 +213,10 @@ function openAddClientModal() {
         </div>
     `;
 
+    // Close sidebar if open (mobile)
+    document.getElementById('crm-sidebar').classList.remove('show');
+    document.getElementById('sidebar-overlay').classList.remove('show');
+
     overlay.classList.add('open');
     drawer.classList.add('open');
 
@@ -393,8 +397,8 @@ function showActionPopover(e, whatsapp, phone) {
     e.preventDefault();
     e.stopPropagation();
 
-    // Mobile Logic
-    if (window.innerWidth <= 1280) {
+    // Mobile Logic (Tablets included for touch friendliness)
+    if (window.innerWidth <= 768) {
         openContactSheet(phone, whatsapp);
         return;
     }
