@@ -8,38 +8,44 @@
   </url>
   <url>
     <loc>https://crevasolution.in/about.html</loc>
-    <lastmod>2026-02-05</lastmod>
+    <lastmod>2026-02-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://crevasolution.in/services.html</loc>
-    <lastmod>2026-02-05</lastmod>
+    <lastmod>2026-02-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://crevasolution.in/clients.html</loc>
-    <lastmod>2026-02-05</lastmod>
+    <lastmod>2026-02-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://crevasolution.in/contact.html</loc>
-    <lastmod>2026-02-05</lastmod>
+    <lastmod>2026-02-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://crevasolution.in/it-company-sankarapuram.html</loc>
-    <lastmod>2026-02-05</lastmod>
+    <lastmod>2026-02-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://crevasolution.in/best-it-company-kallakurichi.html</loc>
-    <lastmod>2026-02-05</lastmod>
+    <lastmod>2026-02-07</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://crevasolution.in/blog.html</loc>
+    <lastmod>2026-02-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
 </urlset>
