@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Editor - Creva Admin</title>
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="css/blog-admin.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jodit@4.2.27/es2021/jodit.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body class="dashboard-body" data-blog-page="editor">
+    <nav class="dashboard-nav">
+        <div class="nav-brand"><a href="dashboard.html" style="text-decoration:none; color:inherit;">Creva Admin</a> /
+            <a href="blog.html" style="text-decoration:none; color:inherit;">Blog</a> / <span id="crumb">New</span></div>
+        <button id="logout-btn" class="btn-logout">Logout</button>
+    </nav>
+
+    <main class="dashboard-content">
+        <div id="admin-warning" class="bl-alert bl-alert-warn" hidden></div>
+
+        <div class="bl-head">
+            <div>
+                <h1 id="editor-title">Create New Blog</h1>
+                <p class="bl-sub">Write the article, add a featured image and SEO details, then save a draft or publish.</p>
+            </div>
+            <a href="blog.html" class="bl-btn">&larr; Back to all blogs</a>
+        </div>
+
+        <div id="editor-error" class="bl-alert bl-alert-err" role="alert" hidden></div>
+
+        <form id="blog-form" class="bl-editor" novalidate>
+            <div class="bl-main">
+                <div class="dashboard-card bl-card">
+                    <div class="form-group">
+                        <label for="f-title">Title <span class="req">*</span></label>
+                        <input type="text" id="f-title" class="form-control" maxlength="160" placeholder="Why Every Business Needs a Professional Website" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="f-slug">Slug <span class="req">*</span> <button type="button" id="slug-regen" class="bl-link">Regenerate from title</button></label>
+                        <input type="text" id="f-slug" class="form-control" maxlength="100" placeholder="why-every-business-needs-a-professional-website" required>
+                        <p class="bl-hint">URL: <span id="slug-url">/blog/post.html?slug=…</span> &middot; letters, numbers and hyphens only. Must be unique.</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="f-excerpt">Excerpt <span class="bl-count" id="excerpt-count">0</span></label>
+                        <textarea id="f-excerpt" class="form-control" rows="3" maxlength="300" placeholder="A short summary shown on the Blog page (1–2 sentences)."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Content <span class="req">*</span></label>
+                        <div class="bl-helpers">
+                            <select id="link-service" class="form-control" aria-label="Insert service link">
+                                <option value="">Insert service link…</option>
+                            </select>
+                            <button type="button" id="insert-faq" class="bl-btn bl-btn-sm">+ Add FAQ block</button>
+                        </div>
+                        <textarea id="f-content" aria-label="Article content"></textarea>
+                        <p class="bl-hint">Tip: use <strong>Heading 2</strong> for sections and question-style headings, keep answers short, and add an
+                            <em>Frequently Asked Questions</em> section (Heading 3 = question, paragraph = answer) to get FAQ markup automatically.
+                            Add pictures with the <strong>image</strong> button so they are stored safely.</p>
+                    </div>
+                </div>
+
+                <div class="dashboard-card bl-card">
+                    <h2 class="bl-h2">SEO</h2>
+                    <div class="form-group">
+                        <label for="f-seo-title">SEO Title <span class="bl-count" id="seo-title-count">0</span></label>
+                        <input type="text" id="f-seo-title" class="form-control" maxlength="120" placeholder="Leave empty to use the blog title">
+                    </div>
+                    <div class="form-group">
+                        <label for="f-seo-desc">SEO Description <span class="bl-count" id="seo-desc-count">0</span></label>
+                        <textarea id="f-seo-desc" class="form-control" rows="3" maxlength="320" placeholder="Leave empty to use the excerpt (aim for 120–160 characters)"></textarea>
+                    </div>
+                    <div class="bl-serp" aria-label="Search result preview">
+                        <span class="bl-serp-title" id="serp-title">Title</span>
+                        <span class="bl-serp-url" id="serp-url">crevasolution.in › blog</span>
+                        <span class="bl-serp-desc" id="serp-desc">Description</span>
+                    </div>
+                </div>
+            </div>
+
+            <aside class="bl-side">
+                <div class="dashboard-card bl-card">
+                    <h2 class="bl-h2">Publish</h2>
+                    <p class="bl-status-line">Status: <span id="status-badge" class="bl-badge bl-badge-draft">New</span></p>
+                    <p class="bl-hint" id="status-meta"></p>
+                    <div class="bl-actions-col">
+                        <button type="button" id="btn-publish" class="bl-btn bl-btn-primary">Publish</button>
+                        <button type="button" id="btn-draft" class="bl-btn">Save Draft</button>
+                        <a id="btn-preview" class="bl-btn" target="_blank" rel="noopener" hidden>Preview</a>
+                    </div>
+                </div>
+
+                <div class="dashboard-card bl-card">
+                    <h2 class="bl-h2">Featured Image</h2>
+                    <div id="img-preview" class="bl-img-preview"><span>No image selected</span></div>
+                    <input type="file" id="f-image" accept="image/png,image/jpeg,image/webp,image/gif" hidden>
+                    <div class="bl-actions-row">
+                        <button type="button" id="img-choose" class="bl-btn bl-btn-sm">Upload image</button>
+                        <button type="button" id="img-remove" class="bl-btn bl-btn-sm bl-btn-danger" hidden>Remove</button>
+                    </div>
+                    <p class="bl-hint">Images are resized and converted to WebP automatically (max width 1600 px) and stored in Supabase Storage.</p>
+                </div>
+
+                <div class="dashboard-card bl-card">
+                    <h2 class="bl-h2">Details</h2>
+                    <div class="form-group">
+                        <label for="f-category">Category</label>
+                        <select id="f-category" class="form-control"><option value="">Select a category</option></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="f-author">Author</label>
+                        <input type="text" id="f-author" class="form-control" value="Creva Solutions" maxlength="80">
+                    </div>
+                </div>
+            </aside>
+        </form>
+    </main>
+
+    <div id="bl-toast" class="bl-toast" role="status" aria-live="polite" hidden></div>
+
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jodit@4.2.27/es2021/jodit.min.js"></script>
+    <script src="js/blog_admin.js"></script>
+</body>
+
+</html>

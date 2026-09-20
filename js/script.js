@@ -15,9 +15,34 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (mobileMenuBtn && mobileMenu) {
         mobileMenuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
+            const isHidden = mobileMenu.classList.toggle('hidden');
+            mobileMenuBtn.setAttribute('aria-expanded', String(!isHidden));
+            mobileMenuBtn.setAttribute('aria-label', isHidden ? 'Open menu' : 'Close menu');
         });
     }
+
+    // Services dropdown (desktop): opens on hover/focus via CSS; this adds click/touch + keyboard support
+    document.querySelectorAll('.nav-dd').forEach((dd) => {
+        const toggle = dd.querySelector('.nav-dd-toggle');
+        if (!toggle) return;
+        const setOpen = (open) => {
+            dd.classList.toggle('is-open', open);
+            toggle.setAttribute('aria-expanded', String(open));
+        };
+        toggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            setOpen(!dd.classList.contains('is-open'));
+        });
+        document.addEventListener('click', (e) => {
+            if (!dd.contains(e.target)) setOpen(false);
+        });
+        dd.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                setOpen(false);
+                toggle.focus();
+            }
+        });
+    });
 
     // Set Current Year
     const currentYearSpan = document.getElementById('current-year');

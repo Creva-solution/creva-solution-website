@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Legal Pages - Creva Admin</title>
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="css/blog-admin.css">
+    <link rel="stylesheet" href="css/legal-admin.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body class="dashboard-body" data-legal-page="list">
+    <nav class="dashboard-nav">
+        <div class="nav-brand"><a href="dashboard.html" style="text-decoration:none; color:inherit;">Creva Admin</a> /
+            Legal Pages</div>
+        <button id="logout-btn" class="btn-logout">Logout</button>
+    </nav>
+
+    <main class="dashboard-content">
+        <div id="admin-warning" class="bl-alert bl-alert-warn" hidden></div>
+
+        <div class="bl-head">
+            <div>
+                <h1>Legal Pages</h1>
+                <p class="bl-sub">Edit the Privacy Policy and Terms &amp; Conditions, and choose whether each page (and its footer link) is visible on the website.</p>
+            </div>
+        </div>
+
+        <div class="dashboard-card bl-card">
+            <div class="bl-table-wrap">
+                <table class="bl-table">
+                    <thead>
+                        <tr>
+                            <th>Page</th>
+                            <th>Status</th>
+                            <th>Updated</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="lg-rows">
+                        <tr><td colspan="4" class="bl-empty">Loading legal pages…</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="bl-hint">Hidden pages are removed from the website footer and show a "Page Not Available" message to visitors. Their content is kept and can be made Visible again at any time.</p>
+        </div>
+    </main>
+
+    <div id="bl-toast" class="bl-toast" role="status" aria-live="polite" hidden></div>
+
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/legal_admin.js"></script>
+</body>
+
+</html>

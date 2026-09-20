@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // 6. Dynamic Clients Page (clients.html)
     const itClientsGrid = document.getElementById('it-clients-grid');
     const civilClientsGrid = document.getElementById('civil-clients-grid');
-    if (itClientsGrid || civilClientsGrid) {
+    if (itClientsGrid || civilClientsGrid || document.getElementById('portfolio-grid')) {
         if (itClientsGrid) showSkeleton(itClientsGrid, 'clients-grid');
         if (civilClientsGrid) showSkeleton(civilClientsGrid, 'clients-grid');
 
@@ -122,13 +122,16 @@ document.addEventListener('DOMContentLoaded', async () => {
             const { data: clients, error } = await client.from('clients').select('*').order('created_at', { ascending: false });
             if (error) throw error;
             if (clients && clients.length > 0) {
+                renderPortfolioClients(clients);
                 if (itClientsGrid) {
                     const itList = clients.filter(c => c.category === 'IT');
                     renderClientsGrid(itList, itClientsGrid);
+                    hideIfEmpty(itList, itClientsGrid);
                 }
                 if (civilClientsGrid) {
                     const civilList = clients.filter(c => c.category === 'Civil');
                     renderClientsGrid(civilList, civilClientsGrid);
+                    hideIfEmpty(civilList, civilClientsGrid);
                 }
             } else {
                 const noDataMsg = '<p class="text-gray-500 col-span-4 text-center">No clients listed.</p>';
@@ -145,36 +148,106 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 });
 
+// Home page client logos: continuous right-to-left marquee on every screen size.
+// Slots visible: 2-3 (mobile), 3-4 (tablet), 5-7 (desktop). Pauses on hover/touch; swipe/drag scrolls it.
+let clientState = { clients: null, container: null, raf: 0, width: 0, bound: false };
+
+function clientSlots(clientCount) {
+    const w = window.innerWidth;
+    let n = w >= 1280 ? 7 : w >= 1024 ? 6 : w >= 768 ? 4 : w >= 640 ? 3 : 2;
+    // One set must be wider than the viewport for a gap-free loop, so never use more slots than logos - 1.
+    return Math.max(2, Math.min(n, clientCount - 1));
+}
+
+function escapeAttr(s) {
+    return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
 function renderClients(clients, container) {
-    // Generate the HTML for one set of clients
-    const clientItems = clients.map(client => {
-        if (client.logo_url) {
-            // Increased size to h-16 md:h-20 based on user preference
-            return `<img src="${client.logo_url}" alt="${client.name}" class="h-16 md:h-20 w-auto object-contain hover:opacity-100 transition-all opacity-80 grayscale hover:grayscale-0">`;
-        } else {
-            return `<span class="text-2xl md:text-3xl font-bold font-heading text-gray-300 hover:text-primary transition-colors cursor-default select-none whitespace-nowrap">${client.name}</span>`;
+    clientState.clients = clients;
+    clientState.container = container;
+    drawClients();
+
+    if (!clientState.bound) {
+        clientState.bound = true;
+        let t;
+        window.addEventListener('resize', () => {
+            clearTimeout(t);
+            t = setTimeout(() => {
+                // Only rebuild when the width really changes (ignores mobile address-bar height changes).
+                if (clientState.container && clientState.container.clientWidth !== clientState.width) drawClients();
+            }, 200);
+        });
+    }
+}
+
+function drawClients() {
+    const { clients, container } = clientState;
+    if (!clients || !clients.length || !container) return;
+    cancelAnimationFrame(clientState.raf);
+
+    const item = (c, hidden) => {
+        const name = escapeAttr((c.name || '').trim());
+        const inner = c.logo_url
+            ? `<img src="${escapeAttr(c.logo_url)}" alt="${hidden ? '' : name}" loading="lazy" decoding="async" draggable="false">`
+            : `<span class="cl-text">${name}</span>`;
+        return `<div class="cl-item"${hidden ? ' aria-hidden="true"' : ''}>${inner}</div>`;
+    };
+    const set = hidden => clients.map(c => item(c, hidden)).join('');
+
+    // Three identical sets: the loop wraps inside the middle one, so there is never a visible jump.
+    container.className = 'cl-wrap is-carousel';
+    container.innerHTML = `<div class="cl-scroller" tabindex="0" aria-label="Client logos">${set(false)}${set(true)}${set(true)}</div>`;
+    const el = container.querySelector('.cl-scroller');
+
+    // Whole-pixel slot width => the set width is an exact integer and the wrap point is exact.
+    const width = container.clientWidth;
+    clientState.width = width;
+    const slotW = Math.max(60, Math.round(width / clientSlots(clients.length)));
+    container.style.setProperty('--cl-w', slotW + 'px');
+    const setW = slotW * clients.length;
+
+    let pos = setW;
+    el.scrollLeft = pos;
+
+    const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const SPEED = 32; // px per second, right to left
+    let paused = reduce;
+    let resumeTimer;
+    let last = performance.now();
+
+    const pause = () => { paused = true; clearTimeout(resumeTimer); };
+    const resume = delay => {
+        if (reduce) return;
+        clearTimeout(resumeTimer);
+        resumeTimer = setTimeout(() => { pos = el.scrollLeft; paused = false; }, delay);
+    };
+    container.addEventListener('mouseenter', pause);
+    container.addEventListener('mouseleave', () => resume(0));
+    el.addEventListener('focusin', pause);
+    el.addEventListener('focusout', () => resume(0));
+    el.addEventListener('touchstart', pause, { passive: true });
+    el.addEventListener('touchend', () => resume(1500), { passive: true });
+    el.addEventListener('touchcancel', () => resume(1500), { passive: true });
+
+    // While the user swipes, keep the position inside the middle set (identical sets, so the jump is invisible).
+    el.addEventListener('scroll', () => {
+        if (el.scrollLeft >= 2 * setW) el.scrollLeft -= setW;
+        else if (el.scrollLeft < 0.5 * setW) el.scrollLeft += setW;
+        if (paused) pos = el.scrollLeft;
+    }, { passive: true });
+
+    const frame = t => {
+        const dt = Math.min(t - last, 100);
+        last = t;
+        if (!paused) {
+            pos += (SPEED * dt) / 1000;
+            if (pos >= 2 * setW) pos -= setW;
+            el.scrollLeft = pos;
         }
-    }).join('');
-
-    // Create the group wrapper with specific spacing
-    const groupHtml = `
-        <div class="flex items-center gap-16 md:gap-32 px-16">
-            ${clientItems}
-        </div>
-    `;
-
-    // Duplicate the group for infinite scroll
-    const trackContent = groupHtml + groupHtml;
-
-    // Apply proper classes to the container
-    container.className = "relative w-full overflow-hidden group py-4";
-
-    // Inject the scrolling track
-    container.innerHTML = `
-        <div class="flex w-max animate-scroll hover:pause">
-            ${trackContent}
-        </div>
-    `;
+        clientState.raf = requestAnimationFrame(frame);
+    };
+    clientState.raf = requestAnimationFrame(frame);
 }
 
 function renderTestimonials(items, container) {
@@ -394,4 +467,69 @@ function showSkeleton(container, type) {
     }
 
     container.innerHTML = skeletonHTML;
+}
+
+
+// ---------- Portfolio page ----------
+// Portfolio cards are built only from real client records (logo, name, category and the client's own words).
+function renderPortfolioClients(clients) {
+    const grid = document.getElementById('portfolio-grid');
+    if (!grid) return;
+    clients.filter(c => (c.description || '').trim()).forEach((c, i) => {
+        const civil = c.category === 'Civil';
+        const desc = c.description.trim();
+        const tag = civil ? 'Civil Services' : (/web/i.test(desc) ? 'Web Development' : 'IT Services');
+        const name = escapeAttr((c.name || '').trim());
+        const cta = c.website_url
+            ? `<a class="pf-cta" href="${escapeAttr(c.website_url)}" target="_blank" rel="noopener noreferrer">View Project <i data-lucide="arrow-up-right" class="w-4 h-4"></i></a>`
+            : `<a class="pf-cta" href="contact.html">Start a Similar Project <i data-lucide="arrow-right" class="w-4 h-4"></i></a>`;
+        const media = c.logo_url
+            ? `<img src="${escapeAttr(c.logo_url)}" alt="${name} logo" loading="lazy" decoding="async">`
+            : `<span class="pf-media-name">${name}</span>`;
+        const el = document.createElement('article');
+        el.className = 'pf-card';
+        el.dataset.cat = civil ? 'civil' : 'it';
+        el.innerHTML = `
+            <div class="pf-media pf-media-logo">${media}<div class="pf-overlay">${cta}</div></div>
+            <div class="pf-body">
+                <span class="pf-chip${civil ? ' pf-chip-civil' : ''}">${tag}</span>
+                <h3>${name}</h3>
+                <p class="pf-quote">\u201C${escapeAttr(desc)}\u201D</p>
+            </div>`;
+        grid.appendChild(el);
+    });
+    if (window.lucide) window.lucide.createIcons();
+    applyPortfolioFilter();
+}
+
+function applyPortfolioFilter() {
+    const active = document.querySelector('.pf-filter.is-active');
+    const f = active ? active.dataset.filter : 'all';
+    let shown = 0;
+    document.querySelectorAll('#portfolio-grid .pf-card').forEach(card => {
+        const show = f === 'all' || card.dataset.cat === f;
+        card.hidden = !show;
+        if (show) shown++;
+    });
+    const empty = document.getElementById('portfolio-empty');
+    if (empty) empty.hidden = shown > 0;
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.pf-filter').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.pf-filter').forEach(b => {
+                const on = b === btn;
+                b.classList.toggle('is-active', on);
+                b.setAttribute('aria-pressed', String(on));
+            });
+            applyPortfolioFilter();
+        });
+    });
+});
+
+// Hide a client section that has no clients, so the page has no empty headed blocks.
+function hideIfEmpty(list, grid) {
+    const section = grid && grid.closest('section');
+    if (section && !list.length) section.style.display = 'none';
 }

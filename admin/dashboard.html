@@ -83,6 +83,32 @@
                 </div>
             </a>
 
+            <!-- Blog Management -->
+            <a href="blog.html" style="text-decoration: none; color: inherit;">
+                <div class="dashboard-card"
+                    style="margin-bottom: 0; transition: transform 0.2s; cursor: pointer; border-left: 4px solid #8b5cf6;"
+                    onmouseover="this.style.transform='translateY(-5px)'"
+                    onmouseout="this.style.transform='translateY(0)'">
+                    <h2 style="color: #8b5cf6; display: flex; align-items: center; gap: 0.5rem;">
+                        <span>✍️</span> Blog
+                    </h2>
+                    <p style="color: var(--text-muted); margin-top: 0.5rem;">Create, edit, publish and delete articles.</p>
+                </div>
+            </a>
+
+            <!-- Legal Pages -->
+            <a href="legal.html" style="text-decoration: none; color: inherit;">
+                <div class="dashboard-card"
+                    style="margin-bottom: 0; transition: transform 0.2s; cursor: pointer; border-left: 4px solid #0ea5e9;"
+                    onmouseover="this.style.transform='translateY(-5px)'"
+                    onmouseout="this.style.transform='translateY(0)'">
+                    <h2 style="color: #0ea5e9; display: flex; align-items: center; gap: 0.5rem;">
+                        <span>⚖️</span> Legal Pages
+                    </h2>
+                    <p style="color: var(--text-muted); margin-top: 0.5rem;">Edit Privacy Policy &amp; Terms, show or hide them.</p>
+                </div>
+            </a>
+
             <!-- Manage Messages -->
             <a href="contacts.html" style="text-decoration: none; color: inherit;">
                 <div class="dashboard-card" style="margin-bottom: 0; transition: transform 0.2s; cursor: pointer;"
@@ -119,6 +145,18 @@
                 <div style="background: #f3f4f6; padding: 1rem; border-radius: 6px;">
                     <span style="display: block; font-size: 0.875rem; color: #6b7280;">Inquiries</span>
                     <span id="stat-inquiries" style="font-size: 1.5rem; font-weight: bold;">--</span>
+                </div>
+                <div style="background: #f3f4f6; padding: 1rem; border-radius: 6px;">
+                    <span style="display: block; font-size: 0.875rem; color: #6b7280;">Total Blogs</span>
+                    <span id="stat-blogs-total" style="font-size: 1.5rem; font-weight: bold;">--</span>
+                </div>
+                <div style="background: #f3f4f6; padding: 1rem; border-radius: 6px;">
+                    <span style="display: block; font-size: 0.875rem; color: #6b7280;">Blogs Published</span>
+                    <span id="stat-blogs-published" style="font-size: 1.5rem; font-weight: bold;">--</span>
+                </div>
+                <div style="background: #f3f4f6; padding: 1rem; border-radius: 6px;">
+                    <span style="display: block; font-size: 0.875rem; color: #6b7280;">Blog Drafts</span>
+                    <span id="stat-blogs-drafts" style="font-size: 1.5rem; font-weight: bold;">--</span>
                 </div>
             </div>
         </div>

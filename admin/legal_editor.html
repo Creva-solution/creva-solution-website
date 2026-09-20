@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Legal Page - Creva Admin</title>
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="css/blog-admin.css">
+    <link rel="stylesheet" href="css/legal-admin.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jodit@4.2.27/es2021/jodit.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body class="dashboard-body" data-legal-page="editor">
+    <nav class="dashboard-nav">
+        <div class="nav-brand"><a href="dashboard.html" style="text-decoration:none; color:inherit;">Creva Admin</a> /
+            <a href="legal.html" style="text-decoration:none; color:inherit;">Legal Pages</a> / <span id="crumb">Edit</span></div>
+        <button id="logout-btn" class="btn-logout">Logout</button>
+    </nav>
+
+    <main class="dashboard-content">
+        <div id="admin-warning" class="bl-alert bl-alert-warn" hidden></div>
+
+        <div class="bl-head">
+            <div>
+                <h1 id="editor-title">Edit Legal Page</h1>
+                <p class="bl-sub">Update the content below. Changes go live on the public page as soon as you click Save Changes.</p>
+            </div>
+            <a href="legal.html" class="bl-btn">&larr; Back to Legal Pages</a>
+        </div>
+
+        <div id="editor-error" class="bl-alert bl-alert-err" role="alert" hidden></div>
+
+        <form id="legal-form" class="bl-editor" novalidate>
+            <div class="bl-main">
+                <div class="dashboard-card bl-card">
+                    <div class="form-group">
+                        <label for="f-title">Page Title <span class="req">*</span></label>
+                        <input type="text" id="f-title" class="form-control" maxlength="120" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Page Content</label>
+                        <textarea id="f-content" aria-label="Page content"></textarea>
+                        <p class="bl-hint">Use the <strong>Paragraph</strong> menu for headings, and the toolbar for bold, italic, lists, links and alignment. No HTML needed.</p>
+                    </div>
+                </div>
+            </div>
+
+            <aside class="bl-side">
+                <div class="dashboard-card bl-card">
+                    <h2 class="bl-h2">Publish</h2>
+                    <div class="lg-toggle-row">
+                        <span>Status: <strong id="vis-label">Visible</strong></span>
+                        <label class="lg-switch" title="Visible / Hidden">
+                            <input type="checkbox" id="f-visible" checked aria-label="Page visible on the website">
+                            <span class="lg-slider"></span>
+                        </label>
+                    </div>
+                    <p class="bl-hint" id="status-meta"></p>
+                    <div class="bl-actions-col">
+                        <button type="button" id="btn-save" class="bl-btn bl-btn-primary">Save Changes</button>
+                        <button type="button" id="btn-preview" class="bl-btn">Preview</button>
+                        <a id="btn-open" class="bl-btn" target="_blank" rel="noopener">Open public page</a>
+                    </div>
+                </div>
+            </aside>
+        </form>
+    </main>
+
+    <div id="lg-modal" class="lg-modal" hidden>
+        <div class="lg-modal-box" role="dialog" aria-modal="true" aria-label="Preview">
+            <div class="lg-modal-head"><strong>Preview (unsaved)</strong><button type="button" id="lg-modal-close" class="bl-btn bl-btn-sm">Close</button></div>
+            <iframe id="lg-frame" sandbox="allow-same-origin" title="Page preview"></iframe>
+        </div>
+    </div>
+
+    <div id="bl-toast" class="bl-toast" role="status" aria-live="polite" hidden></div>
+
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jodit@4.2.27/es2021/jodit.min.js"></script>
+    <script src="js/legal_admin.js"></script>
+</body>
+
+</html>

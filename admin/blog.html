@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Management - Creva Admin</title>
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="css/blog-admin.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body class="dashboard-body" data-blog-page="list">
+    <nav class="dashboard-nav">
+        <div class="nav-brand"><a href="dashboard.html" style="text-decoration:none; color:inherit;">Creva Admin</a> /
+            Blog</div>
+        <button id="logout-btn" class="btn-logout">Logout</button>
+    </nav>
+
+    <main class="dashboard-content">
+        <div id="admin-warning" class="bl-alert bl-alert-warn" hidden></div>
+
+        <div class="bl-head">
+            <div>
+                <h1>Blog Management</h1>
+                <p class="bl-sub">Create, edit, publish and delete the articles shown on the website Blog page.</p>
+            </div>
+            <a href="blog_editor.html" class="bl-btn bl-btn-primary">+ Create New Blog</a>
+        </div>
+
+        <div class="bl-stats">
+            <div class="bl-stat"><span>Total Blogs</span><strong id="stat-total">--</strong></div>
+            <div class="bl-stat"><span>Published</span><strong id="stat-published">--</strong></div>
+            <div class="bl-stat"><span>Drafts</span><strong id="stat-drafts">--</strong></div>
+        </div>
+
+        <div class="dashboard-card bl-card">
+            <div class="bl-toolbar">
+                <input type="search" id="bl-search" class="form-control" placeholder="Search by title or category…" aria-label="Search blog posts">
+                <select id="bl-status" class="form-control" aria-label="Filter by status">
+                    <option value="all">All statuses</option>
+                    <option value="published">Published</option>
+                    <option value="draft">Drafts</option>
+                </select>
+            </div>
+
+            <div class="bl-table-wrap">
+                <table class="bl-table">
+                    <thead>
+                        <tr>
+                            <th>Featured Image</th>
+                            <th>Title</th>
+                            <th>Category</th>
+                            <th>Author</th>
+                            <th>Status</th>
+                            <th>Published Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bl-rows">
+                        <tr><td colspan="7" class="bl-empty">Loading blog posts…</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <div id="bl-toast" class="bl-toast" role="status" aria-live="polite" hidden></div>
+
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/blog_admin.js"></script>
+</body>
+
+</html>

@@ -38,6 +38,14 @@ async function fetchStats() {
             inquiryEl.innerText = inquiriesError ? 'Err' : (inquiriesCount || 0);
         }
 
+
+        // 3. Blog statistics (drafts are visible to authorised admins only)
+        const { data: blogRows, error: blogError } = await client.from('blog_posts').select('published');
+        const setStat = (id, v) => { const el = document.getElementById(id); if (el) el.innerText = blogError ? '--' : v; };
+        const all = blogRows || [];
+        setStat('stat-blogs-total', all.length);
+        setStat('stat-blogs-published', all.filter(b => b.published).length);
+        setStat('stat-blogs-drafts', all.filter(b => !b.published).length);
     } catch (err) {
         console.error('Data fetch error:', err);
     }
