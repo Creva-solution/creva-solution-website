@@ -280,6 +280,7 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/extras.css" />
+    <link rel="stylesheet" href="css/hero.css" />
   </head>
 
   <body class="bg-secondary text-dark font-body flex flex-col min-h-screen">
@@ -311,8 +312,7 @@
           >
             <a
               href="index.html"
-              class="transition-all duration-300 font-medium text-sm tracking-wide uppercase relative group py-1 text-primary font-bold after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-primary after:transform after:scale-x-100 after:transition-transform after:duration-300"
-              aria-current="page"
+              class="transition-all duration-300 font-medium text-sm tracking-wide uppercase relative group py-1 text-gray-600 hover:text-primary after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-primary after:transform after:scale-x-0 group-hover:after:scale-x-100 after:transition-transform after:duration-300"
               >Home</a
             >
             <a
@@ -437,7 +437,8 @@
             >
             <a
               href="contact.html"
-              class="transition-all duration-300 font-medium text-sm tracking-wide uppercase relative group py-1 text-gray-600 hover:text-primary after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-primary after:transform after:scale-x-0 group-hover:after:scale-x-100 after:transition-transform after:duration-300"
+              class="transition-all duration-300 font-medium text-sm tracking-wide uppercase relative group py-1 text-primary font-bold after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-primary after:transform after:scale-x-100 after:transition-transform after:duration-300"
+              aria-current="page"
               >Contact</a
             >
           </div>
@@ -476,7 +477,7 @@
         <div class="px-4 pt-4 pb-6 space-y-2 flex flex-col">
           <a
             href="index.html"
-            class="block px-3 py-2 rounded-md text-lg font-medium transition-colors border-l-4 text-primary bg-blue-50 border-primary font-bold"
+            class="block px-3 py-2 rounded-md text-lg font-medium transition-colors border-l-4 text-dark hover:text-primary hover:bg-gray-50 border-transparent"
             >Home</a
           >
           <a
@@ -549,7 +550,7 @@
           >
           <a
             href="contact.html"
-            class="block px-3 py-2 rounded-md text-lg font-medium transition-colors border-l-4 text-dark hover:text-primary hover:bg-gray-50 border-transparent"
+            class="block px-3 py-2 rounded-md text-lg font-medium transition-colors border-l-4 text-primary bg-blue-50 border-primary font-bold"
             >Contact</a
           >
           <a
@@ -561,527 +562,221 @@
       </div>
     </nav>
 
+
     <main id="main-content" class="flex-grow overflow-hidden">
       <!-- Hero Section -->
-      <section class="hx-hero" aria-labelledby="hero-heading">
-        <div class="hx-bg" aria-hidden="true">
-          <span class="hx-blob hx-blob-a"></span
-          ><span class="hx-blob hx-blob-b"></span>
+      <section class="cs-hero" aria-labelledby="hero-heading">
+        <!-- Ambient Background Artwork (Soft architectural silhouettes & pale blue plant) -->
+        <div class="cs-hero-bg" aria-hidden="true">
+          <svg class="cs-hero-bg-svg" viewBox="0 0 1440 760" fill="none" preserveAspectRatio="xMidYMid slice">
+            <!-- Office window / wall frames on the right -->
+            <rect x="1120" y="70" width="320" height="400" rx="12" fill="#F4F9FF" opacity="0.65" />
+            <line x1="1120" y1="210" x2="1440" y2="210" stroke="#E2EFFD" stroke-width="2" />
+            <line x1="1270" y1="70" x2="1270" y2="470" stroke="#E2EFFD" stroke-width="2" />
+            
+            <!-- Hanging pendant lamp on upper right -->
+            <line x1="1230" y1="0" x2="1230" y2="125" stroke="#CBDCF2" stroke-width="2" />
+            <path d="M1200 165 L1260 165 L1245 125 L1215 125 Z" fill="#DDEBFB" stroke="#CBDCF2" stroke-width="1.5" />
+            <ellipse cx="1230" cy="165" rx="30" ry="8" fill="#EBF3FD" stroke="#CBDCF2" stroke-width="1.5" />
+            <ellipse cx="1230" cy="170" rx="14" ry="4" fill="#FFE599" opacity="0.5" />
+
+            <!-- Soft pale blue potted plant behind desk on left -->
+            <g opacity="0.75" transform="translate(430, 420)">
+              <path d="M50 240 L85 240 L95 180 L40 180 Z" fill="#DDEBFA" />
+              <path d="M68 180 C40 140 10 110 0 60 C30 50 60 90 68 180 Z" fill="#E6F1FC" />
+              <path d="M68 180 C75 120 70 80 50 20 C85 30 95 80 68 180 Z" fill="#D8EAFA" />
+              <path d="M68 180 C95 130 130 100 150 50 C125 40 90 90 68 180 Z" fill="#E6F1FC" />
+              <path d="M68 180 C55 150 20 150 -10 120 C-5 95 30 110 68 180 Z" fill="#E2EFFD" />
+            </g>
+
+            <!-- Soft decorative foliage along right edge -->
+            <g opacity="0.6" transform="translate(1360, 240)">
+              <path d="M0 80 C20 40 40 20 70 0 C60 30 40 60 0 80 Z" fill="#E4F0FD" />
+              <path d="M0 130 C30 90 50 70 80 50 C70 80 50 110 0 130 Z" fill="#D8EAFA" />
+              <path d="M0 180 C25 150 45 130 75 110 C65 140 45 165 0 180 Z" fill="#E4F0FD" />
+            </g>
+
+            <!-- Pale blue contour wave near desk bottom -->
+            <path d="M380 680 Q520 620 680 650 T1040 640 T1440 670 L1440 760 L380 760 Z" fill="#F1F7FE" opacity="0.75" />
+          </svg>
         </div>
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div class="hx-grid">
-            <div class="hx-copy">
-              <span data-aos="fade-up" class="hx-eyebrow"
-                >IT &amp; Civil Solutions</span
-              >
-              <h1 id="hero-heading" data-aos="fade-up" data-aos-delay="100">
-                Ideas Today,<span>Real Solutions</span>Tomorrow
+
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 cs-hero-container">
+          <!-- Curved Service Journey Layer (Desktop & Tablet) -->
+          <div class="cs-journey-layer" aria-hidden="true">
+            <svg class="cs-journey-svg" viewBox="0 0 1200 680" preserveAspectRatio="none">
+              <!-- Secondary lighter wave line -->
+              <path
+                class="cs-journey-echo"
+                d="M 0 480 C 30.0 472.0, 96.0 442.8, 150 440 C 204.0 437.2, 223.2 464.0, 270 466 C 316.8 468.0, 341.0 467.2, 384 450 C 427.0 432.8, 447.8 410.0, 485 380 C 522.2 350.0, 531.4 315.0, 570 300 C 608.6 285.0, 634.8 321.0, 678 305 C 721.2 289.0, 751.6 241.4, 786 220 C 820.4 198.6, 816.4 213.0, 850 198 C 883.6 183.0, 915.0 136.2, 954 145 C 993.0 153.8, 995.8 232.0, 1045 242 C 1094.2 252.0, 1169.0 204.4, 1200 195"
+              />
+
+              <!-- Primary Animated Journey Curve -->
+              <path
+                id="hero-journey-path"
+                class="cs-journey-path"
+                pathLength="1400"
+                d="M 0 520 C 15.0 511.0, 45.0 486.6, 75 475 C 105.0 463.4, 111.0 463.8, 150 462 C 189.0 460.2, 223.2 474.0, 270 466 C 316.8 458.0, 341.0 439.2, 384 422 C 427.0 404.8, 447.8 397.8, 485 380 C 522.2 362.2, 531.4 348.0, 570 333 C 608.6 318.0, 634.8 322.6, 678 305 C 721.2 287.4, 751.6 266.4, 786 245 C 820.4 223.6, 816.4 212.4, 850 198 C 883.6 183.6, 915.0 164.2, 954 173 C 993.0 181.8, 995.8 229.6, 1045 242 C 1094.2 254.4, 1169.0 236.4, 1200 235"
+              />
+
+              <!-- Milestone Dots on the Journey Path -->
+              <circle cx="270" cy="466" r="4.5" class="cs-milestone-dot" />
+              <circle cx="485" cy="380" r="4.5" class="cs-milestone-dot" />
+              <circle cx="678" cy="305" r="4.5" class="cs-milestone-dot" />
+              <circle cx="850" cy="198" r="4.5" class="cs-milestone-dot" />
+              <circle cx="1045" cy="242" r="4.5" class="cs-milestone-dot" />
+            </svg>
+
+            <!-- 1. UI/UX Design -->
+            <a href="it-services/ui-ux-design.html" class="cs-journey-node cs-node-1" style="left: 12.5%; top: 68%;" title="Explore UI/UX Design">
+              <span class="cs-node-circle">
+                <span class="cs-node-pulse" aria-hidden="true"></span>
+                <svg class="cs-node-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
+              </span>
+              <span class="cs-node-label">UI/UX Design</span>
+            </a>
+
+            <!-- 2. Web Development -->
+            <a href="it-services/web-development.html" class="cs-journey-node cs-node-2" style="left: 32%; top: 62%;" title="Explore Web Development">
+              <span class="cs-node-circle">
+                <span class="cs-node-pulse" aria-hidden="true"></span>
+                <svg class="cs-node-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/><line x1="14" y1="4" x2="10" y2="20"/></svg>
+              </span>
+              <span class="cs-node-label">Web<br>Development</span>
+            </a>
+
+            <!-- 3. Digital Marketing -->
+            <a href="it-services/digital-marketing.html" class="cs-journey-node cs-node-3" style="left: 47.5%; top: 49%;" title="Explore Digital Marketing">
+              <span class="cs-node-circle">
+                <span class="cs-node-pulse" aria-hidden="true"></span>
+                <svg class="cs-node-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l18-5v12L3 13v-2z"/><path d="M11.6 16.8a3 3 0 0 1-3.6 1.2 3 3 0 0 1-2.2-2.8"/></svg>
+              </span>
+              <span class="cs-node-label">Digital<br>Marketing</span>
+            </a>
+
+            <!-- 4. No-Code Solutions -->
+            <a href="it-services.html" class="cs-journey-node cs-node-4" style="left: 65.5%; top: 36%;" title="Explore No-Code Solutions">
+              <span class="cs-node-circle">
+                <span class="cs-node-pulse" aria-hidden="true"></span>
+                <svg class="cs-node-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+              </span>
+              <span class="cs-node-label">No-Code<br>Solutions</span>
+            </a>
+
+            <!-- 5. Branding -->
+            <a href="it-services/branding.html" class="cs-journey-node cs-node-5" style="left: 79.5%; top: 25.5%;" title="Explore Branding">
+              <span class="cs-node-circle">
+                <span class="cs-node-pulse" aria-hidden="true"></span>
+                <svg class="cs-node-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="4" y="13" width="4" height="8" rx="1.5"/><rect x="10" y="8" width="4" height="13" rx="1.5"/><rect x="16" y="3" width="4" height="18" rx="1.5"/></svg>
+              </span>
+              <span class="cs-node-label">Branding</span>
+            </a>
+          </div>
+
+          <!-- Two-Column Desktop Hero Layout -->
+          <div class="cs-hero-grid">
+            <!-- Left Side: Copy, CTA & Stats -->
+            <div class="cs-hero-copy">
+              <!-- Eyebrow (No pill box, matches reference) -->
+              <div class="cs-hero-eyebrow">
+                <span>IDEAS</span>
+                <span class="cs-eyebrow-dot" aria-hidden="true">&bull;</span>
+                <span>DESIGN</span>
+                <span class="cs-eyebrow-dot" aria-hidden="true">&bull;</span>
+                <span>DEVELOPMENT</span>
+                <span class="cs-eyebrow-dot" aria-hidden="true">&bull;</span>
+                <span>GROWTH</span>
+              </div>
+
+              <!-- Main Heading (Single H1) -->
+              <h1 id="hero-heading" class="cs-hero-heading">
+                <span class="cs-heading-line cs-heading-navy">Digital Solutions</span>
+                <span class="cs-heading-line">
+                  <span class="cs-heading-navy">for a </span><span class="cs-heading-blue">Better Tomorrow</span>
+                </span>
               </h1>
-              <p data-aos="fade-up" data-aos-delay="200" class="hx-lead">
-                Web, mobile apps, software, digital marketing, drafting and 3D
-                design — all in one place.
+
+              <!-- Supporting Paragraph -->
+              <p class="cs-hero-lead">
+                We design, develop and grow brands with modern technology and creative ideas.
               </p>
-              <div data-aos="fade-up" data-aos-delay="300" class="hx-cta">
+
+              <!-- Primary CTA Button -->
+              <div class="cs-hero-cta-wrap">
                 <a
                   href="contact.html"
-                  class="inline-flex items-center justify-center px-6 py-3 rounded-lg font-semibold transition-all duration-200 shadow-md transform hover:-translate-y-0.5 active:scale-95 active:shadow-inner focus:outline-none focus:ring-2 focus:ring-offset-2 bg-primary text-white hover:bg-opacity-90 focus:ring-primary shadow-primary/30 w-full sm:w-auto shadow-lg shadow-blue-500/20 py-4 text-center justify-center"
-                  >Start Your Project
-                  <i data-lucide="arrow-right" class="w-5 h-5 ml-2"></i
-                ></a>
-                <a
-                  href="services.html"
-                  class="inline-flex items-center justify-center px-6 py-3 rounded-lg font-semibold transition-all duration-200 shadow-md transform hover:-translate-y-0.5 active:scale-95 active:shadow-inner focus:outline-none focus:ring-2 focus:ring-offset-2 bg-transparent text-primary border-2 border-primary hover:bg-primary hover:text-white focus:ring-primary w-full sm:w-auto py-4 text-center justify-center"
-                  >Explore Services</a
+                  class="cs-hero-btn"
+                  aria-label="Let's Work Together - Start your project with Creva Solutions"
                 >
+                  <span>Let's Work Together</span>
+                  <span class="cs-btn-arrow" aria-hidden="true">&rarr;</span>
+                </a>
               </div>
-              <ul data-aos="fade-up" data-aos-delay="400" class="hx-trust">
-                <li>
-                  <span class="hx-trust-icon"
-                    ><i data-lucide="shield-check" class="w-5 h-5"></i></span
-                  ><span
-                    ><strong>Reliable</strong><small>Quality work</small></span
-                  >
-                </li>
-                <li>
-                  <span class="hx-trust-icon"
-                    ><i data-lucide="award" class="w-5 h-5"></i></span
-                  ><span
-                    ><strong>Experienced</strong
-                    ><small>Client-focused</small></span
-                  >
-                </li>
-                <li>
-                  <span class="hx-trust-icon"
-                    ><i data-lucide="trending-up" class="w-5 h-5"></i></span
-                  ><span
-                    ><strong>Results Driven</strong
-                    ><small>Practical solutions</small></span
-                  >
-                </li>
-              </ul>
+
+              <!-- Mobile-Only Journey Bar (Simplified & zero-overflow) -->
+              <div class="cs-mobile-journey" aria-label="Our digital solutions path">
+                <div class="cs-mobile-journey-title">
+                  <span>Digital Growth Journey</span>
+                </div>
+                <div class="cs-mobile-journey-scroll">
+                  <a href="it-services/ui-ux-design.html" class="cs-mobile-node">
+                    <svg class="cs-mobile-node-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
+                    <span>UI/UX Design</span>
+                  </a>
+                  <span class="cs-mobile-arrow" aria-hidden="true">&rarr;</span>
+                  <a href="it-services/web-development.html" class="cs-mobile-node">
+                    <svg class="cs-mobile-node-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                    <span>Web Development</span>
+                  </a>
+                  <span class="cs-mobile-arrow" aria-hidden="true">&rarr;</span>
+                  <a href="it-services/digital-marketing.html" class="cs-mobile-node">
+                    <svg class="cs-mobile-node-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l18-5v12L3 13v-2z"/></svg>
+                    <span>Digital Marketing</span>
+                  </a>
+                  <span class="cs-mobile-arrow" aria-hidden="true">&rarr;</span>
+                  <a href="it-services.html" class="cs-mobile-node">
+                    <svg class="cs-mobile-node-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                    <span>No-Code Solutions</span>
+                  </a>
+                  <span class="cs-mobile-arrow" aria-hidden="true">&rarr;</span>
+                  <a href="it-services/branding.html" class="cs-mobile-node">
+                    <svg class="cs-mobile-node-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="4" y="13" width="4" height="8" rx="1.5"/><rect x="10" y="8" width="4" height="13" rx="1.5"/><rect x="16" y="3" width="4" height="18" rx="1.5"/></svg>
+                    <span>Branding</span>
+                  </a>
+                </div>
+              </div>
+
+              <!-- Bottom-Left Hero Stats -->
+              <div class="cs-hero-stats">
+                <div class="cs-stat-block">
+                  <span class="cs-stat-num">50+</span>
+                  <span class="cs-stat-label">Projects Delivered</span>
+                </div>
+                <div class="cs-stat-divider" aria-hidden="true"></div>
+                <div class="cs-stat-block">
+                  <span class="cs-stat-num">30+</span>
+                  <span class="cs-stat-label">Happy Clients</span>
+                </div>
+                <div class="cs-stat-divider" aria-hidden="true"></div>
+                <div class="cs-stat-block">
+                  <span class="cs-stat-num">3+</span>
+                  <span class="cs-stat-label">Years of Experience</span>
+                </div>
+              </div>
             </div>
-            <div class="hx-visual" data-aos="fade-left" data-aos-delay="200">
-              <div class="hx-laptop">
-                <svg
-                  class="hx-laptop-svg"
-                  viewBox="0 0 480 340"
-                  xmlns="http://www.w3.org/2000/svg"
-                  role="img"
-                  aria-label="Laptop showing the Creva Solutions website: Building Smart Software and Strong Foundations"
-                >
-                  <defs>
-                    <linearGradient id="hxScreen" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0" stop-color="#ffffff" />
-                      <stop offset="1" stop-color="#f3f8ff" />
-                    </linearGradient>
-                    <linearGradient id="hxBase" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0" stop-color="#e2e8f0" />
-                      <stop offset="1" stop-color="#cbd5e1" />
-                    </linearGradient>
-                    <filter
-                      id="hxSh"
-                      x="-10%"
-                      y="-10%"
-                      width="120%"
-                      height="140%"
-                    >
-                      <feDropShadow
-                        dx="0"
-                        dy="14"
-                        stdDeviation="12"
-                        flood-color="#0b1a3c"
-                        flood-opacity=".18"
-                      />
-                    </filter>
-                  </defs>
-                  <ellipse
-                    cx="240"
-                    cy="322"
-                    rx="220"
-                    ry="12"
-                    fill="#0b1a3c"
-                    opacity=".08"
-                  />
-                  <g filter="url(#hxSh)">
-                    <rect
-                      x="34"
-                      y="12"
-                      width="412"
-                      height="270"
-                      rx="16"
-                      fill="#0b1a3c"
-                    />
-                    <rect
-                      x="46"
-                      y="24"
-                      width="388"
-                      height="246"
-                      rx="8"
-                      fill="url(#hxScreen)"
-                    />
-                    <circle cx="240" cy="18" r="2.2" fill="#1e3266" />
-                  </g>
-                  <!-- site nav -->
-                  <rect
-                    x="46"
-                    y="24"
-                    width="388"
-                    height="30"
-                    rx="8"
-                    fill="#fff"
-                  />
-                  <rect x="46" y="46" width="388" height="8" fill="#fff" />
-                  <rect
-                    x="58"
-                    y="32"
-                    width="14"
-                    height="14"
-                    rx="2"
-                    fill="#3C77C3"
-                  />
-                  <text
-                    x="78"
-                    y="43"
-                    font-family="Poppins,Arial"
-                    font-weight="700"
-                    font-size="9"
-                    fill="#0b1a3c"
-                  >
-                    CREVA
-                  </text>
-                  <rect
-                    x="196"
-                    y="36"
-                    width="24"
-                    height="4"
-                    rx="2"
-                    fill="#e5e7eb"
-                  />
-                  <rect
-                    x="228"
-                    y="36"
-                    width="24"
-                    height="4"
-                    rx="2"
-                    fill="#e5e7eb"
-                  />
-                  <rect
-                    x="260"
-                    y="36"
-                    width="24"
-                    height="4"
-                    rx="2"
-                    fill="#e5e7eb"
-                  />
-                  <rect
-                    x="292"
-                    y="36"
-                    width="24"
-                    height="4"
-                    rx="2"
-                    fill="#e5e7eb"
-                  />
-                  <rect
-                    x="380"
-                    y="32"
-                    width="42"
-                    height="14"
-                    rx="4"
-                    fill="#3C77C3"
-                  />
-                  <line x1="46" y1="54" x2="434" y2="54" stroke="#eef2f7" />
-                  <!-- hero copy -->
-                  <rect
-                    x="62"
-                    y="70"
-                    width="86"
-                    height="12"
-                    rx="6"
-                    fill="#dbeafe"
-                  />
-                  <text
-                    x="62"
-                    y="108"
-                    font-family="Poppins,Arial"
-                    font-weight="800"
-                    font-size="17"
-                    fill="#0b1a3c"
-                  >
-                    Building Smart
-                  </text>
-                  <text
-                    x="62"
-                    y="128"
-                    font-family="Poppins,Arial"
-                    font-weight="800"
-                    font-size="17"
-                    fill="#0b1a3c"
-                  >
-                    Software
-                  </text>
-                  <text
-                    x="62"
-                    y="148"
-                    font-family="Poppins,Arial"
-                    font-weight="800"
-                    font-size="17"
-                    fill="#3C77C3"
-                  >
-                    and Strong
-                  </text>
-                  <text
-                    x="62"
-                    y="168"
-                    font-family="Poppins,Arial"
-                    font-weight="800"
-                    font-size="17"
-                    fill="#3C77C3"
-                  >
-                    Foundations
-                  </text>
-                  <rect
-                    x="62"
-                    y="182"
-                    width="120"
-                    height="4"
-                    rx="2"
-                    fill="#e5e7eb"
-                  />
-                  <rect
-                    x="62"
-                    y="192"
-                    width="96"
-                    height="4"
-                    rx="2"
-                    fill="#e5e7eb"
-                  />
-                  <rect
-                    x="62"
-                    y="206"
-                    width="56"
-                    height="18"
-                    rx="5"
-                    fill="#3C77C3"
-                  />
-                  <rect
-                    x="126"
-                    y="206"
-                    width="56"
-                    height="18"
-                    rx="5"
-                    fill="#fff"
-                    stroke="#3C77C3"
-                    stroke-width="1.5"
-                  />
-                  <!-- hero visual on screen -->
-                  <rect
-                    x="236"
-                    y="68"
-                    width="186"
-                    height="118"
-                    rx="10"
-                    fill="#eff6ff"
-                  />
-                  <rect
-                    x="250"
-                    y="82"
-                    width="104"
-                    height="70"
-                    rx="6"
-                    fill="#fff"
-                    stroke="#dbeafe"
-                  />
-                  <polyline
-                    points="258,140 276,122 292,130 312,104 344,96"
-                    fill="none"
-                    stroke="#3C77C3"
-                    stroke-width="2.6"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                  <rect
-                    x="362"
-                    y="82"
-                    width="48"
-                    height="32"
-                    rx="6"
-                    fill="#bfdbfe"
-                  />
-                  <rect
-                    x="362"
-                    y="120"
-                    width="48"
-                    height="32"
-                    rx="6"
-                    fill="#fff"
-                    stroke="#dbeafe"
-                  />
-                  <rect
-                    x="250"
-                    y="160"
-                    width="160"
-                    height="14"
-                    rx="5"
-                    fill="#fff"
-                    stroke="#dbeafe"
-                  />
-                  <rect
-                    x="256"
-                    y="165"
-                    width="60"
-                    height="4"
-                    rx="2"
-                    fill="#bfdbfe"
-                  />
-                  <!-- service tiles -->
-                  <g>
-                    <rect
-                      x="236"
-                      y="198"
-                      width="42"
-                      height="40"
-                      rx="7"
-                      fill="#fff"
-                      stroke="#e5e7eb"
-                    />
-                    <rect
-                      x="244"
-                      y="206"
-                      width="12"
-                      height="12"
-                      rx="3"
-                      fill="#dbeafe"
-                    />
-                    <rect
-                      x="244"
-                      y="226"
-                      width="26"
-                      height="3"
-                      rx="1.5"
-                      fill="#e5e7eb"
-                    />
-                    <rect
-                      x="283"
-                      y="198"
-                      width="42"
-                      height="40"
-                      rx="7"
-                      fill="#fff"
-                      stroke="#e5e7eb"
-                    />
-                    <rect
-                      x="291"
-                      y="206"
-                      width="12"
-                      height="12"
-                      rx="3"
-                      fill="#dbeafe"
-                    />
-                    <rect
-                      x="291"
-                      y="226"
-                      width="26"
-                      height="3"
-                      rx="1.5"
-                      fill="#e5e7eb"
-                    />
-                    <rect
-                      x="330"
-                      y="198"
-                      width="42"
-                      height="40"
-                      rx="7"
-                      fill="#fff"
-                      stroke="#e5e7eb"
-                    />
-                    <rect
-                      x="338"
-                      y="206"
-                      width="12"
-                      height="12"
-                      rx="3"
-                      fill="#dbeafe"
-                    />
-                    <rect
-                      x="338"
-                      y="226"
-                      width="26"
-                      height="3"
-                      rx="1.5"
-                      fill="#e5e7eb"
-                    />
-                    <rect
-                      x="377"
-                      y="198"
-                      width="42"
-                      height="40"
-                      rx="7"
-                      fill="#fff"
-                      stroke="#e5e7eb"
-                    />
-                    <rect
-                      x="385"
-                      y="206"
-                      width="12"
-                      height="12"
-                      rx="3"
-                      fill="#fed7aa"
-                    />
-                    <rect
-                      x="385"
-                      y="226"
-                      width="26"
-                      height="3"
-                      rx="1.5"
-                      fill="#e5e7eb"
-                    />
-                  </g>
-                  <rect
-                    x="62"
-                    y="240"
-                    width="160"
-                    height="18"
-                    rx="6"
-                    fill="#eff6ff"
-                  />
-                  <!-- base -->
-                  <path
-                    d="M14 282 H466 a10 10 0 0 1 -10 12 H24 a10 10 0 0 1 -10 -12 Z"
-                    fill="url(#hxBase)"
-                  />
-                  <rect
-                    x="196"
-                    y="282"
-                    width="88"
-                    height="6"
-                    rx="3"
-                    fill="#b6c2d2"
-                  />
-                </svg>
-              </div>
-              <div class="hx-cards">
-                <a href="it-services/web-development.html" class="hx-card hx-c1"
-                  ><span class="hx-card-icon"
-                    ><i data-lucide="monitor" class="w-5 h-5"></i></span
-                  ><span class="hx-card-text"
-                    ><strong>Web Development</strong
-                    ><small
-                      >Modern, responsive and SEO-ready websites</small
-                    ></span
-                  ></a
-                >
-                <a
-                  href="it-services/mobile-app-development.html"
-                  class="hx-card hx-c2"
-                  ><span class="hx-card-icon"
-                    ><i data-lucide="smartphone" class="w-5 h-5"></i></span
-                  ><span class="hx-card-text"
-                    ><strong>Mobile Applications</strong
-                    ><small>Powerful apps for growing businesses</small></span
-                  ></a
-                >
-                <a
-                  href="it-services/software-development.html"
-                  class="hx-card hx-c3"
-                  ><span class="hx-card-icon"
-                    ><i data-lucide="code" class="w-5 h-5"></i></span
-                  ><span class="hx-card-text"
-                    ><strong>Software Development</strong
-                    ><small
-                      >Custom software solutions for business needs</small
-                    ></span
-                  ></a
-                >
-                <a
-                  href="it-services/digital-marketing.html"
-                  class="hx-card hx-c4"
-                  ><span class="hx-card-icon"
-                    ><i data-lucide="megaphone" class="w-5 h-5"></i></span
-                  ><span class="hx-card-text"
-                    ><strong>Digital Marketing</strong
-                    ><small
-                      >SEO, social media and performance marketing</small
-                    ></span
-                  ></a
-                >
-                <a href="it-services/ui-ux-design.html" class="hx-card hx-c5"
-                  ><span class="hx-card-icon"
-                    ><i data-lucide="pen-tool" class="w-5 h-5"></i></span
-                  ><span class="hx-card-text"
-                    ><strong>UI/UX Design</strong
-                    ><small
-                      >Simple and engaging digital experiences</small
-                    ></span
-                  ></a
-                >
-                <a href="civil-services.html" class="hx-card hx-c6"
-                  ><span class="hx-card-icon"
-                    ><i data-lucide="hard-hat" class="w-5 h-5"></i></span
-                  ><span class="hx-card-text"
-                    ><strong>Civil Designing</strong
-                    ><small>2D drafting, planning and 3D design</small></span
-                  ></a
-                >
+
+            <!-- Right Side: Exact Collaborative Teamwork Illustration -->
+            <div class="cs-hero-visual">
+              <div class="cs-team-img-wrap">
+                <img
+                  src="assets/Collaborative Teamwork Around a Laptop.png"
+                  alt="Creva Solutions collaborative digital technology and development team working around a laptop"
+                  class="cs-team-img"
+                  loading="eager"
+                  fetchpriority="high"
+                  width="1599"
+                  height="984"
+                />
               </div>
             </div>
           </div>
@@ -2169,6 +1864,7 @@
     <script defer src="https://unpkg.com/lucide@latest"></script>
     <script defer src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script defer src="js/script.js"></script>
+    <script defer src="js/hero.js"></script>
 
     <!-- Supabase & CMS Content -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>

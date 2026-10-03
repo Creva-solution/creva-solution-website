@@ -1,0 +1,3754 @@
+/* ==========================================================================
+
+
+
+   Creva Solutions - Modern Agency Hero Section Styles
+
+
+
+   Pixel-perfect match to reference UI design
+
+
+
+   ========================================================================== */
+
+
+
+
+
+
+
+:root {
+
+
+
+  --hero-primary: #1677E8;
+
+
+
+  --hero-primary-hover: #1263c4;
+
+
+
+  --hero-primary-glow: rgba(22, 119, 232, 0.35);
+
+
+
+  --hero-primary-light: rgba(22, 119, 232, 0.08);
+
+
+
+  --hero-navy: #071A3D;
+
+
+
+  --hero-navy-muted: #4A5568;
+
+
+
+  --hero-navy-light: #64748B;
+
+
+
+  --hero-bg-white: #ffffff;
+
+
+
+  --hero-font-heading: 'Poppins', sans-serif;
+
+
+
+  --hero-font-body: 'Inter', sans-serif;
+
+
+
+}
+
+
+
+
+
+
+
+/* Base Hero Section */
+
+
+
+.cs-hero {
+
+
+
+  position: relative;
+
+
+
+  background-color: var(--hero-bg-white);
+
+
+
+  overflow: hidden;
+
+
+
+  width: 100%;
+
+
+
+  padding: 1.5rem 0 0;
+
+
+
+}
+
+
+
+
+
+
+
+@media (min-width: 1024px) {
+
+
+
+  .cs-hero {
+
+
+
+    min-height: min(53rem, calc(100vh - 5rem));
+
+
+
+    display: flex;
+
+
+
+    align-items: center;
+
+
+
+    padding: 2rem 0 0;
+
+
+
+  }
+
+
+
+}
+
+
+
+
+
+
+
+/* Background Artwork Layer: Soft pale blue architectural shapes & plant */
+
+
+
+.cs-hero-bg {
+
+
+
+  position: absolute;
+
+
+
+  inset: 0;
+
+
+
+  pointer-events: none;
+
+
+
+  z-index: 1;
+
+
+
+  overflow: hidden;
+
+
+
+}
+
+
+
+
+
+
+
+.cs-hero-bg-svg {
+
+
+
+  width: 100%;
+
+
+
+  height: 100%;
+
+
+
+  position: absolute;
+
+
+
+  inset: 0;
+
+
+
+  pointer-events: none;
+
+
+
+}
+
+
+
+
+
+
+
+/* Container Structure */
+
+
+
+.cs-hero-container {
+
+
+
+  width: 100%;
+
+
+
+  position: relative;
+
+
+
+  z-index: 10;
+
+
+
+}
+
+
+
+
+
+
+
+.cs-hero-grid {
+
+
+
+  display: grid;
+
+
+
+  grid-template-columns: 1fr;
+
+
+
+  align-items: center;
+
+
+
+  position: relative;
+
+
+
+}
+
+
+
+
+
+
+
+@media (min-width: 1024px) {
+
+
+
+  .cs-hero-grid {
+
+
+
+    grid-template-columns: 1fr 1fr;
+
+
+
+    gap: 1.5rem;
+
+
+
+  }
+
+
+
+}
+
+
+
+
+
+
+
+@media (min-width: 1280px) {
+
+
+
+  .cs-hero-grid {
+
+
+
+    grid-template-columns: 1.05fr 0.95fr;
+
+
+
+    gap: 2rem;
+
+
+
+  }
+
+
+
+}
+
+
+
+
+
+
+
+/* Left Side - Typography & CTA */
+
+
+
+.cs-hero-copy {
+
+
+
+  position: relative;
+
+
+
+  z-index: 20;
+
+
+
+  padding: 1rem 0 2rem;
+
+
+
+}
+
+
+
+
+
+
+
+@media (min-width: 1024px) {
+
+
+
+  .cs-hero-copy {
+
+
+
+    padding: 2rem 0 3rem;
+
+
+
+  }
+
+
+
+}
+
+
+
+
+
+
+
+/* Eyebrow - Clean uppercase text without box, exact match to reference */
+
+
+
+.cs-hero-eyebrow {
+
+
+
+  display: inline-flex;
+
+
+
+  align-items: center;
+
+
+
+  gap: 0.65rem;
+
+
+
+  margin-bottom: 1.25rem;
+
+
+
+  color: #7E8B9B;
+
+
+
+  font-family: var(--hero-font-heading);
+
+
+
+  font-size: 0.8125rem;
+
+
+
+  font-weight: 700;
+
+
+
+  letter-spacing: 0.16em;
+
+
+
+  text-transform: uppercase;
+
+
+
+}
+
+
+
+
+
+
+
+.cs-eyebrow-dot {
+
+
+
+  color: #A0AEC0;
+
+
+
+  font-size: 0.8em;
+
+
+
+}
+
+
+
+
+
+
+
+/* Main Heading: exactly 2 lines */
+
+
+
+.cs-hero-heading {
+
+
+
+  font-family: var(--hero-font-heading);
+
+
+
+  font-weight: 800;
+
+
+
+  color: var(--hero-navy);
+
+
+
+  font-size: clamp(2.35rem, 4.3vw, 3.85rem);
+
+
+
+  line-height: 1.1;
+
+
+
+  letter-spacing: -0.03em;
+
+
+
+  margin: 0;
+
+
+
+  opacity: 1;
+
+
+
+}
+
+
+
+
+
+
+
+.cs-heading-line {
+
+
+
+  display: block;
+
+
+
+}
+
+
+
+
+
+
+
+.cs-heading-line:last-child {
+
+
+
+  white-space: nowrap;
+
+
+
+}
+
+
+
+
+
+
+
+.cs-heading-navy {
+
+
+
+  color: var(--hero-navy);
+
+
+
+}
+
+
+
+
+
+
+
+.cs-heading-blue {
+
+
+
+  color: var(--hero-primary);
+
+
+
+}
+
+
+
+
+
+
+
+/* Supporting Paragraph */
+
+
+
+.cs-hero-lead {
+
+
+
+  font-family: var(--hero-font-body);
+
+
+
+  font-weight: 400;
+
+
+
+  font-size: clamp(1.05rem, 1.2vw, 1.18rem);
+
+
+
+  line-height: 1.6;
+
+
+
+  color: var(--hero-navy-muted);
+
+
+
+  max-width: 29rem;
+
+
+
+  margin: 1.15rem 0 1.75rem;
+
+
+
+  opacity: 1;
+
+
+
+}
+
+
+
+
+
+
+
+/* Primary CTA Button - Blue pill with subtle glow */
+
+
+
+.cs-hero-cta-wrap {
+
+
+
+  display: flex;
+
+
+
+  align-items: center;
+
+
+
+  flex-wrap: wrap;
+
+
+
+  gap: 1rem;
+
+
+
+  margin-bottom: 5.5rem;
+
+
+
+}
+
+
+
+
+
+
+
+.cs-hero-btn {
+
+
+
+  display: inline-flex;
+
+
+
+  align-items: center;
+
+
+
+  justify-content: center;
+
+
+
+  gap: 0.65rem;
+
+
+
+  padding: 0.875rem 2.25rem;
+
+
+
+  border-radius: 9999px;
+
+
+
+  background-color: var(--hero-primary);
+
+
+
+  color: #ffffff;
+
+
+
+  font-family: var(--hero-font-heading);
+
+
+
+  font-weight: 600;
+
+
+
+  font-size: 1.05rem;
+
+
+
+  text-decoration: none;
+
+
+
+  box-shadow: 0 8px 22px var(--hero-primary-glow);
+
+
+
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), 
+
+
+
+              background-color 0.2s ease, 
+
+
+
+              box-shadow 0.25s ease;
+
+
+
+  cursor: pointer;
+
+
+
+  border: none;
+
+
+
+  outline: none;
+
+
+
+}
+
+
+
+
+
+
+
+.cs-hero-btn:hover,
+
+
+
+.cs-hero-btn:focus-visible {
+
+
+
+  background-color: var(--hero-primary-hover);
+
+
+
+  transform: translateY(-2px);
+
+
+
+  box-shadow: 0 12px 28px rgba(22, 119, 232, 0.45);
+
+
+
+  color: #ffffff;
+
+
+
+}
+
+
+
+
+
+
+
+.cs-hero-btn:focus-visible {
+
+
+
+  outline: 2px solid var(--hero-primary);
+
+
+
+  outline-offset: 3px;
+
+
+
+}
+
+
+
+
+
+
+
+.cs-btn-arrow {
+
+
+
+  display: inline-block;
+
+
+
+  font-size: 1.15em;
+
+
+
+  line-height: 1;
+
+
+
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+
+
+
+}
+
+
+
+
+
+
+
+.cs-hero-btn:hover .cs-btn-arrow,
+
+
+
+.cs-hero-btn:focus-visible .cs-btn-arrow {
+
+
+
+  transform: translateX(4px);
+
+
+
+}
+
+
+
+
+
+
+
+/* Hero Stats - Horizontal with vertical dividers */
+
+
+
+.cs-hero-stats {
+
+
+
+  display: flex;
+
+
+
+  align-items: flex-start;
+
+
+
+  gap: 1.75rem;
+
+
+
+  margin-top: 1.5rem;
+
+
+
+  width: 100%;
+
+
+
+  max-width: 32rem;
+
+
+
+}
+
+
+
+
+
+
+
+.cs-stat-block {
+
+
+
+  display: flex;
+
+
+
+  flex-direction: column;
+
+
+
+}
+
+
+
+
+
+
+
+.cs-stat-num {
+
+
+
+  font-family: var(--hero-font-heading);
+
+
+
+  font-weight: 800;
+
+
+
+  font-size: clamp(1.95rem, 2.6vw, 2.45rem);
+
+
+
+  line-height: 1;
+
+
+
+  color: var(--hero-navy);
+
+
+
+  letter-spacing: -0.025em;
+
+
+
+}
+
+
+
+
+
+
+
+.cs-stat-label {
+
+
+
+  font-family: var(--hero-font-body);
+
+
+
+  font-weight: 500;
+
+
+
+  font-size: 0.8125rem;
+
+
+
+  color: var(--hero-navy-light);
+
+
+
+  line-height: 1.3;
+
+
+
+  margin-top: 0.45rem;
+
+
+
+}
+
+
+
+
+
+
+
+.cs-stat-divider {
+
+
+
+  width: 1px;
+
+
+
+  height: 2.75rem;
+
+
+
+  background-color: #E2E8F0;
+
+
+
+  flex-shrink: 0;
+
+
+
+  margin-top: 0.2rem;
+
+
+
+}
+
+
+
+
+
+
+
+/* Right Side - Team Illustration */
+
+
+
+.cs-hero-visual {
+
+
+
+  position: relative;
+
+
+
+  z-index: 15;
+
+
+
+  display: flex;
+
+
+
+  align-items: flex-end;
+
+
+
+  justify-content: center;
+
+
+
+  width: 100%;
+
+
+
+}
+
+
+
+
+
+
+
+@media (min-width: 1024px) {
+
+
+
+  .cs-hero-visual {
+
+
+
+    justify-content: flex-end;
+
+
+
+    align-self: flex-end;
+
+
+
+    margin-top: auto;
+
+
+
+  }
+
+
+
+}
+
+
+
+
+
+
+
+.cs-team-img-wrap {
+
+
+
+  position: relative;
+
+
+
+  width: 100%;
+
+
+
+  max-width: 52rem;
+
+
+
+  display: flex;
+
+
+
+  align-items: flex-end;
+
+
+
+  justify-content: flex-end;
+
+
+
+  margin-right: -1rem;
+
+
+
+}
+
+
+
+
+
+
+
+.cs-team-img {
+
+
+
+  display: block;
+
+
+
+  width: 100%;
+
+
+
+  height: auto;
+
+
+
+  object-fit: contain;
+
+
+
+  object-position: bottom right;
+
+
+
+  border: none;
+
+
+
+  background: transparent;
+
+
+
+  /* Entrance animation */
+
+
+
+  animation: csTeamEntrance 900ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+
+
+
+  will-change: transform, opacity;
+
+
+
+}
+
+
+
+
+
+
+
+@keyframes csTeamEntrance {
+
+
+
+  0% {
+
+
+
+    opacity: 0;
+
+
+
+    transform: translateY(30px) scale(0.96);
+
+
+
+  }
+
+
+
+  100% {
+
+
+
+    opacity: 1;
+
+
+
+    transform: translateY(0) scale(1);
+
+
+
+  }
+
+
+
+}
+
+
+
+
+
+
+
+/* ==========================================================================
+
+
+
+   Service Journey / Curved Line Layer (Matching Reference Design)
+
+
+
+   ========================================================================== */
+
+
+
+.cs-journey-layer {
+
+
+
+  position: absolute;
+
+
+
+  inset: 0;
+
+
+
+  pointer-events: none;
+
+
+
+  z-index: 12;
+
+
+
+  overflow: visible;
+
+
+
+  display: none;
+
+
+
+}
+
+
+
+
+
+
+
+@media (min-width: 900px) {
+
+
+
+  .cs-journey-layer {
+
+
+
+    display: block !important;
+
+
+
+  }
+
+
+
+}
+
+
+
+
+
+
+
+/* The SVG line canvas */
+
+
+
+.cs-journey-svg {
+
+
+
+  width: 100%;
+
+
+
+  height: 100%;
+
+
+
+  position: absolute;
+
+
+
+  inset: 0;
+
+
+
+  overflow: visible;
+
+
+
+}
+
+
+
+
+
+
+
+/* Secondary echo/parallel wave line */
+
+
+
+.cs-journey-echo {
+
+
+
+  fill: none;
+
+
+
+  stroke: #C9E1FB;
+
+
+
+  stroke-width: 1.8;
+
+
+
+  stroke-linecap: round;
+
+
+
+  stroke-linejoin: round;
+
+
+
+}
+
+
+
+
+
+
+
+/* Animated active main blue curve */
+
+
+
+.cs-journey-path {
+
+
+
+  fill: none;
+
+
+
+  stroke: var(--hero-primary);
+
+
+
+  stroke-width: 2.8;
+
+
+
+  stroke-linecap: round;
+
+
+
+  stroke-linejoin: round;
+
+
+
+  stroke-dasharray: 1550;
+
+
+
+  stroke-dashoffset: 1550;
+
+
+
+  animation: csDrawPath 2.7s cubic-bezier(0.25, 1, 0.45, 1) forwards;
+
+
+
+  will-change: stroke-dashoffset;
+
+
+
+}
+
+
+
+
+
+
+
+@keyframes csDrawPath {
+
+
+
+  0% {
+
+
+
+    stroke-dashoffset: 1550;
+
+
+
+  }
+
+
+
+  100% {
+
+
+
+    stroke-dashoffset: 0;
+
+
+
+  }
+
+
+
+}
+
+
+
+
+
+
+
+/* Small Milestone Dots on the Path */
+
+
+
+.cs-milestone-dot {
+
+
+
+  fill: var(--hero-primary);
+
+
+
+  stroke: #ffffff;
+
+
+
+  stroke-width: 2.5;
+
+
+
+  transition: transform 0.2s ease;
+
+
+
+}
+
+
+
+
+
+
+
+/* Service Nodes */
+
+
+
+.cs-journey-node {
+
+
+
+  position: absolute;
+
+
+
+  transform: translate(-50%, -50%);
+
+
+
+  display: flex;
+
+
+
+  flex-direction: column;
+
+
+
+  align-items: center;
+
+
+
+  text-decoration: none;
+
+
+
+  pointer-events: auto;
+
+
+
+  z-index: 25;
+
+
+
+  opacity: 1;
+
+
+
+  cursor: pointer;
+
+
+
+  outline: none;
+
+
+
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+
+
+
+  animation: csNodeAppear 600ms cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+
+
+
+}
+
+
+
+
+
+
+
+.cs-journey-node:hover,
+
+
+
+.cs-journey-node:focus-visible {
+
+
+
+  transform: translate(-50%, -50%) scale(1.08) translateY(-2px);
+
+
+
+}
+
+
+
+
+
+
+
+/* Sequential node animation delays */
+
+
+
+.cs-node-1 { animation-delay: 0.2s; }
+
+
+
+.cs-node-2 { animation-delay: 0.65s; }
+
+
+
+.cs-node-3 { animation-delay: 1.2s; }
+
+
+
+.cs-node-4 { animation-delay: 1.75s; }
+
+
+
+.cs-node-5 { animation-delay: 2.3s; }
+
+
+
+
+
+
+
+@keyframes csNodeAppear {
+
+
+
+  0% {
+
+
+
+    opacity: 0;
+
+
+
+    transform: translate(-50%, -50%) scale(0.7);
+
+
+
+  }
+
+
+
+  100% {
+
+
+
+    opacity: 1;
+
+
+
+    transform: translate(-50%, -50%) scale(1);
+
+
+
+  }
+
+
+
+}
+
+
+
+
+
+
+
+/* Circular icon container - Matches reference: white circle with soft shadow */
+
+
+
+.cs-node-circle {
+
+
+
+  position: relative;
+
+
+
+  display: flex;
+
+
+
+  align-items: center;
+
+
+
+  justify-content: center;
+
+
+
+  width: 3.1rem;
+
+
+
+  height: 3.1rem;
+
+
+
+  border-radius: 9999px;
+
+
+
+  background-color: #ffffff;
+
+
+
+  border: 2px solid #EBF3FC;
+
+
+
+  color: var(--hero-primary);
+
+
+
+  box-shadow: 0 6px 18px rgba(22, 119, 232, 0.16), 0 2px 6px rgba(0, 0, 0, 0.05);
+
+
+
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+
+
+
+}
+
+
+
+
+
+
+
+.cs-journey-node:hover .cs-node-circle,
+
+
+
+.cs-journey-node:focus-visible .cs-node-circle {
+
+
+
+  border-color: var(--hero-primary);
+
+
+
+  box-shadow: 0 8px 24px rgba(22, 119, 232, 0.3), 0 0 0 4px rgba(22, 119, 232, 0.12);
+
+
+
+}
+
+
+
+
+
+
+
+/* Pulse animation on circle */
+
+
+
+.cs-node-pulse {
+
+
+
+  position: absolute;
+
+
+
+  inset: -3px;
+
+
+
+  border-radius: 9999px;
+
+
+
+  border: 1.5px solid var(--hero-primary);
+
+
+
+  opacity: 0;
+
+
+
+  pointer-events: none;
+
+
+
+  animation: csNodePulse 3s cubic-bezier(0.24, 0, 0.38, 1) infinite;
+
+
+
+}
+
+
+
+
+
+
+
+.cs-node-1 .cs-node-pulse { animation-delay: 0.5s; }
+
+
+
+.cs-node-2 .cs-node-pulse { animation-delay: 1.0s; }
+
+
+
+.cs-node-3 .cs-node-pulse { animation-delay: 1.5s; }
+
+
+
+.cs-node-4 .cs-node-pulse { animation-delay: 2.1s; }
+
+
+
+.cs-node-5 .cs-node-pulse { animation-delay: 2.7s; }
+
+
+
+
+
+
+
+@keyframes csNodePulse {
+
+
+
+  0% {
+
+
+
+    transform: scale(0.95);
+
+
+
+    opacity: 0.7;
+
+
+
+  }
+
+
+
+  50% {
+
+
+
+    transform: scale(1.35);
+
+
+
+    opacity: 0;
+
+
+
+  }
+
+
+
+  100% {
+
+
+
+    transform: scale(1.35);
+
+
+
+    opacity: 0;
+
+
+
+  }
+
+
+
+}
+
+
+
+
+
+
+
+.cs-node-icon {
+
+
+
+  width: 1.35rem;
+
+
+
+  height: 1.35rem;
+
+
+
+  display: block;
+
+
+
+}
+
+
+
+
+
+
+
+/* Service label - Matches reference: clean navy text directly below circle */
+
+
+
+.cs-node-label {
+
+
+
+  margin-top: 0.5rem;
+
+
+
+  font-family: var(--hero-font-heading);
+
+
+
+  font-size: 0.8125rem;
+
+
+
+  font-weight: 700;
+
+
+
+  color: var(--hero-navy);
+
+
+
+  text-align: center;
+
+
+
+  line-height: 1.22;
+
+
+
+  white-space: nowrap;
+
+
+
+  pointer-events: none;
+
+
+
+  transition: color 0.2s ease;
+
+
+
+}
+
+
+
+
+
+
+
+.cs-journey-node:hover .cs-node-label,
+
+
+
+.cs-journey-node:focus-visible .cs-node-label {
+
+
+
+  color: var(--hero-primary);
+
+
+
+}
+
+
+
+
+
+
+
+/* ==========================================================================
+
+
+
+   Mobile-Friendly Service Journey Ticker
+
+
+
+   ========================================================================== */
+
+
+
+.cs-mobile-journey {
+
+
+
+  display: flex;
+
+
+
+  flex-direction: column;
+
+
+
+  gap: 0.75rem;
+
+
+
+  margin: 1.75rem 0 1.25rem;
+
+
+
+  width: 100%;
+
+
+
+}
+
+
+
+
+
+
+
+@media (min-width: 900px) {
+
+
+
+  .cs-mobile-journey {
+
+
+
+    display: none !important;
+
+
+
+  }
+
+
+
+}
+
+
+
+
+
+
+
+.cs-mobile-journey-title {
+
+
+
+  font-family: var(--hero-font-heading);
+
+
+
+  font-size: 0.7rem;
+
+
+
+  font-weight: 700;
+
+
+
+  text-transform: uppercase;
+
+
+
+  letter-spacing: 0.12em;
+
+
+
+  color: var(--hero-navy-light);
+
+
+
+  display: flex;
+
+
+
+  align-items: center;
+
+
+
+  gap: 0.4rem;
+
+
+
+}
+
+
+
+
+
+
+
+.cs-mobile-journey-title::after {
+
+
+
+  content: "";
+
+
+
+  flex: 1;
+
+
+
+  height: 1px;
+
+
+
+  background-color: #E2E8F0;
+
+
+
+}
+
+
+
+
+
+
+
+.cs-mobile-journey-scroll {
+
+
+
+  display: flex;
+
+
+
+  align-items: center;
+
+
+
+  gap: 0.5rem;
+
+
+
+  overflow-x: auto;
+
+
+
+  padding-bottom: 0.5rem;
+
+
+
+  scrollbar-width: none;
+
+
+
+  -ms-overflow-style: none;
+
+
+
+}
+
+
+
+
+
+
+
+.cs-mobile-journey-scroll::-webkit-scrollbar {
+
+
+
+  display: none;
+
+
+
+}
+
+
+
+
+
+
+
+.cs-mobile-node {
+
+
+
+  display: inline-flex;
+
+
+
+  align-items: center;
+
+
+
+  gap: 0.5rem;
+
+
+
+  padding: 0.45rem 0.85rem;
+
+
+
+  border-radius: 9999px;
+
+
+
+  background: #ffffff;
+
+
+
+  border: 1px solid #D0E4FA;
+
+
+
+  box-shadow: 0 2px 6px rgba(7, 26, 61, 0.05);
+
+
+
+  font-family: var(--hero-font-heading);
+
+
+
+  font-size: 0.75rem;
+
+
+
+  font-weight: 600;
+
+
+
+  color: var(--hero-navy);
+
+
+
+  text-decoration: none;
+
+
+
+  white-space: nowrap;
+
+
+
+  flex-shrink: 0;
+
+
+
+}
+
+
+
+
+
+
+
+.cs-mobile-node-icon {
+
+
+
+  width: 1rem;
+
+
+
+  height: 1rem;
+
+
+
+  color: var(--hero-primary);
+
+
+
+}
+
+
+
+
+
+
+
+.cs-mobile-arrow {
+
+
+
+  color: var(--hero-primary);
+
+
+
+  opacity: 0.4;
+
+
+
+  font-size: 0.8rem;
+
+
+
+  flex-shrink: 0;
+
+
+
+}
+
+
+
+
+
+
+
+/* ==========================================================================
+
+
+
+   Responsive Adaptations
+
+
+
+   ========================================================================== */
+
+
+
+
+
+
+
+/* Tablet (768px - 1023px) */
+
+
+
+@media (min-width: 768px) and (max-width: 1023px) {
+
+
+
+  .cs-hero {
+
+
+
+    padding-top: 2rem;
+
+
+
+  }
+
+
+
+
+
+
+
+  .cs-hero-heading {
+
+
+
+    font-size: 2.9rem;
+
+
+
+  }
+
+
+
+
+
+
+
+  .cs-hero-visual {
+
+
+
+    margin-top: 1.5rem;
+
+
+
+  }
+
+
+
+
+
+
+
+  .cs-team-img-wrap {
+
+
+
+    max-width: 36rem;
+
+
+
+  }
+
+
+
+
+
+
+
+  .cs-node-circle {
+
+
+
+    width: 2.6rem;
+
+
+
+    height: 2.6rem;
+
+
+
+  }
+
+
+
+
+
+
+
+  .cs-node-icon {
+
+
+
+    width: 1.15rem;
+
+
+
+    height: 1.15rem;
+
+
+
+  }
+
+
+
+
+
+
+
+  .cs-node-label {
+
+
+
+    font-size: 0.72rem;
+
+
+
+  }
+
+
+
+}
+
+
+
+
+
+
+
+/* Mobile (< 768px) */
+
+
+
+@media (max-width: 767px) {
+
+
+
+  .cs-hero {
+
+
+
+    padding-top: 1.5rem;
+
+
+
+  }
+
+
+
+
+
+
+
+  .cs-hero-copy {
+
+
+
+    padding-bottom: 0.5rem;
+
+
+
+  }
+
+
+
+
+
+
+
+  .cs-hero-heading {
+
+
+
+    font-size: 2.35rem;
+
+
+
+    line-height: 1.12;
+
+
+
+  }
+
+
+
+
+
+
+
+  .cs-hero-heading .cs-heading-line:last-child {
+
+
+
+    white-space: normal;
+
+
+
+  }
+
+
+
+
+
+
+
+  .cs-hero-lead {
+
+
+
+    font-size: 1rem;
+
+
+
+    margin: 1rem 0 1.5rem;
+
+
+
+  }
+
+
+
+
+
+
+
+  .cs-hero-cta-wrap {
+
+
+
+    margin-bottom: 1.5rem;
+
+
+
+  }
+
+
+
+
+
+
+
+  .cs-hero-btn {
+
+
+
+    width: 100%;
+
+
+
+    justify-content: center;
+
+
+
+    padding: 0.875rem 2rem;
+
+
+
+  }
+
+
+
+
+
+
+
+  .cs-hero-visual {
+
+
+
+    margin-top: 1.5rem;
+
+
+
+  }
+
+
+
+
+
+
+
+  .cs-team-img-wrap {
+
+
+
+    max-width: 28rem;
+
+
+
+    margin: 0 auto;
+
+
+
+  }
+
+
+
+
+
+
+
+  .cs-hero-stats {
+
+
+
+    margin-top: 2rem;
+
+
+
+    gap: 0.75rem;
+
+
+
+  }
+
+
+
+
+
+
+
+  .cs-stat-num {
+
+
+
+    font-size: 1.75rem;
+
+
+
+  }
+
+
+
+
+
+
+
+  .cs-stat-label {
+
+
+
+    font-size: 0.72rem;
+
+
+
+  }
+
+
+
+
+
+
+
+  .cs-stat-divider {
+
+
+
+    height: 2.2rem;
+
+
+
+  }
+
+
+
+}
+
+
+
+
+
+
+
+/* Very Small Mobile (< 420px) */
+
+
+
+@media (max-width: 419px) {
+
+
+
+  .cs-hero-eyebrow {
+
+
+
+    font-size: 0.72rem;
+
+
+
+    letter-spacing: 0.12em;
+
+
+
+  }
+
+
+
+
+
+
+
+  .cs-hero-heading {
+
+
+
+    font-size: 2rem;
+
+
+
+  }
+
+
+
+
+
+
+
+  .cs-hero-stats {
+
+
+
+    gap: 0.5rem;
+
+
+
+  }
+
+
+
+
+
+
+
+  .cs-stat-num {
+
+
+
+    font-size: 1.5rem;
+
+
+
+  }
+
+
+
+
+
+
+
+  .cs-stat-label {
+
+
+
+    font-size: 0.65rem;
+
+
+
+  }
+
+
+
+}
+
+
+
+
+
+
+
+/* Accessibility: Prefers Reduced Motion */
+
+
+
+@media (prefers-reduced-motion: reduce) {
+
+
+
+  .cs-team-img {
+
+
+
+    animation: none !important;
+
+
+
+    opacity: 1 !important;
+
+
+
+    transform: none !important;
+
+
+
+  }
+
+
+
+
+
+
+
+    .cs-journey-path {
+
+
+
+    animation: none !important;
+
+
+
+    stroke-dashoffset: 0 !important;
+
+
+
+  }
+
+
+
+
+
+
+
+
+  .cs-journey-node {
+
+
+
+    animation: none !important;
+
+
+
+    opacity: 1 !important;
+
+
+
+    transform: translate(-50%, -50%) !important;
+
+
+
+  }
+
+
+
+
+
+
+
+  .cs-node-pulse {
+
+
+
+    animation: none !important;
+
+
+
+    opacity: 0 !important;
+
+
+
+  }
+
+
+
+
+
+
+
+  .cs-hero-btn,
+
+
+
+  .cs-btn-arrow,
+
+
+
+  .cs-journey-node,
+
+
+
+  .cs-node-circle {
+
+
+
+    transition: none !important;
+
+
+
+  }
+
+
+
+}
+
+
+
+
+
+/* ==========================================================================
+
+   Creva Solutions Hero - Final alignment / responsive corrections
+
+   ========================================================================== */
+
+
+
+.cs-hero {
+
+  min-height: 0;
+
+  padding: 2rem 0 0;
+
+}
+
+
+
+.cs-hero-container {
+
+  max-width: 1440px;
+
+  margin-inline: auto;
+
+}
+
+
+
+.cs-hero-grid {
+
+  grid-template-columns: minmax(0, 1.02fr) minmax(0, 0.98fr);
+
+  gap: 1rem;
+
+  min-height: 700px;
+
+  align-items: end;
+
+}
+
+
+
+.cs-hero-copy {
+
+  padding: 4.5rem 0 4.25rem;
+
+  align-self: center;
+
+}
+
+
+
+.cs-hero-eyebrow {
+
+  margin-bottom: 1.1rem;
+
+}
+
+
+
+.cs-hero-heading {
+
+  font-size: clamp(3.15rem, 4.15vw, 4.35rem);
+
+  line-height: 1.08;
+
+  max-width: 48rem;
+
+}
+
+
+
+.cs-hero-lead {
+
+  max-width: 33rem;
+
+  margin-top: 1.25rem;
+
+  margin-bottom: 1.7rem;
+
+  font-size: clamp(1.05rem, 1.25vw, 1.2rem);
+
+}
+
+
+
+.cs-hero-cta-wrap {
+
+  margin-bottom: 3.25rem;
+
+}
+
+
+
+.cs-hero-btn {
+
+  min-height: 3.85rem;
+
+  padding-inline: 2.35rem;
+
+}
+
+
+
+.cs-hero-stats {
+
+  margin-top: 0;
+
+  max-width: 34rem;
+
+}
+
+
+
+.cs-hero-visual {
+
+  min-height: 700px;
+
+  align-self: end;
+
+  justify-content: flex-end;
+
+  overflow: visible;
+
+}
+
+
+
+.cs-team-img-wrap {
+
+  width: min(100%, 55rem);
+
+  max-width: none;
+
+  margin-right: -2.5rem;
+
+  margin-bottom: -0.5rem;
+
+}
+
+
+
+.cs-team-img {
+
+  width: 100%;
+
+  max-height: 560px;
+
+  object-fit: contain;
+
+  object-position: bottom right;
+
+}
+
+
+
+/* Keep the journey behind the labels but above the ambient background. */
+
+.cs-journey-layer {
+
+  inset: 0;
+
+  z-index: 13;
+
+}
+
+
+
+.cs-journey-path {
+
+  stroke-width: 2.6;
+
+  stroke-dasharray: 1400;
+
+  stroke-dashoffset: 1400;
+
+  animation-duration: 2.9s;
+
+}
+
+
+
+
+.cs-journey-echo {
+
+  stroke-width: 1.35;
+
+  opacity: 0.72;
+
+}
+
+
+
+.cs-journey-node {
+
+  z-index: 30;
+
+}
+
+
+
+.cs-node-circle {
+
+  width: 3.05rem;
+
+  height: 3.05rem;
+
+}
+
+
+
+.cs-node-label {
+
+  margin-top: 0.4rem;
+
+  font-size: 0.78rem;
+
+}
+
+
+
+/* Prevent the decorative journey from visually competing with the copy. */
+
+.cs-journey-layer::after {
+
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+
+  top: 0;
+
+  width: 42%;
+
+  height: 100%;
+
+  background: linear-gradient(90deg, rgba(255,255,255,0.78) 0%, rgba(255,255,255,0.42) 72%, rgba(255,255,255,0) 100%);
+
+  pointer-events: none;
+
+  z-index: 1;
+
+}
+
+
+
+.cs-journey-svg,
+
+.cs-journey-node {
+
+  position: absolute;
+
+}
+
+
+
+.cs-journey-svg { z-index: 0; }
+
+.cs-journey-node { z-index: 2; }
+
+
+
+/* Tablet */
+
+@media (min-width: 768px) and (max-width: 1023px) {
+
+  .cs-hero {
+
+    padding-top: 1.25rem;
+
+  }
+
+
+
+  .cs-hero-grid {
+
+    grid-template-columns: 1fr;
+
+    min-height: auto;
+
+    gap: 0;
+
+  }
+
+
+
+  .cs-hero-copy {
+
+    padding: 3rem 0 1rem;
+
+    align-self: auto;
+
+  }
+
+
+
+  .cs-hero-heading {
+
+    font-size: clamp(2.8rem, 6vw, 3.6rem);
+
+  }
+
+
+
+  .cs-hero-visual {
+
+    min-height: 0;
+
+    margin-top: 0;
+
+  }
+
+
+
+  .cs-team-img-wrap {
+
+    max-width: 42rem;
+
+    margin: 0 auto;
+
+  }
+
+
+
+  .cs-journey-layer {
+
+    display: none !important;
+
+  }
+
+}
+
+
+
+/* Mobile */
+
+@media (max-width: 767px) {
+
+  .cs-hero {
+
+    padding: 1.25rem 0 0;
+
+  }
+
+
+
+  .cs-hero-container {
+
+    padding-inline: 1rem;
+
+  }
+
+
+
+  .cs-hero-grid {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 0;
+
+    min-height: auto;
+
+  }
+
+
+
+  .cs-hero-copy {
+
+    padding: 1.5rem 0 0;
+
+    width: 100%;
+
+  }
+
+
+
+  .cs-hero-eyebrow {
+
+    gap: 0.4rem;
+
+    margin-bottom: 0.9rem;
+
+    font-size: 0.66rem;
+
+    letter-spacing: 0.11em;
+
+    flex-wrap: wrap;
+
+  }
+
+
+
+  .cs-hero-heading {
+
+    font-size: clamp(2.05rem, 9.5vw, 2.75rem);
+
+    line-height: 1.08;
+
+    letter-spacing: -0.035em;
+
+  }
+
+
+
+  .cs-heading-line {
+
+    display: block;
+
+  }
+
+
+
+  .cs-heading-line:last-child {
+
+    white-space: normal;
+
+  }
+
+
+
+  .cs-hero-lead {
+
+    max-width: 34rem;
+
+    font-size: 0.98rem;
+
+    line-height: 1.55;
+
+    margin: 1rem 0 1.25rem;
+
+  }
+
+
+
+  .cs-hero-cta-wrap {
+
+    margin-bottom: 0.75rem;
+
+  }
+
+
+
+  .cs-hero-btn {
+
+    width: auto;
+
+    min-height: 3.45rem;
+
+    padding: 0.85rem 1.55rem;
+
+    font-size: 0.98rem;
+
+  }
+
+
+
+  .cs-mobile-journey {
+
+    margin: 1.25rem 0 0.9rem;
+
+  }
+
+
+
+  .cs-mobile-journey-scroll {
+
+    padding-bottom: 0.25rem;
+
+  }
+
+
+
+  .cs-hero-stats {
+
+    display: grid;
+
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+
+    gap: 0.55rem;
+
+    max-width: none;
+
+    margin-top: 0.8rem;
+
+    padding-top: 1rem;
+
+    border-top: 1px solid #E7EDF5;
+
+  }
+
+
+
+  .cs-stat-block {
+
+    min-width: 0;
+
+  }
+
+
+
+  .cs-stat-num {
+
+    font-size: clamp(1.45rem, 7vw, 1.8rem);
+
+  }
+
+
+
+  .cs-stat-label {
+
+    font-size: 0.67rem;
+
+    line-height: 1.25;
+
+    margin-top: 0.3rem;
+
+  }
+
+
+
+  .cs-stat-divider {
+
+    display: none;
+
+  }
+
+
+
+  .cs-hero-visual {
+
+    min-height: 0;
+
+    width: 100%;
+
+    margin-top: 1.1rem;
+
+    justify-content: center;
+
+    align-self: auto;
+
+  }
+
+
+
+  .cs-team-img-wrap {
+
+    width: 100%;
+
+    max-width: 31rem;
+
+    margin: 0 auto;
+
+  }
+
+
+
+  .cs-team-img {
+
+    width: 100%;
+
+    max-height: none;
+
+  }
+
+
+
+  .cs-journey-layer {
+
+    display: none !important;
+
+  }
+
+
+
+  .cs-hero-bg {
+
+    opacity: 0.7;
+
+  }
+
+}
+
+
+
+/* Small phones */
+
+@media (max-width: 419px) {
+
+  .cs-hero-container {
+
+    padding-inline: 0.85rem;
+
+  }
+
+
+
+  .cs-hero-heading {
+
+    font-size: 2rem;
+
+  }
+
+
+
+  .cs-hero-btn {
+
+    width: 100%;
+
+  }
+
+
+
+  .cs-hero-stats {
+
+    gap: 0.35rem;
+
+  }
+
+
+
+  .cs-stat-label {
+
+    font-size: 0.62rem;
+
+  }
+
+}
+
+
+/* =========================================================
+   FINAL HERO VIEWPORT FIX
+   Keeps the current wave design and alignment unchanged.
+   Prevents the hero from continuing into the next screen.
+   ========================================================= */
+
+.cs-hero {
+  box-sizing: border-box;
+  width: 100%;
+  height: calc(100svh - 86px);
+  min-height: 0;
+  max-height: calc(100svh - 86px);
+  overflow: hidden;
+  padding: 0;
+}
+
+.cs-hero-container {
+  width: 100%;
+  height: 100%;
+  max-height: 100%;
+}
+
+.cs-hero-grid {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  max-height: 100%;
+  align-items: center;
+}
+
+.cs-hero-copy {
+  min-height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.cs-hero-visual {
+  height: 100%;
+  min-height: 0;
+  max-height: 100%;
+  align-self: stretch;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+
+.cs-team-img-wrap {
+  max-height: 100%;
+  margin-bottom: 0;
+}
+
+.cs-team-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: calc(100svh - 100px);
+  object-fit: contain;
+  object-position: bottom right;
+}
+
+/* Keep the existing journey/wave exactly as it is. */
+.cs-journey-layer {
+  pointer-events: none;
+}
+
+/* Tablet: allow natural vertical flow so content never gets clipped. */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .cs-hero {
+    height: auto;
+    min-height: calc(100svh - 80px);
+    max-height: none;
+    overflow: hidden;
+  }
+
+  .cs-hero-container,
+  .cs-hero-grid {
+    height: auto;
+    min-height: calc(100svh - 80px);
+    max-height: none;
+  }
+
+  .cs-hero-copy {
+    padding-top: 1.5rem;
+    padding-bottom: 1rem;
+  }
+
+  .cs-hero-visual {
+    height: auto;
+    min-height: 0;
+  }
+
+  .cs-team-img {
+    max-height: none;
+  }
+}
+
+/* Mobile: natural page height; no desktop wave overflow. */
+@media (max-width: 767px) {
+  .cs-hero {
+    height: auto;
+    min-height: 0;
+    max-height: none;
+    overflow: hidden;
+    padding: 1rem 0 0;
+  }
+
+  .cs-hero-container {
+    height: auto;
+    max-height: none;
+  }
+
+  .cs-hero-grid {
+    height: auto;
+    min-height: 0;
+    max-height: none;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .cs-hero-copy {
+    padding-top: 1rem;
+    padding-bottom: 0;
+  }
+
+  .cs-hero-visual {
+    height: auto;
+    min-height: 0;
+    max-height: none;
+    margin-top: 1rem;
+  }
+
+  .cs-team-img-wrap {
+    width: 100%;
+    max-height: none;
+    margin: 0 auto;
+  }
+
+  .cs-team-img {
+    width: 100%;
+    height: auto;
+    max-height: none;
+  }
+
+  .cs-journey-layer {
+    display: none !important;
+  }
+}
+
+/* Very short desktop screens: slightly reduce visual size only. */
+@media (min-width: 1024px) and (max-height: 760px) {
+  .cs-hero-heading {
+    font-size: clamp(2.8rem, 4vw, 3.6rem);
+  }
+
+  .cs-hero-lead {
+    margin-top: 0.8rem;
+    margin-bottom: 1.1rem;
+  }
+
+  .cs-hero-cta-wrap {
+    margin-bottom: 1.6rem;
+  }
+
+  .cs-team-img {
+    max-height: calc(100svh - 120px);
+  }
+
+  .cs-stat-num {
+    font-size: clamp(1.7rem, 2.3vw, 2.1rem);
+  }
+}
+
+
+/* =========================================================
+   HERO CONTENT POSITION FIX
+   - Move heading/content upward
+   - Keep stats at the bottom of the hero
+   - Do NOT change the existing wave line
+   ========================================================= */
+
+@media (min-width: 1024px) {
+  .cs-hero-copy {
+    height: 100%;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-self: stretch;
+    padding-top: 2.75rem;
+    padding-bottom: 1.75rem;
+  }
+
+  .cs-hero-stats {
+    margin-top: auto;
+    margin-bottom: 0;
+  }
+}
+
+/* Short desktop/laptop screens */
+@media (min-width: 1024px) and (max-height: 760px) {
+  .cs-hero-copy {
+    padding-top: 1.75rem;
+    padding-bottom: 1.25rem;
+  }
+}
+
+/* Tablet */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .cs-hero-copy {
+    display: flex;
+    flex-direction: column;
+    padding-top: 2rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .cs-hero-stats {
+    margin-top: 2.5rem;
+  }
+}
+
+/* Mobile: keep natural document flow */
+@media (max-width: 767px) {
+  .cs-hero-copy {
+    height: auto;
+    min-height: 0;
+    display: block;
+    padding-top: 1rem;
+    padding-bottom: 0;
+  }
+
+  .cs-hero-stats {
+    margin-top: 0.8rem;
+    margin-bottom: 0;
+  }
+}
