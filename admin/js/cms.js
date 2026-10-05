@@ -224,10 +224,12 @@ async function deleteTestimonial(id) {
 }
 
 // Contact Messages Functions
+// Contact form inquiries. The website form (js/contact-submission.js) writes to public.contact_submissions;
+// RLS lets only signed-in (authenticated) users read it, so this works only with an admin session.
 async function fetchMessages() {
     const client = getClient();
     const { data, error } = await client
-        .from('contact_messages')
+        .from('contact_submissions')
         .select('*')
         .order('created_at', { ascending: false });
 

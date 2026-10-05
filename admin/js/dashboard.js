@@ -26,9 +26,9 @@ async function fetchStats() {
             visitEl.innerText = visitsError ? 'Err' : (visitsCount || 0);
         }
 
-        // 2. Fetch Inquiries (Contact Messages Count)
+        // 2. Fetch Inquiries (contact form submissions count)
         const { count: inquiriesCount, error: inquiriesError } = await client
-            .from('contact_messages')
+            .from('contact_submissions')
             .select('*', { count: 'exact', head: true });
 
         if (inquiriesError) console.error('Error fetching inquiries:', inquiriesError);
