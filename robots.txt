@@ -1,5 +1,7 @@
 User-agent: *
 Allow: /
 Disallow: /admin/
+Disallow: /tools/
+Disallow: /blog/post.html?*preview=
 
 Sitemap: https://crevasolution.in/sitemap.xml
