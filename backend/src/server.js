@@ -45,7 +45,9 @@ export function createApp(config, deps = {}) {
 
     const contactLimiter = rateLimit({
         windowMs: 15 * 60 * 1000, limit: config.rateLimitPerWindow || 10, standardHeaders: 'draft-8', legacyHeaders: false,
-        message: { ok: false, message: 'Too many submissions. Please try again later or contact us directly.' }
+        message: { ok: false, message: 'Too many submissions. Please try again later or contact us directly.' },
+        // only form submissions count (not /api/contact/:id/status or CORS preflights)
+        skip: (req) => !(req.method === 'POST' && (req.path === '/' || req.path === ''))
     });
 
     app.use('/api', corsMw);

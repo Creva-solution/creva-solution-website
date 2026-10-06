@@ -248,6 +248,8 @@ test('rate limit per IP -> 429', async () => {
         const codes = [];
         for (let i = 0; i < 3; i++) codes.push((await post(valid({ email: `rl${i}@example.com` }), { url: b })).status);
         assert.deepEqual(codes, [200, 200, 429]);
+        // status lookups and preflights are not counted / not blocked
+        for (let i = 0; i < 5; i++) assert.notEqual((await fetch(b + '/api/contact/' + crypto.randomUUID() + '/status')).status, 429);
     } finally { srv.close(); }
 });
 
