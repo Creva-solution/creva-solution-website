@@ -35,6 +35,6 @@ services:
       - key: MAIL_FROM_NAME
         value: Creva Solutions
       - key: ADMIN_EMAIL
-        value: info@crevasolution.in
+        value: info@crevasolution.in,crevasolution@gmail.com
       - key: ALLOWED_ORIGINS
         value: https://crevasolution.in

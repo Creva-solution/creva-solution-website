@@ -54,7 +54,7 @@ ${signatureText(mail.siteUrl)}
 <p style="margin-top:16px;">Please check the inquiry in the <a href="${escapeHtml(mail.siteUrl.replace(/\/$/, ''))}/admin/contacts.html" style="color:#3C77C3;">Admin Panel</a>.</p>`, mail.siteUrl);
     return {
         from: { name: mail.fromName, address: mail.from },
-        to: mail.admin,
+        to: [].concat(mail.admin),             // ADMIN_EMAIL may list several addresses
         replyTo: s.email,                      // "Reply" in the inbox answers the customer
         subject: `New Contact Inquiry – ${name}`,
         text, html

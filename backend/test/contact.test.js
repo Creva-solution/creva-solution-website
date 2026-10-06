@@ -300,6 +300,24 @@ test('SMTP server down: inquiry saved and answered fast, emails marked failed, n
     } finally { srv.close(); }
 });
 
+test('ADMIN_EMAIL with several addresses: notification goes to all of them (from info@), customer email unchanged', async () => {
+    const cfg = config();
+    cfg.mail = { ...cfg.mail, admin: ['info@crevasolution.in', 'crevasolution@gmail.com'] };
+    const { srv, base: b } = await startApi(cfg);
+    try {
+        const body = valid({ email: 'multi@example.com' });
+        await post(body, { url: b });
+        let st; for (let i = 0; i < 300; i++) { st = await status(body.id, b); if (final(st)) break; await new Promise((x) => setTimeout(x, 30)); }
+        assert.deepEqual([st.admin, st.customer], ['sent', 'sent']);
+        const admin = captured.find((c) => c.mail.headers.get('reply-to')?.text === 'multi@example.com');
+        assert.deepEqual(admin.env.rcptTo.map((x) => x.address).sort(), ['crevasolution@gmail.com', 'info@crevasolution.in']);
+        assert.equal(admin.mail.headers.get('to').text, 'info@crevasolution.in, crevasolution@gmail.com');
+        assert.equal(admin.mail.headers.get('from').text, '"Creva Solutions" <info@crevasolution.in>');
+        const customer = captured.find((c) => c.env.rcptTo[0].address === 'multi@example.com');
+        assert.deepEqual(customer.env.rcptTo.map((x) => x.address), ['multi@example.com']);
+    } finally { srv.close(); }
+});
+
 test('status endpoint: only valid ids, no error details', async () => {
     assert.equal((await fetch(`${base}/api/contact/not-a-uuid/status`)).status, 400);
     assert.equal((await fetch(`${base}/api/contact/${crypto.randomUUID()}/status`)).status, 404);

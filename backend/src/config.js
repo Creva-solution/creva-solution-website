@@ -30,7 +30,8 @@ export function loadConfig() {
         mail: {
             from: required('MAIL_FROM'),
             fromName: (process.env.MAIL_FROM_NAME || 'Creva Solutions').trim(),
-            admin: required('ADMIN_EMAIL'),
+            // one or more recipients for the new-inquiry notification, comma-separated
+            admin: required('ADMIN_EMAIL').split(',').map((s) => s.trim()).filter(Boolean),
             siteUrl: (process.env.SITE_URL || 'https://crevasolution.in/').trim()
         },
         retryDelaysMs: [5000, 20000, 60000],                                  // email retries on temporary SMTP errors

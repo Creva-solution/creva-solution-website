@@ -123,7 +123,7 @@ Render Dashboard → **New → Web Service** → connect the repository, then:
 | `SMTP_PASSWORD` | the mailbox password |
 | `MAIL_FROM` | `info@crevasolution.in` |
 | `MAIL_FROM_NAME` | `Creva Solutions` |
-| `ADMIN_EMAIL` | `info@crevasolution.in` |
+| `ADMIN_EMAIL` | `info@crevasolution.in,crevasolution@gmail.com` (one or more, comma-separated) |
 | `ALLOWED_ORIGINS` | `https://crevasolution.in` |
 
 `PORT` is set by Render automatically; the server uses it (defaults to 10000 locally).
