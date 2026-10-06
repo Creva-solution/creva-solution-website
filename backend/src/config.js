@@ -22,6 +22,9 @@ export function loadConfig() {
             user: required('SMTP_USER'),
             password: required('SMTP_PASSWORD'),
             // Only for local tests against a self-signed SMTP server; never set in production.
+            connectionTimeout: Number(process.env.SMTP_CONNECTION_TIMEOUT_MS) || 30000,
+            greetingTimeout: Number(process.env.SMTP_GREETING_TIMEOUT_MS) || 30000,
+            socketTimeout: Number(process.env.SMTP_SOCKET_TIMEOUT_MS) || 60000,
             allowSelfSigned: process.env.SMTP_ALLOW_SELF_SIGNED === 'true' && process.env.NODE_ENV !== 'production'
         },
         mail: {
@@ -30,6 +33,7 @@ export function loadConfig() {
             admin: required('ADMIN_EMAIL'),
             siteUrl: (process.env.SITE_URL || 'https://crevasolution.in/').trim()
         },
+        retryDelaysMs: [5000, 20000, 60000],                                  // email retries on temporary SMTP errors
         rateLimitPerWindow: Number(process.env.CONTACT_RATE_LIMIT) || 10,   // submissions per IP per 15 minutes
         allowedOrigins: (process.env.ALLOWED_ORIGINS || 'https://crevasolution.in')
             .split(',').map((s) => s.trim().replace(/\/$/, '')).filter(Boolean)

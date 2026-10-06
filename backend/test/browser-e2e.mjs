@@ -89,7 +89,7 @@ for (const vp of [{ name: 'desktop', width: 1280, height: 900 }, { name: 'mobile
     rows.clear(); mails.length = 0;
     await fill(p);
     await p.click('button[type=submit]'); await p.click('button[type=submit]').catch(() => {});   // double click
-    await p.waitForFunction(() => !document.getElementById('form-status').hidden, { timeout: 30000 }); await sleep(500);
+    await p.waitForFunction(() => !document.getElementById("form-status").hidden, { timeout: 30000 }); for (let i = 0; i < 100 && mails.length < 2; i++) await sleep(50);
     const st = await statusText(p);
     const formCleared = await p.$eval('[name=name]', e => e.value === '');
     const overflow = await p.evaluate(() => document.documentElement.scrollWidth - innerWidth);

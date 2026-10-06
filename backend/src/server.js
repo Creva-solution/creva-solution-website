@@ -1,6 +1,7 @@
 // Creva Solutions contact API (Render web service).
 //   GET  /health        -> {"status":"ok"}
-//   POST /api/contact   -> save to Supabase, then admin email, then customer email
+//   POST /api/contact   -> save to Supabase, respond, then (background) admin email, then customer email
+//   GET  /api/contact/:id/status -> email delivery state of one submission
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
@@ -10,6 +11,7 @@ import { loadConfig } from './config.js';
 import { createSupabaseService } from './services/supabase.js';
 import { createEmailService } from './services/email.js';
 import { createSubmissionStore } from './services/submissions.js';
+import { createMailQueue } from './services/mailQueue.js';
 import { contactRouter } from './routes/contact.js';
 
 const log = {
@@ -20,9 +22,10 @@ const log = {
 
 export function createApp(config, deps = {}) {
     const supabase = deps.supabase || createSupabaseService(config.supabase);
-    const email = deps.email || createEmailService(config.smtp, config.mail);
-    const store = deps.store || createSubmissionStore();
     const logger = deps.log || log;
+    const email = deps.email || createEmailService(config.smtp, config.mail, logger);
+    const store = deps.store || createSubmissionStore();
+    const mailQueue = deps.mailQueue || createMailQueue({ email, store, log: logger, retryDelaysMs: config.retryDelaysMs });
 
     const app = express();
     app.disable('x-powered-by');
@@ -55,7 +58,7 @@ export function createApp(config, deps = {}) {
     });
     app.use('/api', express.json({ limit: '20kb' }));
     app.use('/api/contact', contactLimiter);
-    app.use('/api', contactRouter({ supabase, email, store, log: logger }));
+    app.use('/api', contactRouter({ supabase, mailQueue, store, log: logger }));
 
     app.use((_req, res) => res.status(404).json({ ok: false, message: 'Not found.' }));
     // Errors (e.g. malformed JSON): generic message only, no stack traces or internals.
@@ -64,7 +67,7 @@ export function createApp(config, deps = {}) {
         if (status >= 500) logger.error(`unhandled error: ${err.message}`);
         res.status(status).json({ ok: false, message: status === 400 ? 'Invalid request.' : 'Something went wrong. Please try again.' });
     });
-    return { app, email };
+    return { app, email, mailQueue, store };
 }
 
 // Start only when run directly (npm start), not when imported by tests.
@@ -74,9 +77,16 @@ if (import.meta.url === pathToFileURL(process.argv[1]).href) {
     const { app, email } = createApp(config);
     const server = app.listen(config.port, () => {
         log.info(`creva-contact-api listening on port ${config.port}; allowed origins: ${config.allowedOrigins.join(', ')}`);
-        email.verify().then(() => log.info('SMTP connection verified')).catch((e) => log.error(`SMTP verify failed: ${e.message}`));
+        // Warm up SMTP after the server is already listening (never blocks startup or requests).
+        log.info(`[SMTP] connecting to ${config.smtp.host}:${config.smtp.port} (secure=${config.smtp.secure})`);
+        email.verify()
+            .then((r) => log.info(`[SMTP] connection verified in ${r.ms}ms`))
+            .catch((e) => log.error(`[SMTP] verify failed after ${e.ms}ms: ${e.code || ''} ${e.message}`));
     });
     const shutdown = () => { server.close(() => { email.close(); process.exit(0); }); setTimeout(() => process.exit(0), 10000).unref(); };
     process.on('SIGTERM', shutdown);
+    // Log instead of dying silently (a crashed process drops in-flight requests).
+    process.on('unhandledRejection', (e) => log.error(`unhandledRejection: ${e && e.message ? e.message : e}`));
+    process.on('uncaughtException', (e) => log.error(`uncaughtException: ${e && e.message ? e.message : e}`));
     process.on('SIGINT', shutdown);
 }

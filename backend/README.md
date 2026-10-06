@@ -40,16 +40,25 @@ backend/
 `service` is required because `contact_submissions.service` is NOT NULL. `id` is optional but the website always
 sends one (duplicate protection). Mobile numbers are normalised to `+91 XXXXXXXXXX`.
 
+The API answers as soon as the inquiry is saved (about 1 s). The two emails are then sent in the background over
+one pooled, pre-warmed SMTP connection, strictly in this order: admin notification (retried on temporary errors:
+after 5 s, 20 s, 60 s) and only after it was sent, the customer acknowledgement (same retries).
+
 | Response | When |
 |---|---|
-| `200 {"ok":true,"saved":true,"adminNotified":true,"customerNotified":true}` | saved, both emails sent |
-| `200 … "adminNotified":false,"customerNotified":false` | saved; admin email failed → customer email **not** sent |
-| `200 … "adminNotified":true,"customerNotified":false` | saved; customer email failed (admin email not re-sent) |
+| `200 {"ok":true,"saved":true,"emailQueued":true}` | saved; emails are being sent |
 | `200/202 … "duplicate":true` | same submission id again (double click / retry) – nothing saved or sent twice |
 | `400 {"ok":false,"errors":{…}}` | validation failed – nothing saved |
 | `403` | browser request from another website |
 | `429` | more than 10 submissions per IP per 15 minutes |
 | `502 {"ok":false}` | Supabase insert failed – **no email sent** |
+
+**`GET /api/contact/:id/status`** → `{"admin":"queued|sending|sent|failed","customer":"queued|sending|sent|failed|not_sent|limited"}`
+for one submission (kept 24 h in memory; no error details). `not_sent` = the admin email failed, so no acknowledgement.
+
+Render logs show each stage with timings, e.g.
+`[CONTACT] <id> Supabase insert completed in 140ms`, `[CONTACT] <id> admin email sent in 2300ms`,
+`[CONTACT] <id> customer email sent in 310ms`, and at startup `[SMTP] connection verified in …ms`.
 
 Responses never contain SMTP, Supabase or stack-trace details; those go to the Render logs only.
 

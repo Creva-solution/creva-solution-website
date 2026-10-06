@@ -84,19 +84,36 @@ ${signatureText(mail.siteUrl)}
     };
 }
 
-export function createEmailService(smtp, mail) {
+// One pooled SMTP transporter for the whole process: the slow part of talking to GoDaddy from Render is
+// connecting + TLS + greeting + AUTH, so an authenticated connection is kept open and reused for the admin
+// and customer emails (and later inquiries) instead of reconnecting for every message.
+export function createEmailService(smtp, mail, log = console) {
     const transport = nodemailer.createTransport({
+        pool: true,
+        maxConnections: 1,                         // GoDaddy: one connection is plenty and avoids parallel logins
+        maxMessages: 100,
         host: smtp.host,
         port: smtp.port,
         secure: smtp.secure,                       // GoDaddy: 465 + implicit SSL
         auth: { user: smtp.user, pass: smtp.password },
-        connectionTimeout: 15000, greetingTimeout: 15000, socketTimeout: 30000,
+        connectionTimeout: smtp.connectionTimeout ?? 30000,
+        greetingTimeout: smtp.greetingTimeout ?? 30000,
+        socketTimeout: smtp.socketTimeout ?? 60000,
         ...(smtp.allowSelfSigned ? { tls: { rejectUnauthorized: false } } : {})
     });
+    // A pooled transport reports background connection problems as events; never let them crash the process.
+    transport.on('error', (e) => log.error(`[SMTP] transport error: ${e.code || ''} ${e.message}`));
+
+    const timed = async (label, fn) => {
+        const t = Date.now();
+        try { const r = await fn(); return { ...r, ms: Date.now() - t }; }
+        catch (e) { e.ms = Date.now() - t; throw e; }
+    };
     return {
-        sendAdmin: (s) => transport.sendMail(buildAdminEmail(s, mail)),
-        sendCustomer: (s) => transport.sendMail(buildCustomerEmail(s, mail)),
-        verify: () => transport.verify(),
+        sendAdmin: (s) => timed('admin', () => transport.sendMail(buildAdminEmail(s, mail))),
+        sendCustomer: (s) => timed('customer', () => transport.sendMail(buildCustomerEmail(s, mail))),
+        // Opens (and authenticates) a connection; used at startup so the first inquiry does not pay for it.
+        verify: () => timed('verify', () => transport.verify().then(() => ({}))),
         close: () => transport.close()
     };
 }

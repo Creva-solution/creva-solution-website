@@ -1,11 +1,11 @@
-// In-memory record of recent submissions (by submission id) for duplicate protection, plus a per-recipient
-// limit for acknowledgement emails. The database primary key is the durable guard: a repeated id can never
-// create a second row, even after a restart.
+// In-memory record of recent submissions (by submission id): duplicate protection, email delivery status and a
+// per-recipient limit for acknowledgement emails. The database primary key is the durable guard: a repeated id
+// can never create a second row, even after a restart.
 
 const TTL_MS = 24 * 3600e3;
 
 export function createSubmissionStore({ maxAcksPerRecipientPerDay = 3, now = () => Date.now() } = {}) {
-    const byId = new Map();          // id -> { status: 'processing'|'done', response, at }
+    const byId = new Map();          // id -> { status: 'processing'|'done', response, email: {admin, customer}, at }
     const acks = new Map();          // email -> [timestamps]
 
     function prune() {
@@ -18,11 +18,17 @@ export function createSubmissionStore({ maxAcksPerRecipientPerDay = 3, now = () 
     }
     setInterval(prune, 3600e3).unref();
 
+    const entry = (id) => byId.get(id) || null;
     return {
-        get: (id) => byId.get(id) || null,
-        start: (id) => byId.set(id, { status: 'processing', at: now() }),
-        finish: (id, response) => byId.set(id, { status: 'done', response, at: now() }),
+        get: entry,
+        start: (id) => byId.set(id, { status: 'processing', at: now(), email: null }),
+        finish: (id, response) => byId.set(id, { ...(entry(id) || {}), status: 'done', response, at: now() }),
         forget: (id) => byId.delete(id),
+        setEmail(id, patch) {
+            const e = entry(id) || { status: 'done', at: now() };
+            e.email = { ...(e.email || {}), ...patch };
+            byId.set(id, e);
+        },
         // true if another acknowledgement to this address is allowed (and records it)
         allowAck(email) {
             const cutoff = now() - TTL_MS;

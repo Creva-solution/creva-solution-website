@@ -1,19 +1,21 @@
 // Contact form -> Creva contact API (separate Render backend) -> Supabase public.contact_submissions + emails.
-// The backend validates, saves the inquiry, then emails info@crevasolution.in FIRST and the customer SECOND.
-// No SMTP or secret keys exist in this file.
+// The backend validates and saves the inquiry, answers immediately, then emails info@crevasolution.in FIRST and
+// the customer SECOND in the background. No SMTP or secret keys exist in this file.
 //
-// Safety net: if the backend cannot be reached, the inquiry is saved directly to Supabase with the public anon
-// key (RLS: visitors can INSERT only), as before. The same submission id is used on every attempt, so a retry
-// or the fallback can never create a second row for one inquiry.
+// Every attempt for one inquiry uses the same submission id, so retries can never create a second row:
+// - API slow / still processing  -> ask the API again with the same id (it returns the stored result)
+// - API unreachable (network, CORS, Render 502/503/504) -> save directly to Supabase with the public anon key
+//   (RLS: visitors can INSERT only), as before, so the inquiry is never lost.
 const CONTACT_API_URL = 'https://crevabackend.onrender.com/api/contact';   // Render service (backend/)
-const API_TIMEOUT_MS = 20000;
+const API_TIMEOUT_MS = 30000;          // the API answers in ~1 s; this only covers a waking/slow Render instance
+const API_ATTEMPTS = 2;
 
 const SUPABASE_URL = 'https://xtivwelnoccdontbrxft.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh0aXZ3ZWxub2NjZG9udGJyeGZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAyMDk2NjgsImV4cCI6MjA4NTc4NTY2OH0.zImQM_l1437a62HpO-lAqkWbp0KxOqz9Hg9OmqHgoXU';
 
 const CONTACT_TABLE = 'contact_submissions';
 const MSG_SUCCESS = 'Thank you! Your message has been sent successfully. We’ll get back to you soon.';
-const MSG_ERROR = 'Something went wrong. Please try again or contact us directly.';
+const MSG_ERROR = 'We’re having trouble submitting your enquiry right now. Please try again in a moment.';
 
 // Normalise an Indian mobile number to "+91 XXXXXXXXXX" (returns '' if it is not a valid 10-digit mobile).
 function normaliseMobile(raw) {
@@ -32,8 +34,10 @@ function newSubmissionId() {
     return `${h.slice(0, 8)}-${h.slice(8, 12)}-${h.slice(12, 16)}-${h.slice(16, 20)}-${h.slice(20)}`;
 }
 
-// 'ok' | { error: message } | 'unreachable'
-async function sendToApi(payload) {
+const wait = (ms) => new Promise(r => setTimeout(r, ms));
+
+// One request. Returns 'ok' | 'pending' (slow / still processing: ask again) | 'unreachable' | { error }
+async function postOnce(payload) {
     const ctrl = new AbortController();
     const timer = setTimeout(() => ctrl.abort(), API_TIMEOUT_MS);
     try {
@@ -44,18 +48,31 @@ async function sendToApi(payload) {
             signal: ctrl.signal
         });
         const data = await res.json().catch(() => ({}));
-        if (res.ok && data.ok) return 'ok';                          // 200 saved (and emailed) / 202 already processing
+        if (res.status === 202) return 'pending';                   // same id is being processed right now
+        if (res.ok && data.ok) return 'ok';                          // saved (emails are sent by the API)
         if (res.status === 400) {
             const first = data.errors && Object.values(data.errors)[0];
             return { error: first || 'Please check the form and try again.' };
         }
         if (res.status === 429) return { error: data.message || 'Too many submissions. Please try again later.' };
-        return 'unreachable';                                        // 403/5xx: fall back so the inquiry is not lost
-    } catch {
-        return 'unreachable';                                        // network error, timeout, CORS block
+        return 'unreachable';                                        // 403 / 5xx / Render 502-504: save directly instead
+    } catch (err) {
+        return err && err.name === 'AbortError' ? 'pending' : 'unreachable';   // timeout vs. network/CORS failure
     } finally {
         clearTimeout(timer);
     }
+}
+
+// Retries the SAME submission id; the API de-duplicates it, so a slow first attempt is never sent twice.
+async function sendToApi(payload) {
+    let last = 'unreachable';
+    for (let i = 0; i < API_ATTEMPTS; i++) {
+        last = await postOnce(payload);
+        if (last === 'ok' || typeof last === 'object') return last;
+        if (i < API_ATTEMPTS - 1) await wait(last === 'pending' ? 1500 : 2000 * (i + 1));
+    }
+    // Still unconfirmed: the direct save below uses the same id, so if the API already saved it nothing is duplicated.
+    return 'unreachable';
 }
 
 // Previous behaviour: insert straight into Supabase (no emails). Duplicate id = already saved by the API.
@@ -88,6 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // One id per inquiry: kept for retries of the same message, renewed after a successful send.
     let submissionId = newSubmissionId();
     let sending = false;
+    let quietUntil = 0;                // ignore a stray second click right after a successful send
 
     const show = (type, text) => {
         if (!status) return;
@@ -102,7 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
-        if (sending) return;                                         // double click / double submit
+        if (sending || Date.now() < quietUntil) return;              // double click / double submit
         if (status) status.hidden = true;
 
         const f = n => form.querySelector('[name="' + n + '"]');
@@ -122,9 +140,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const payload = { id: submissionId, name, email, mobile, service, message, website: trap.value };
         const originalHtml = btn.innerHTML;
         sending = true;
+        let slowTimer;
         try {
             btn.disabled = true;
             btn.textContent = 'Sending...';
+            slowTimer = setTimeout(() => { btn.textContent = 'Still sending...'; }, 8000);
 
             let result = await sendToApi(payload);
             if (result === 'unreachable') {
@@ -135,6 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 show('ok', MSG_SUCCESS);
                 form.reset();
                 submissionId = newSubmissionId();
+                quietUntil = Date.now() + 3000;
             } else {
                 show('err', result.error);
             }
@@ -143,6 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
             console.warn('Contact form submission failed', err && err.code ? err.code : '');
             show('err', MSG_ERROR);
         } finally {
+            clearTimeout(slowTimer);
             sending = false;
             btn.disabled = false;
             btn.innerHTML = originalHtml;
