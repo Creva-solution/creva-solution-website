@@ -1,0 +1,40 @@
+# Render Blueprint for the Creva Solutions contact API (separate backend in ./backend).
+# Render Dashboard -> New -> Blueprint -> select this repository. Secret values are entered in the dashboard
+# (sync: false) and are never stored in Git.
+services:
+  - type: web
+    name: creva-contact-api
+    runtime: node
+    rootDir: backend
+    # A paid instance is required: Render Free blocks outbound SMTP ports 25/465/587.
+    plan: starter
+    region: singapore
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: SUPABASE_URL
+        value: https://xtivwelnoccdontbrxft.supabase.co
+      - key: SUPABASE_ANON_KEY
+        sync: false
+      - key: SMTP_HOST
+        value: smtpout.secureserver.net
+      - key: SMTP_PORT
+        value: "465"
+      - key: SMTP_SECURE
+        value: "true"
+      - key: SMTP_USER
+        value: info@crevasolution.in
+      - key: SMTP_PASSWORD
+        sync: false
+      - key: MAIL_FROM
+        value: info@crevasolution.in
+      - key: MAIL_FROM_NAME
+        value: Creva Solutions
+      - key: ADMIN_EMAIL
+        value: info@crevasolution.in
+      - key: ALLOWED_ORIGINS
+        value: https://crevasolution.in

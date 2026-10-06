@@ -2,6 +2,9 @@ User-agent: *
 Allow: /
 Disallow: /admin/
 Disallow: /tools/
+Disallow: /mobile-app/
+Disallow: /supabase/
+Disallow: /backend/
 Disallow: /blog/post.html?*preview=
 
 Sitemap: https://crevasolution.in/sitemap.xml

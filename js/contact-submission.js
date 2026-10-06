@@ -1,6 +1,13 @@
-// Contact form -> Supabase table public.contact_submissions
-// Only the public anon key is used here (safe to expose; access is limited by Row Level Security:
-// visitors can INSERT only, they cannot read, update or delete submissions). Never put a service_role key in this file.
+// Contact form -> Creva contact API (separate Render backend) -> Supabase public.contact_submissions + emails.
+// The backend validates, saves the inquiry, then emails info@crevasolution.in FIRST and the customer SECOND.
+// No SMTP or secret keys exist in this file.
+//
+// Safety net: if the backend cannot be reached, the inquiry is saved directly to Supabase with the public anon
+// key (RLS: visitors can INSERT only), as before. The same submission id is used on every attempt, so a retry
+// or the fallback can never create a second row for one inquiry.
+const CONTACT_API_URL = 'https://creva-contact-api.onrender.com/api/contact';   // set to your Render service URL
+const API_TIMEOUT_MS = 20000;
+
 const SUPABASE_URL = 'https://xtivwelnoccdontbrxft.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inh0aXZ3ZWxub2NjZG9udGJyeGZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAyMDk2NjgsImV4cCI6MjA4NTc4NTY2OH0.zImQM_l1437a62HpO-lAqkWbp0KxOqz9Hg9OmqHgoXU';
 
@@ -17,11 +24,70 @@ function normaliseMobile(raw) {
     return /^[6-9]\d{9}$/.test(ten) ? '+91 ' + ten : '';
 }
 
+function newSubmissionId() {
+    if (window.crypto && crypto.randomUUID) return crypto.randomUUID();
+    const b = crypto.getRandomValues(new Uint8Array(16));
+    b[6] = (b[6] & 0x0f) | 0x40; b[8] = (b[8] & 0x3f) | 0x80;
+    const h = [...b].map(x => x.toString(16).padStart(2, '0')).join('');
+    return `${h.slice(0, 8)}-${h.slice(8, 12)}-${h.slice(12, 16)}-${h.slice(16, 20)}-${h.slice(20)}`;
+}
+
+// 'ok' | { error: message } | 'unreachable'
+async function sendToApi(payload) {
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), API_TIMEOUT_MS);
+    try {
+        const res = await fetch(CONTACT_API_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+            signal: ctrl.signal
+        });
+        const data = await res.json().catch(() => ({}));
+        if (res.ok && data.ok) return 'ok';                          // 200 saved (and emailed) / 202 already processing
+        if (res.status === 400) {
+            const first = data.errors && Object.values(data.errors)[0];
+            return { error: first || 'Please check the form and try again.' };
+        }
+        if (res.status === 429) return { error: data.message || 'Too many submissions. Please try again later.' };
+        return 'unreachable';                                        // 403/5xx: fall back so the inquiry is not lost
+    } catch {
+        return 'unreachable';                                        // network error, timeout, CORS block
+    } finally {
+        clearTimeout(timer);
+    }
+}
+
+// Previous behaviour: insert straight into Supabase (no emails). Duplicate id = already saved by the API.
+async function saveDirectly(payload) {
+    let client = window.supabaseClient;
+    if (!client && typeof supabase !== 'undefined') client = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    if (!client) throw new Error('no client');
+    const { id, name, email, mobile, service, message } = payload;
+    // No .select() on purpose: visitors have INSERT permission only, so nothing is read back.
+    const { error } = await client.from(CONTACT_TABLE).insert([{ id, name, email, mobile, service, message }]);
+    if (error && error.code !== '23505') throw error;
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.querySelector('form[name="contact"]');
     if (!form) return;
     const status = document.getElementById('form-status');
     const btn = form.querySelector('button[type="submit"]');
+
+    // Hidden honeypot field (people never see or fill it; many bots do). Rejected silently by the API.
+    const trap = document.createElement('input');
+    Object.assign(trap, { type: 'text', name: 'website', tabIndex: -1, autocomplete: 'off' });
+    trap.setAttribute('aria-hidden', 'true');
+    trap.style.cssText = 'position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden;';
+    form.appendChild(trap);
+
+    // Wake the API early (Render instances can take a moment to respond after being idle).
+    fetch(CONTACT_API_URL.replace(/\/api\/contact$/, '/health'), { method: 'GET', mode: 'cors' }).catch(() => {});
+
+    // One id per inquiry: kept for retries of the same message, renewed after a successful send.
+    let submissionId = newSubmissionId();
+    let sending = false;
 
     const show = (type, text) => {
         if (!status) return;
@@ -36,6 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
+        if (sending) return;                                         // double click / double submit
         if (status) status.hidden = true;
 
         const f = n => form.querySelector('[name="' + n + '"]');
@@ -45,34 +112,38 @@ document.addEventListener('DOMContentLoaded', () => {
         const service = f('service').value.trim();
         const message = f('message').value.trim();
 
-        // Validation (all fields are required by the table)
+        // Validation (all fields are required by the table); the API checks the same rules again.
         if (!name) return fail('Please enter your full name.', f('name'));
         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return fail('Please enter a valid email address.', f('email'));
         if (!mobile) return fail('Please enter a valid 10-digit mobile number.', f('mobile'));
         if (!service) return fail('Please select the service you are interested in.', f('service'));
         if (!message) return fail('Please enter your message.', f('message'));
 
-        // Reuse the site's Supabase client when present, otherwise create one with the anon key.
-        let client = window.supabaseClient;
-        if (!client && typeof supabase !== 'undefined') client = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-        if (!client) return show('err', MSG_ERROR);
-
+        const payload = { id: submissionId, name, email, mobile, service, message, website: trap.value };
         const originalHtml = btn.innerHTML;
+        sending = true;
         try {
             btn.disabled = true;
             btn.textContent = 'Sending...';
 
-            // No .select() on purpose: visitors have INSERT permission only, so nothing is read back.
-            const { error } = await client.from(CONTACT_TABLE).insert([{ name, email, mobile, service, message }]);
-            if (error) throw error;
-
-            show('ok', MSG_SUCCESS);
-            form.reset();
+            let result = await sendToApi(payload);
+            if (result === 'unreachable') {
+                if (trap.value) result = 'ok';                       // bot: do not store
+                else { await saveDirectly(payload); result = 'ok'; }
+            }
+            if (result === 'ok') {
+                show('ok', MSG_SUCCESS);
+                form.reset();
+                submissionId = newSubmissionId();
+            } else {
+                show('err', result.error);
+            }
         } catch (err) {
             // Details stay out of the UI; only a short code is logged for debugging.
             console.warn('Contact form submission failed', err && err.code ? err.code : '');
             show('err', MSG_ERROR);
         } finally {
+            sending = false;
             btn.disabled = false;
             btn.innerHTML = originalHtml;
             if (window.lucide) window.lucide.createIcons();

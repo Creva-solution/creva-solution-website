@@ -20,6 +20,9 @@
         .iq-detail[hidden] { display: none; }
         .iq-message { white-space: pre-wrap; line-height: 1.55; color: #374151; margin: 0; }
         .iq-extra { margin-top: .75rem; font-size: .85rem; color: var(--text-muted); }
+        .iq-new { display: inline-block; margin-right: .4rem; padding: 1px 7px; border-radius: 9999px; background: #fee2e2; color: #b91c1c; font-size: .7rem; font-weight: 700; text-transform: uppercase; vertical-align: middle; }
+        .iq-table tr.iq-is-new > td { background: #fffbeb; }
+        .iq-table tr.iq-focus > td { box-shadow: inset 0 0 0 9999px rgba(37, 99, 235, .08); }
         .iq-error { color: var(--danger, #b91c1c); }
         @media (max-width: 768px) {
             .iq-detail td::before { display: none; }
@@ -73,6 +76,7 @@
     <script src="js/config.js"></script>
     <script src="js/auth.js"></script>
     <script src="js/cms.js"></script>
+    <script src="js/inquiry-realtime.js"></script>
     <script>
         // Inquiries = rows of public.contact_submissions (written by the website contact form).
         // Read through the signed-in admin session; RLS allows SELECT for authenticated users only.
@@ -83,6 +87,8 @@
             const refreshBtn = document.getElementById('iq-refresh');
             const KNOWN = ['id', 'created_at', 'name', 'email', 'mobile', 'service', 'message'];
             let all = [];
+            const newIds = new Set(window.CrevaInquiryRealtime ? window.CrevaInquiryRealtime.unreadIds() : []);
+            let focusId = new URLSearchParams(location.search).get('inquiry');
 
             const esc = (v) => String(v == null ? '' : v).replace(/&/g, '&amp;').replace(/</g, '&lt;')
                 .replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
@@ -107,9 +113,10 @@
                     const extra = Object.keys(m).filter(k => !KNOWN.includes(k) && m[k] != null && m[k] !== '')
                         .map(k => `<div><strong>${esc(label(k))}:</strong> ${esc(typeof m[k] === 'object' ? JSON.stringify(m[k]) : m[k])}</div>`).join('');
                     const hasDetail = (m.message && String(m.message).trim()) || extra;
+                    const isNew = newIds.has(m.id);
                     return `
-                    <tr>
-                        <td data-label="Name"><span class="iq-name">${esc(m.name) || '—'}</span></td>
+                    <tr data-id="${esc(m.id)}"${isNew ? ' class="iq-is-new"' : ''}>
+                        <td data-label="Name">${isNew ? '<span class="iq-new">New</span>' : ''}<span class="iq-name">${esc(m.name) || '—'}</span></td>
                         <td data-label="Email">${m.email ? `<a href="mailto:${esc(m.email)}">${esc(m.email)}</a>` : '—'}</td>
                         <td data-label="Mobile">${m.mobile ? `<a href="tel:${esc(mobileDigits)}">${esc(m.mobile)}</a>` : '—'}</td>
                         <td data-label="Service">${m.service ? `<span class="iq-service">${esc(m.service)}</span>` : '—'}</td>
@@ -131,8 +138,11 @@
                     // Wait for the stored admin session (auth.js redirects to login when there is none)
                     const { data: { session } } = await window.supabaseClient.auth.getSession();
                     if (!session) return state('Please sign in to view inquiries.');
-                    all = (await fetchMessages()) || [];
+                    const fetched = (await fetchMessages()) || [];
+                    // keep any live arrivals that came in while the list was loading
+                    all = mergeRows(fetched, all);
                     render();
+                    openFocus();
                 } catch (err) {
                     console.error('Error loading inquiries:', err);
                     all = [];
@@ -143,6 +153,39 @@
                     refreshBtn.textContent = 'Refresh';
                 }
             }
+
+            function mergeRows(base, extra) {
+                const seen = new Set(base.map(r => r.id));
+                return base.concat(extra.filter(r => r && r.id && !seen.has(r.id)))
+                    .sort((a, b) => String(b.created_at || '').localeCompare(String(a.created_at || '')));
+            }
+
+            function openFocus() {
+                if (!focusId) return;
+                const tr = [...rows.querySelectorAll('tr[data-id]')].find(r => r.dataset.id === focusId);
+                if (!tr) return;
+                focusId = null;
+                const btn = tr.querySelector('button[data-toggle]');
+                const detail = btn && document.getElementById('iq-detail-' + btn.dataset.toggle);
+                if (detail && detail.hidden) btn.click();
+                rows.querySelectorAll('.iq-focus').forEach(r => r.classList.remove('iq-focus'));
+                tr.classList.add('iq-focus');
+                tr.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+
+            // Live inserts from js/inquiry-realtime.js (deduplicated by id)
+            document.addEventListener('creva:inquiry', (e) => {
+                const r = e.detail;
+                if (!r || !r.id || all.some(x => x.id === r.id)) return;
+                newIds.add(r.id);
+                all = mergeRows([r], all);
+                render();
+            });
+            document.addEventListener('creva:view-inquiry', (e) => {
+                focusId = e.detail;
+                if (search.value) { search.value = ''; render(); }
+                openFocus();
+            });
 
             rows.addEventListener('click', (e) => {
                 if (e.target.id === 'iq-retry') return load();
