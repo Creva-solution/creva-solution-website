@@ -5,7 +5,7 @@
 // Safety net: if the backend cannot be reached, the inquiry is saved directly to Supabase with the public anon
 // key (RLS: visitors can INSERT only), as before. The same submission id is used on every attempt, so a retry
 // or the fallback can never create a second row for one inquiry.
-const CONTACT_API_URL = 'https://creva-contact-api.onrender.com/api/contact';   // set to your Render service URL
+const CONTACT_API_URL = 'https://crevabackend.onrender.com/api/contact';   // Render service (backend/)
 const API_TIMEOUT_MS = 20000;
 
 const SUPABASE_URL = 'https://xtivwelnoccdontbrxft.supabase.co';

@@ -122,7 +122,7 @@ Render Dashboard → **New → Web Service** → connect the repository, then:
 ### After deploying
 1. Open `https://<your-service>.onrender.com/health` → `{"status":"ok"}`.
 2. Render → Logs should show `SMTP connection verified` (if not, check the mailbox password / GoDaddy SMTP access).
-3. If the service URL is not `https://creva-contact-api.onrender.com`, update `CONTACT_API_URL` at the top of
+3. Live service: `https://crevabackend.onrender.com`. If the service URL ever changes, update `CONTACT_API_URL` at the top of
    `js/contact-submission.js` in the website and push.
 4. Submit the contact form with **your own** test address and check: Admin Panel → Inquiries, the
    "New Contact Inquiry" email in info@crevasolution.in, then the "Thank You" email in your inbox
