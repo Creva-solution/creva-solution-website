@@ -36,8 +36,9 @@ const SITE_ORIGIN = `http://localhost:${SITE_PORT}`;
 const { app } = createApp({
     port: 0, isProduction: true,
     supabase: { url: `http://127.0.0.1:${db.address().port}`, anonKey: 'anon' },
-    smtp: { host: '127.0.0.1', port: smtp.server.address().port, secure: true, user: 'info@crevasolution.in', password: 'x', allowSelfSigned: true },
-    mail: { from: 'info@crevasolution.in', fromName: 'Creva Solutions', admin: 'info@crevasolution.in', siteUrl: 'https://crevasolution.in/' },
+    provider: 'smtp',
+    smtp: { host: '127.0.0.1', port: smtp.server.address().port, secure: true, user: 'notifications@example.test', password: 'x', allowSelfSigned: true },
+    mail: { from: 'notifications@example.test', fromName: 'Creva Solutions', adminNotification: ['crevasolution@gmail.com'], siteUrl: 'https://crevasolution.in/' },
     allowedOrigins: [SITE_ORIGIN], rateLimitPerWindow: 1000
 }, { log: { info() {}, warn() {}, error() {} } });
 const apiSrv = app.listen(0); await new Promise(r => apiSrv.once('listening', r));
@@ -89,12 +90,12 @@ for (const vp of [{ name: 'desktop', width: 1280, height: 900 }, { name: 'mobile
     rows.clear(); mails.length = 0;
     await fill(p);
     await p.click('button[type=submit]'); await p.click('button[type=submit]').catch(() => {});   // double click
-    await p.waitForFunction(() => !document.getElementById("form-status").hidden, { timeout: 30000 }); for (let i = 0; i < 100 && mails.length < 2; i++) await sleep(50);
+    await p.waitForFunction(() => !document.getElementById("form-status").hidden, { timeout: 30000 }); for (let i = 0; i < 100 && mails.length < 1; i++) await sleep(50); await sleep(300);
     const st = await statusText(p);
     const formCleared = await p.$eval('[name=name]', e => e.value === '');
     const overflow = await p.evaluate(() => document.documentElement.scrollWidth - innerWidth);
     console.log(`[${vp.name}] success flow -> ${st}\n   rows saved: ${rows.size} (${[...rows.values()].map(r => r.mobile + ' / ' + r.service).join(', ')}) | form cleared: ${formCleared} | overflowX: ${overflow}`);
-    console.log(`   emails in order: ${mails.map(m => `${m.subject} [from ${m.from} -> ${m.to}]`).join('  THEN  ')}`);
+    console.log(`   emails sent: ${mails.length} -> ${mails.map(m => `${m.subject} [from ${m.from} -> ${m.to}]`).join(' | ')}`);
     console.log(`   fallback used: ${fallback.length} | page errors: ${errors.length ? errors.join(' | ') : 'none'}`);
 
     // invalid (server-side 400 path is covered by unit tests; here: browser validation message)

@@ -1,7 +1,7 @@
 // Creva Solutions contact API (Render web service).
 //   GET  /health        -> {"status":"ok"}
-//   POST /api/contact   -> save to Supabase, respond, then (background) admin email, then customer email
-//   GET  /api/contact/:id/status -> email delivery state of one submission
+//   POST /api/contact   -> save to Supabase, then ONE admin notification email (never to the customer)
+//   GET  /api/contact/:id/status -> notification state of one submission
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
@@ -80,13 +80,14 @@ if (import.meta.url === pathToFileURL(process.argv[1]).href) {
     const server = app.listen(config.port, () => {
         log.info(`creva-contact-api listening on port ${config.port}; allowed origins: ${config.allowedOrigins.join(', ')}`);
         // Warm up SMTP after the server is already listening (never blocks startup or requests).
+        log.info(`[EMAIL] one admin notification per inquiry to ${config.mail.adminNotification.length} address(es); no customer emails`);
         if (config.provider === 'smtp') {
             log.info(`[EMAIL] provider smtp: connecting to ${config.smtp.host}:${config.smtp.port} (secure=${config.smtp.secure})`);
             email.verify()
                 .then((r) => log.info(`[EMAIL] SMTP connection verified in ${r.ms}ms`))
                 .catch((e) => log.error(`[EMAIL] SMTP verify failed after ${e.ms}ms: ${e.code || ''} ${e.message}`));
         } else {
-            log.info('[EMAIL] provider resend (HTTPS API); sender ' + config.mail.from + ', admin notification to ' + config.mail.admin.length + ' address(es)');
+            log.info('[EMAIL] provider resend (HTTPS API)');
         }
     });
     const shutdown = () => { server.close(() => { email.close(); process.exit(0); }); setTimeout(() => process.exit(0), 10000).unref(); };

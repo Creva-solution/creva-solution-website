@@ -37,10 +37,11 @@ export function loadConfig() {
             allowSelfSigned: process.env.SMTP_ALLOW_SELF_SIGNED === 'true' && process.env.NODE_ENV !== 'production'
         } : null,
         mail: {
-            from: required('MAIL_FROM'),
-            fromName: (process.env.MAIL_FROM_NAME || 'Creva Solutions').trim(),
-            // one or more recipients for the new-inquiry notification, comma-separated
-            admin: required('ADMIN_EMAIL').split(',').map((s) => s.trim()).filter(Boolean),
+            // Sender: MAIL_FROM (defaults to the SMTP account itself). Nothing is hard-coded.
+            from: (process.env.MAIL_FROM || process.env.SMTP_USER || '').trim() || required('MAIL_FROM'),
+            fromName: (process.env.MAIL_FROM_NAME || '').trim(),
+            // The ONE recipient of the new-inquiry notification (e.g. crevasolution@gmail.com); comma-separated allowed.
+            adminNotification: required('ADMIN_NOTIFICATION_EMAIL').split(',').map((s) => s.trim()).filter(Boolean),
             siteUrl: (process.env.SITE_URL || 'https://crevasolution.in/').trim()
         },
         emailWaitMs: Number(process.env.EMAIL_WAIT_MS) || 15000,             // how long a request waits for the emails

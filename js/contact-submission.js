@@ -1,6 +1,6 @@
 // Contact form -> Creva contact API (separate Render backend) -> Supabase public.contact_submissions + emails.
-// The backend validates and saves the inquiry, answers immediately, then emails info@crevasolution.in FIRST and
-// the customer SECOND in the background. No SMTP or secret keys exist in this file.
+// The backend validates and saves the inquiry, then sends ONE notification email to the Creva team (the customer
+// never receives an email). No email credentials or secret keys exist in this file.
 //
 // Every attempt for one inquiry uses the same submission id, so retries can never create a second row:
 // - API slow / still processing  -> ask the API again with the same id (it returns the stored result)
