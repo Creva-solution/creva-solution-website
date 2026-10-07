@@ -23,7 +23,7 @@ const log = {
 export function createApp(config, deps = {}) {
     const supabase = deps.supabase || createSupabaseService(config.supabase);
     const logger = deps.log || log;
-    const email = deps.email || createEmailService(config.smtp, config.mail, logger);
+    const email = deps.email || createEmailService(config, config.mail, logger);
     const store = deps.store || createSubmissionStore();
     const mailQueue = deps.mailQueue || createMailQueue({ email, store, log: logger, retryDelaysMs: config.retryDelaysMs });
 
@@ -80,10 +80,14 @@ if (import.meta.url === pathToFileURL(process.argv[1]).href) {
     const server = app.listen(config.port, () => {
         log.info(`creva-contact-api listening on port ${config.port}; allowed origins: ${config.allowedOrigins.join(', ')}`);
         // Warm up SMTP after the server is already listening (never blocks startup or requests).
-        log.info(`[SMTP] connecting to ${config.smtp.host}:${config.smtp.port} (secure=${config.smtp.secure})`);
-        email.verify()
-            .then((r) => log.info(`[SMTP] connection verified in ${r.ms}ms`))
-            .catch((e) => log.error(`[SMTP] verify failed after ${e.ms}ms: ${e.code || ''} ${e.message}`));
+        if (config.provider === 'smtp') {
+            log.info(`[EMAIL] provider smtp: connecting to ${config.smtp.host}:${config.smtp.port} (secure=${config.smtp.secure})`);
+            email.verify()
+                .then((r) => log.info(`[EMAIL] SMTP connection verified in ${r.ms}ms`))
+                .catch((e) => log.error(`[EMAIL] SMTP verify failed after ${e.ms}ms: ${e.code || ''} ${e.message}`));
+        } else {
+            log.info('[EMAIL] provider resend (HTTPS API); sender ' + config.mail.from + ', admin notification to ' + config.mail.admin.length + ' address(es)');
+        }
     });
     const shutdown = () => { server.close(() => { email.close(); process.exit(0); }); setTimeout(() => process.exit(0), 10000).unref(); };
     process.on('SIGTERM', shutdown);

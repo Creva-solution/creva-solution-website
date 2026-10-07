@@ -84,10 +84,69 @@ ${signatureText(mail.siteUrl)}
     };
 }
 
-// One pooled SMTP transporter for the whole process: the slow part of talking to GoDaddy from Render is
-// connecting + TLS + greeting + AUTH, so an authenticated connection is kept open and reused for the admin
-// and customer emails (and later inquiries) instead of reconnecting for every message.
-export function createEmailService(smtp, mail, log = console) {
+const timed = async (fn) => {
+    const t = Date.now();
+    try { const r = await fn(); return { ...r, ms: Date.now() - t }; }
+    catch (e) { e.ms = Date.now() - t; throw e; }
+};
+
+// Chooses the delivery method: the Resend HTTPS API (works on Render's free plan, which blocks SMTP ports
+// 25/465/587) or SMTP (GoDaddy, needs a paid Render instance).
+export function createEmailService(cfg, mail, log = console) {
+    return cfg.provider === 'resend' ? createResendService(cfg.resend, mail, log) : createSmtpService(cfg.smtp, mail, log);
+}
+
+// ---- Resend (https://resend.com) – HTTPS port 443. Sender stays "Creva Solutions" <info@crevasolution.in>;
+// the crevasolution.in domain must be verified in Resend (DKIM), see README.
+export function createResendService({ apiKey, baseUrl = 'https://api.resend.com', timeoutMs = 15000 }, mail, log = console) {
+    async function send(message, idempotencyKey) {
+        const ctrl = new AbortController();
+        const timer = setTimeout(() => ctrl.abort(), timeoutMs);
+        let res;
+        try {
+            res = await fetch(`${baseUrl}/emails`, {
+                method: 'POST',
+                headers: {
+                    Authorization: `Bearer ${apiKey}`,
+                    'Content-Type': 'application/json',
+                    ...(idempotencyKey ? { 'Idempotency-Key': idempotencyKey } : {})   // a retry is never delivered twice
+                },
+                body: JSON.stringify({
+                    from: `${message.from.name} <${message.from.address}>`,
+                    to: [].concat(message.to),
+                    ...(message.replyTo ? { reply_to: message.replyTo } : {}),
+                    subject: message.subject,
+                    html: message.html,
+                    text: message.text
+                }),
+                signal: ctrl.signal
+            });
+        } catch (e) {
+            const err = new Error(e.name === 'AbortError' ? `Resend request timeout after ${timeoutMs}ms` : `Resend request failed: ${e.message}`);
+            err.code = e.name === 'AbortError' ? 'ETIMEDOUT' : 'ECONNECTION';
+            err.transient = true;
+            throw err;
+        } finally { clearTimeout(timer); }
+        const body = await res.json().catch(() => ({}));
+        if (res.ok) return { messageId: body.id };
+        // 429 / 5xx: try again later. 4xx (e.g. 403 domain not verified, 422 invalid data): permanent.
+        const err = new Error(`Resend HTTP ${res.status}: ${String(body.message || body.name || 'error').slice(0, 150)}`);
+        err.code = `HTTP_${res.status}`;
+        err.transient = res.status === 429 || res.status >= 500;
+        throw err;
+    }
+    return {
+        sendAdmin: (s) => timed(() => send(buildAdminEmail(s, mail), `contact-${s.id}-admin`)),
+        sendCustomer: (s) => timed(() => send(buildCustomerEmail(s, mail), `contact-${s.id}-customer`)),
+        // No network call: a sending-only API key cannot list domains. Configuration is checked at startup.
+        verify: () => timed(async () => ({})),
+        close: () => {}
+    };
+}
+
+// ---- SMTP: one pooled transporter for the whole process. The slow part of SMTP is connecting + TLS +
+// greeting + AUTH, so an authenticated connection is kept open and reused instead of reconnecting per message.
+export function createSmtpService(smtp, mail, log = console) {
     const transport = nodemailer.createTransport({
         pool: true,
         maxConnections: 1,                         // GoDaddy: one connection is plenty and avoids parallel logins
@@ -104,16 +163,11 @@ export function createEmailService(smtp, mail, log = console) {
     // A pooled transport reports background connection problems as events; never let them crash the process.
     transport.on('error', (e) => log.error(`[SMTP] transport error: ${e.code || ''} ${e.message}`));
 
-    const timed = async (label, fn) => {
-        const t = Date.now();
-        try { const r = await fn(); return { ...r, ms: Date.now() - t }; }
-        catch (e) { e.ms = Date.now() - t; throw e; }
-    };
     return {
-        sendAdmin: (s) => timed('admin', () => transport.sendMail(buildAdminEmail(s, mail))),
-        sendCustomer: (s) => timed('customer', () => transport.sendMail(buildCustomerEmail(s, mail))),
+        sendAdmin: (s) => timed(() => transport.sendMail(buildAdminEmail(s, mail))),
+        sendCustomer: (s) => timed(() => transport.sendMail(buildCustomerEmail(s, mail))),
         // Opens (and authenticates) a connection; used at startup so the first inquiry does not pay for it.
-        verify: () => timed('verify', () => transport.verify().then(() => ({}))),
+        verify: () => timed(() => transport.verify().then(() => ({}))),
         close: () => transport.close()
     };
 }

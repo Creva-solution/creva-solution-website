@@ -1,13 +1,13 @@
-// Background email delivery for saved inquiries.
+// Email delivery for saved inquiries (Resend API or SMTP).
 // Per inquiry, strictly in this order: admin notification (retried) -> only if sent -> customer acknowledgement
-// (retried). Inquiries are processed one at a time over the pooled SMTP connection. The HTTP request does not
-// wait for this, so a slow SMTP server never delays or breaks the contact form.
+// (retried). Inquiries are processed one at a time; the request waits for the result up to EMAIL_WAIT_MS.
 
-const TRANSIENT = /ETIMEDOUT|ECONNRESET|ECONNREFUSED|EPIPE|ESOCKET|ECONNECTION|EDNS|EAI_AGAIN|ENOTFOUND|timeout|Greeting never received|Connection closed|socket hang up/i;
+const TRANSIENT = /ETIMEDOUT|ECONNRESET|ECONNREFUSED|EPIPE|ESOCKET|ECONNECTION|EDNS|EAI_AGAIN|ENOTFOUND|timeout|Greeting never received|Connection closed|socket hang up|fetch failed/i;
 
 export function isTransient(e) {
     if (!e) return false;
-    if (e.responseCode && e.responseCode >= 400 && e.responseCode < 500) return true;   // 4xx = try again later
+    if (typeof e.transient === 'boolean') return e.transient;                               // set by the API provider
+    if (e.responseCode && e.responseCode >= 400 && e.responseCode < 500) return true;   // SMTP 4xx = try again later
     return TRANSIENT.test(`${e.code || ''} ${e.message || ''}`);
 }
 

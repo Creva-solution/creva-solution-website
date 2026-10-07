@@ -100,46 +100,56 @@ restarts can never create a second row. If a repeated id arrives, no email is se
 ---
 
 ## Deploy on Render
-> **Plan:** Render **Free** instances cannot send email (outbound ports 25, 465 and 587 are blocked) and sleep after
-> 15 minutes. Use **Starter** (or higher) for this service.
+> **Plan:** this service runs on Render **Free**. Render Free blocks outbound SMTP ports (25, 465, 587), so email is
+> sent through the **Resend** HTTPS API (`EMAIL_PROVIDER=resend`), still from `Creva Solutions <info@crevasolution.in>`.
+> Free instances also sleep after 15 minutes without traffic; the first request then waits ~20–50 s for the wake-up
+> (see "Keep the service awake" below). On a paid instance you can switch to GoDaddy SMTP with `EMAIL_PROVIDER=smtp`.
 
-### Option A – Blueprint (uses `render.yaml`)
-1. Push this repository to GitHub.
-2. Render Dashboard → **New → Blueprint** → select the repository → Apply.
-3. When asked, enter the two secret values: `SUPABASE_ANON_KEY` and `SMTP_PASSWORD`.
+### 1. Resend (once)
+1. Create a free account at <https://resend.com> (3,000 emails/month, 100/day).
+2. **Domains → Add Domain** → `crevasolution.in` (region closest to you).
+3. Resend shows DNS records (a DKIM `TXT` record `resend._domainkey`, and an `MX` + `TXT` (SPF) record on the
+   `send` subdomain). Add **exactly those** in **GoDaddy → My Products → crevasolution.in → DNS → Add New Record**.
+   They do **not** touch the existing root SPF (`include:secureserver.net`) or the MX records of your mailbox, so
+   info@crevasolution.in keeps receiving mail as before.
+4. Back in Resend, click **Verify DNS Records** and wait until the domain shows **Verified** (minutes to a few hours).
+5. **API Keys → Create API Key** → permission **Sending access**, domain `crevasolution.in` → copy the key (`re_…`).
 
-### Option B – manual Web Service
-Render Dashboard → **New → Web Service** → connect the repository, then:
-- **Root Directory:** `backend`
-- **Runtime:** Node · **Build Command:** `npm install` · **Start Command:** `npm start`
-- **Instance type:** Starter · **Health Check Path:** `/health`
-- **Environment variables:**
-
+### 2. Render environment variables (service `crevabackend` → Environment)
 | Key | Value |
 |---|---|
 | `NODE_ENV` | `production` |
 | `SUPABASE_URL` | `https://xtivwelnoccdontbrxft.supabase.co` |
 | `SUPABASE_ANON_KEY` | the public anon key (same as in `admin/js/config.js`) |
-| `SMTP_HOST` | `smtpout.secureserver.net` |
-| `SMTP_PORT` | `465` |
-| `SMTP_SECURE` | `true` |
-| `SMTP_USER` | `info@crevasolution.in` |
-| `SMTP_PASSWORD` | the mailbox password |
+| `EMAIL_PROVIDER` | `resend` |
+| `RESEND_API_KEY` | the `re_…` key from step 1.5 (secret) |
 | `MAIL_FROM` | `info@crevasolution.in` |
 | `MAIL_FROM_NAME` | `Creva Solutions` |
-| `ADMIN_EMAIL` | `info@crevasolution.in,crevasolution@gmail.com` (one or more, comma-separated) |
+| `ADMIN_EMAIL` | `info@crevasolution.in` (several allowed, comma-separated, e.g. `info@crevasolution.in,crevasolution@gmail.com`) |
 | `ALLOWED_ORIGINS` | `https://crevasolution.in` |
+| `EMAIL_WAIT_MS` | optional, default `15000` |
 
-`PORT` is set by Render automatically; the server uses it (defaults to 10000 locally).
+The `SMTP_*` variables are only needed with `EMAIL_PROVIDER=smtp` and can be removed. `PORT` is set by Render.
 
-### After deploying
-1. Open `https://<your-service>.onrender.com/health` → `{"status":"ok"}`.
-2. Render → Logs should show `SMTP connection verified` (if not, check the mailbox password / GoDaddy SMTP access).
-3. Live service: `https://crevabackend.onrender.com`. If the service URL ever changes, update `CONTACT_API_URL` at the top of
-   `js/contact-submission.js` in the website and push.
-4. Submit the contact form with **your own** test address and check: Admin Panel → Inquiries, the
-   "New Contact Inquiry" email in info@crevasolution.in, then the "Thank You" email in your inbox
-   (Gmail → *Show original*: `From: Creva Solutions <info@crevasolution.in>`, `SPF: PASS`).
+### 3. Deploy
+Render → service → **Manual Deploy → Deploy latest commit** (or enable **Auto-Deploy** in Settings so every push to
+`main` deploys). Service settings: Root Directory `backend`, Build `npm install`, Start `npm start`,
+Health Check Path `/health`. (`render.yaml` in the repository root describes the same service as a Blueprint.)
+
+### 4. After deploying
+1. `https://crevabackend.onrender.com/health` → `{"status":"ok"}`.
+2. Render → Logs shows `[EMAIL] provider resend (HTTPS API); sender info@crevasolution.in, …`.
+3. Submit the contact form with **your own** address and check Admin Panel → Inquiries, the "New Contact Inquiry"
+   email, then the "Thank You" email (Gmail → *Show original*: `From: Creva Solutions <info@crevasolution.in>`,
+   `DKIM: PASS` for crevasolution.in). Resend → **Emails** lists every message with its delivery status.
+4. Render logs show each step: `[CONTACT] … Supabase insert completed in …ms`, `admin email sent in …ms`,
+   `customer email sent in …ms`, `request completed in …ms -> HTTP 200`.
+
+### Keep the service awake (recommended on Free)
+A free instance sleeps after 15 minutes; the website pings `/health` when the contact page opens to start waking it,
+and the form waits up to 30 s plus one retry. To avoid the wake-up delay entirely, add a free uptime monitor
+(for example UptimeRobot or cron-job.org) that requests `https://crevabackend.onrender.com/health` every 10 minutes.
+One always-on free service uses about 720 of Render's 750 free instance hours per month.
 
 ## Local development
 ```bash
@@ -147,5 +157,5 @@ cd backend
 cp .env.example .env      # fill in the values
 npm install
 npm run dev               # http://localhost:10000/health
-npm test                  # 15 end-to-end tests with a local SMTP server and a fake Supabase API
+npm test                  # 25 end-to-end tests (local SMTP server, fake Resend and Supabase APIs)
 ```
