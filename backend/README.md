@@ -40,18 +40,22 @@ backend/
 `service` is required because `contact_submissions.service` is NOT NULL. `id` is optional but the website always
 sends one (duplicate protection). Mobile numbers are normalised to `+91 XXXXXXXXXX`.
 
-The API answers as soon as the inquiry is saved (about 1 s). The two emails are then sent in the background over
-one pooled, pre-warmed SMTP connection, strictly in this order: admin notification (retried on temporary errors:
-after 5 s, 20 s, 60 s) and only after it was sent, the customer acknowledgement (same retries).
+Order: save → admin notification → (only if sent) customer acknowledgement → response. Emails use one pooled,
+pre-warmed SMTP connection and are retried on temporary errors. The request waits for the emails up to
+`EMAIL_WAIT_MS` (default 15000); if SMTP is slower, it answers `202` (inquiry saved) and the emails finish in the
+background in the same order.
 
 | Response | When |
 |---|---|
-| `200 {"ok":true,"saved":true,"emailQueued":true}` | saved; emails are being sent |
+| `200 {"success":true,"saved":true,"adminEmail":true,"customerEmail":true}` | CASE 4 – saved, both emails sent |
+| `200 {"success":true,…,"adminEmail":true,"customerEmail":false}` | CASE 3 – customer email failed (admin not re-sent) |
+| `502 {"success":false,"saved":true}` | CASE 2 – saved, admin email failed, no customer email; sending again with the same id re-sends the emails only |
+| `502 {"success":false}` (no `saved`) | CASE 1 – Supabase insert failed – **no email sent** |
+| `202 {"success":true,"saved":true,"emailPending":true}` | saved; SMTP slower than `EMAIL_WAIT_MS`, emails continue |
 | `200/202 … "duplicate":true` | same submission id again (double click / retry) – nothing saved or sent twice |
-| `400 {"ok":false,"errors":{…}}` | validation failed – nothing saved |
+| `400 {"success":false,"errors":{…}}` | validation failed – nothing saved |
 | `403` | browser request from another website |
 | `429` | more than 10 submissions per IP per 15 minutes |
-| `502 {"ok":false}` | Supabase insert failed – **no email sent** |
 
 **`GET /api/contact/:id/status`** → `{"admin":"queued|sending|sent|failed","customer":"queued|sending|sent|failed|not_sent|limited"}`
 for one submission (kept 24 h in memory; no error details). `not_sent` = the admin email failed, so no acknowledgement.

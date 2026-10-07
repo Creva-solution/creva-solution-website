@@ -34,6 +34,7 @@ export function loadConfig() {
             admin: required('ADMIN_EMAIL').split(',').map((s) => s.trim()).filter(Boolean),
             siteUrl: (process.env.SITE_URL || 'https://crevasolution.in/').trim()
         },
+        emailWaitMs: Number(process.env.EMAIL_WAIT_MS) || 15000,             // how long a request waits for the emails
         retryDelaysMs: [5000, 20000, 60000],                                  // email retries on temporary SMTP errors
         rateLimitPerWindow: Number(process.env.CONTACT_RATE_LIMIT) || 10,   // submissions per IP per 15 minutes
         allowedOrigins: (process.env.ALLOWED_ORIGINS || 'https://crevasolution.in')

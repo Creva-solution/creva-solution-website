@@ -48,8 +48,14 @@ async function postOnce(payload) {
             signal: ctrl.signal
         });
         const data = await res.json().catch(() => ({}));
-        if (res.status === 202) return 'pending';                   // same id is being processed right now
-        if (res.ok && data.ok) return 'ok';                          // saved (emails are sent by the API)
+        const success = data.success === true || data.ok === true;
+        if (res.status === 202 && data.processing) return 'pending'; // same id is being processed right now
+        if (res.ok && success) return 'ok';                          // saved (+ emails sent, or still being sent)
+        if (data.saved && !success) {
+            // Saved, but the notification email could not be sent: keep the same id so "Send" again only
+            // retries the emails (no second inquiry). Never use the direct-save fallback here.
+            return { error: data.message || MSG_ERROR, keepId: true };
+        }
         if (res.status === 400) {
             const first = data.errors && Object.values(data.errors)[0];
             return { error: first || 'Please check the form and try again.' };

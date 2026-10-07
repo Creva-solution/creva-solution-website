@@ -21,8 +21,9 @@ export function createSubmissionStore({ maxAcksPerRecipientPerDay = 3, now = () 
     const entry = (id) => byId.get(id) || null;
     return {
         get: entry,
-        start: (id) => byId.set(id, { status: 'processing', at: now(), email: null }),
-        finish: (id, response) => byId.set(id, { ...(entry(id) || {}), status: 'done', response, at: now() }),
+        // submission data is kept (24 h, memory only) so a retry can re-send failed emails without a new row
+        start: (id, submission) => byId.set(id, { ...(entry(id) || {}), status: 'processing', at: now(), ...(submission ? { submission } : {}) }),
+        finish: (id, response, submission) => byId.set(id, { ...(entry(id) || {}), status: 'done', response, at: now(), ...(submission ? { submission } : {}) }),
         forget: (id) => byId.delete(id),
         setEmail(id, patch) {
             const e = entry(id) || { status: 'done', at: now() };

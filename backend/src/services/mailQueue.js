@@ -39,11 +39,17 @@ export function createMailQueue({ email, store, log, retryDelaysMs = [5000, 2000
     }
 
     async function processJob(job) {
-        const { submission: s } = job;
+        const { submission: s, skipAdmin } = job;
         const started = Date.now();
-        store.setEmail(s.id, { admin: 'sending' });
-        const adminOk = await attempt('admin', s.id, () => email.sendAdmin(s));
-        store.setEmail(s.id, { admin: adminOk ? 'sent' : 'failed' });
+        let adminOk = true;
+        if (skipAdmin) {
+            log.info(`[CONTACT] ${s.id} admin email already sent earlier, not repeated`);
+        } else {
+            store.setEmail(s.id, { admin: 'sending' });
+            log.info(`[CONTACT] ${s.id} admin email started`);
+            adminOk = await attempt('admin', s.id, () => email.sendAdmin(s));
+            store.setEmail(s.id, { admin: adminOk ? 'sent' : 'failed' });
+        }
         if (!adminOk) {
             store.setEmail(s.id, { customer: 'not_sent' });          // never acknowledge before the admin is informed
             log.error(`[CONTACT] ${s.id} customer email not sent because the admin email failed`);
@@ -52,11 +58,14 @@ export function createMailQueue({ email, store, log, retryDelaysMs = [5000, 2000
             log.warn(`[CONTACT] ${s.id} acknowledgement limit reached for ${mask(s.email)}, not sent`);
         } else {
             store.setEmail(s.id, { customer: 'sending' });
+            log.info(`[CONTACT] ${s.id} customer email started`);
             const custOk = await attempt('customer', s.id, () => email.sendCustomer(s));
             store.setEmail(s.id, { customer: custOk ? 'sent' : 'failed' });
             if (!custOk) log.error(`[CONTACT] ${s.id} customer email to ${mask(s.email)} failed`);
         }
         log.info(`[CONTACT] ${s.id} email job finished in ${Date.now() - started}ms`);
+        const e = (store.get(s.id) || {}).email || {};
+        return { admin: e.admin, customer: e.customer };
     }
 
     async function run() {
@@ -65,16 +74,17 @@ export function createMailQueue({ email, store, log, retryDelaysMs = [5000, 2000
         try {
             while (queue.length) {
                 const job = queue.shift();
-                try { await processJob(job); } catch (e) { log.error(`[CONTACT] ${job.submission.id} email job crashed: ${errText(e)}`); }
+                try { job.resolve(await processJob(job)); }
+                catch (e) { log.error(`[CONTACT] ${job.submission.id} email job crashed: ${errText(e)}`); job.resolve({ admin: 'failed', customer: 'not_sent' }); }
             }
         } finally { running = false; }
     }
 
     return {
-        enqueue(submission) {
-            store.setEmail(submission.id, { admin: 'queued', customer: 'queued' });
-            queue.push({ submission });
-            run();
+        // Returns a promise for the final { admin, customer } states. skipAdmin: the admin email was already sent.
+        enqueue(submission, { skipAdmin = false } = {}) {
+            store.setEmail(submission.id, skipAdmin ? { customer: 'queued' } : { admin: 'queued', customer: 'queued' });
+            return new Promise((resolve) => { queue.push({ submission, skipAdmin, resolve }); run(); });
         },
         size: () => queue.length + (running ? 1 : 0),
         idle: async () => { while (running || queue.length) await sleep(20); }

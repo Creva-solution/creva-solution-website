@@ -18,7 +18,7 @@ const config = (over = {}) => ({
     supabase: { url: `http://127.0.0.1:${db.address().port}`, anonKey: ANON },
     smtp: { host: '127.0.0.1', port: smtp.server.address().port, secure: true, user: 'info@crevasolution.in', password: PASS, allowSelfSigned: true },
     mail: { from: 'info@crevasolution.in', fromName: 'Creva Solutions', admin: 'info@crevasolution.in', siteUrl: 'https://crevasolution.in/' },
-    allowedOrigins: [ORIGIN], rateLimitPerWindow: 1000, retryDelaysMs: [50, 100], ...over
+    allowedOrigins: [ORIGIN], rateLimitPerWindow: 1000, retryDelaysMs: [50, 100], emailWaitMs: 15000, ...over
 });
 const capture = { info: (m) => logs.push(m), warn: (m) => logs.push(m), error: (m) => logs.push(m) };
 
@@ -106,13 +106,15 @@ test('invalid submissions -> 400, nothing saved or emailed', async () => {
     assert.equal(captured.length, 0);
 });
 
-test('valid submission: saved and answered immediately, then FIRST admin email, then SECOND customer email (exact headers)', async () => {
+test('CASE 4 valid submission: saved, FIRST admin email, SECOND customer email, then 200 success (exact headers)', async () => {
     const body = valid();
     const r = await post(body);
     const j = await r.json();
     assert.equal(r.status, 200);
-    assert.deepEqual([j.ok, j.saved, j.emailQueued], [true, true, true]);
-    assert.deepEqual(await waitStatus(body.id, final), { ok: true, id: body.id, admin: 'sent', customer: 'sent' });
+    assert.deepEqual([j.success, j.ok, j.saved, j.adminEmail, j.customerEmail], [true, true, true, true, true]);
+    assert.equal(j.message, 'Your enquiry has been submitted successfully.');
+    assert.equal(captured.length, 2, 'both emails were sent before the response');
+    assert.deepEqual(await status(body.id), { ok: true, id: body.id, admin: 'sent', customer: 'sent' });
     assert.equal(j.id, body.id);
     const row = rows.get(body.id);
     assert.deepEqual([row.name, row.email, row.mobile, row.service, row.message], ['Test User', 'test@example.com', '+91 9876543210', 'Web Development', 'Test enquiry']);
@@ -187,31 +189,40 @@ test('Supabase insert fails -> 502 generic message, NO email sent', async () => 
     assert.equal(captured.length, 0);
 });
 
-test('admin email fails -> record kept, customer email NOT sent', async () => {
+test('CASE 2 admin email fails -> record kept, NO customer email, safe 502; retry re-sends emails without a new row', async () => {
     rejectRcpt.add('info@crevasolution.in');
     const body = valid({ email: 'adminfail@example.com' });
+    const before = rows.size;
     const r = await post(body);
     const j = await r.json();
-    assert.equal(r.status, 200);
-    assert.equal(j.saved, true);
+    assert.equal(r.status, 502);
+    assert.deepEqual([j.success, j.saved], [false, true]);
+    assert.doesNotMatch(JSON.stringify(j), /550|SMTP|Mailbox|smtp/);
     assert.ok(rows.has(body.id));
-    const st = await waitStatus(body.id, final);
-    assert.deepEqual([st.admin, st.customer], ['failed', 'not_sent']);
-    await new Promise((r) => setTimeout(r, 300));
     assert.equal(captured.length, 0);
+    assert.deepEqual(await status(body.id), { ok: true, id: body.id, admin: 'failed', customer: 'not_sent' });
+    // SMTP recovers; the visitor presses Send again (same submission id)
+    rejectRcpt.clear();
+    const r2 = await post(body);
+    const j2 = await r2.json();
+    assert.equal(r2.status, 200);
+    assert.deepEqual([j2.success, j2.adminEmail, j2.customerEmail], [true, true, true]);
+    assert.equal(rows.size, before + 1, 'no second row');
+    assert.deepEqual(captured.map((c) => c.env.rcptTo[0].address), ['info@crevasolution.in', 'adminfail@example.com']);
 });
 
-test('customer email fails -> record kept, admin email sent exactly once', async () => {
+test('CASE 3 customer email fails -> record kept, admin email sent once; retry re-sends only the acknowledgement', async () => {
     rejectRcpt.add('custfail@example.com');
     const body = valid({ email: 'custfail@example.com' });
     const r = await post(body);
     const j = await r.json();
-    assert.deepEqual([r.status, j.saved], [200, true]);
-    const st = await waitStatus(body.id, final);
-    assert.deepEqual([st.admin, st.customer], ['sent', 'failed']);
-    await waitMail(1); await new Promise((r) => setTimeout(r, 300));
-    assert.equal(captured.length, 1);
-    assert.equal(captured[0].env.rcptTo[0].address, 'info@crevasolution.in');
+    assert.deepEqual([r.status, j.success, j.saved, j.adminEmail, j.customerEmail], [200, true, true, true, false]);
+    assert.deepEqual(captured.map((c) => c.env.rcptTo[0].address), ['info@crevasolution.in']);
+    rejectRcpt.clear(); captured = [];
+    const r2 = await post(body);
+    const j2 = await r2.json();
+    assert.deepEqual([r2.status, j2.customerEmail], [200, true]);
+    assert.deepEqual(captured.map((c) => c.env.rcptTo[0].address), ['custfail@example.com'], 'admin email not repeated');
 });
 
 test('honeypot filled -> success response, nothing saved or sent', async () => {
@@ -253,17 +264,19 @@ test('rate limit per IP -> 429', async () => {
     } finally { srv.close(); }
 });
 
-test('SLOW SMTP (3 s greeting, fresh connection): the visitor gets a response at once; emails still go out in order', async () => {
+test('SLOW SMTP beyond the wait budget (3 s greeting, 1 s budget): 202 success at once, emails still go out in order', async () => {
     // fresh backend instance = no pooled connection yet, so the first email really waits for the slow greeting
-    const { srv, base: b } = await startApi(config());
+    const { srv, base: b } = await startApi(config({ emailWaitMs: 1000 }));
     try {
         greetingDelayMs = 3000;
         const body = valid({ email: 'slowsmtp@example.com' });
         const t = Date.now();
         const r = await post(body, { url: b });
         const ms = Date.now() - t;
-        assert.equal(r.status, 200);
-        assert.ok(ms < 1500, 'response took ' + ms + 'ms');
+        assert.equal(r.status, 202);
+        const jj = await r.json();
+        assert.deepEqual([jj.success, jj.saved, jj.emailPending], [true, true, true]);
+        assert.ok(ms < 1800, 'response took ' + ms + 'ms');
         let st; for (let i = 0; i < 400; i++) { st = await status(body.id, b); if (final(st)) break; await new Promise((x) => setTimeout(x, 30)); }
         assert.deepEqual([st.admin, st.customer], ['sent', 'sent']);
         // this submission's own emails (earlier tests' background emails may also be in the capture)
@@ -285,14 +298,15 @@ test('temporary SMTP error (451) on the admin email is retried; customer email f
     assert.ok(logs.some((l) => /admin email failed .*attempt 1.*retrying/.test(l)));
 });
 
-test('SMTP server down: inquiry saved and answered fast, emails marked failed, no customer email, server keeps working', async () => {
+test('SMTP server down: inquiry saved, safe 502 (no customer email), server keeps working', async () => {
     const { srv, base: b } = await startApi(config({ smtp: { host: '127.0.0.1', port: 1, secure: true, user: 'x', password: 'y', allowSelfSigned: true, connectionTimeout: 500 } }));
     try {
         const body = valid({ email: 'smtpdown@example.com' });
         const t = Date.now();
         const r = await post(body, { url: b });
-        assert.equal(r.status, 200);
-        assert.ok(Date.now() - t < 1500);
+        assert.equal(r.status, 502);
+        assert.equal((await r.json()).saved, true);
+        assert.ok(Date.now() - t < 5000);
         assert.ok(rows.has(body.id));
         let st; for (let i = 0; i < 200; i++) { st = await status(body.id, b); if (!/queued|sending/.test(st.admin)) break; await new Promise((x) => setTimeout(x, 30)); }
         assert.deepEqual([st.admin, st.customer], ['failed', 'not_sent']);

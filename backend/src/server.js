@@ -60,7 +60,7 @@ export function createApp(config, deps = {}) {
     });
     app.use('/api', express.json({ limit: '20kb' }));
     app.use('/api/contact', contactLimiter);
-    app.use('/api', contactRouter({ supabase, mailQueue, store, log: logger }));
+    app.use('/api', contactRouter({ supabase, mailQueue, store, log: logger, emailWaitMs: config.emailWaitMs }));
 
     app.use((_req, res) => res.status(404).json({ ok: false, message: 'Not found.' }));
     // Errors (e.g. malformed JSON): generic message only, no stack traces or internals.

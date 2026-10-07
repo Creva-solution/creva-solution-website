@@ -98,6 +98,7 @@ for (const vp of [{ name: 'desktop', width: 1280, height: 900 }, { name: 'mobile
     console.log(`   fallback used: ${fallback.length} | page errors: ${errors.length ? errors.join(' | ') : 'none'}`);
 
     // invalid (server-side 400 path is covered by unit tests; here: browser validation message)
+    await sleep(3200);   // past the post-success cooldown
     await fill(p, { mobile: '123' }); await p.click('button[type=submit]'); await sleep(300);
     console.log(`   invalid mobile -> ${await statusText(p)}`);
     if (vp.name === 'desktop') await p.screenshot({ path: path.join(process.env.SHOTS || '.', 'contact-form-desktop.png') });
