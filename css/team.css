@@ -1,31 +1,66 @@
 /* About page: "Our Team" section + member profile modal.
    Self-contained (the precompiled Tailwind build in style.css does not include these utilities). */
-.tm-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 1.5rem; max-width: 64rem; margin: 0 auto; }
+.tm-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 2rem; max-width: 64rem; margin: 0 auto; }
+
+/* Portrait card: full-bleed photo with a frosted-glass name label */
 .tm-card {
-    display: flex; flex-direction: column; align-items: center; text-align: center;
-    width: 100%; max-width: 16rem; padding: 2rem 1.5rem 1.75rem;
-    background: #fff; border: 1px solid #e5e7eb; border-radius: 1.25rem;
-    box-shadow: 0 1px 2px rgba(11, 26, 60, .04);
-    font: inherit; color: inherit; cursor: pointer;
-    transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+    position: relative; display: block; width: 100%; max-width: 16.5rem; aspect-ratio: 4 / 5;
+    padding: 0; border: 1px solid rgba(255, 255, 255, .7); border-radius: 1.25rem; overflow: hidden;
+    background: #e9edf3; font: inherit; color: inherit; text-align: left; cursor: pointer; isolation: isolate;
+    box-shadow: 0 10px 30px rgba(11, 26, 60, .10);
+    transition: transform .35s ease, box-shadow .35s ease;
 }
-.tm-card:hover { transform: translateY(-4px); border-color: #c7d7ee; box-shadow: 0 14px 30px rgba(11, 26, 60, .10); }
-.tm-card:focus-visible { outline: 3px solid var(--color-primary, #3C77C3); outline-offset: 3px; }
-.tm-photo {
-    width: 9rem; height: 9rem; border-radius: 9999px; overflow: hidden; margin-bottom: 1.25rem;
-    border: 4px solid #fff; box-shadow: 0 0 0 2px #dbe6f5, 0 6px 16px rgba(11, 26, 60, .10);
-    background: #eef3fb; display: flex; align-items: center; justify-content: center;
+.tm-card::before {   /* soft colour glow behind the photo, revealed on hover */
+    content: ""; position: absolute; inset: 0; z-index: -1;
+    background: radial-gradient(120% 80% at 100% 0%, rgba(186, 160, 255, .55), transparent 60%),
+                radial-gradient(120% 80% at 0% 100%, rgba(60, 119, 195, .35), transparent 60%);
+    opacity: 0; transition: opacity .35s ease;
 }
-.tm-photo img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s ease; }
-.tm-card:hover .tm-photo img { transform: scale(1.06); }
-.tm-initials { font-family: var(--font-heading, 'Poppins', sans-serif); font-size: 2.5rem; font-weight: 700; color: var(--color-primary, #3C77C3); }
-.tm-name { font-family: var(--font-heading, 'Poppins', sans-serif); font-size: 1.125rem; font-weight: 700; color: var(--color-dark, #0b1a3c); margin: 0 0 .25rem; }
-.tm-role { font-size: .8rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--color-primary, #3C77C3); margin: 0; }
-.tm-more { margin-top: 1rem; font-size: .85rem; font-weight: 500; color: #6b7280; display: inline-flex; align-items: center; gap: .3rem; }
-.tm-card:hover .tm-more { color: var(--color-primary, #3C77C3); }
+.tm-photo { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+.tm-photo img {
+    width: 100%; height: 100%; object-fit: cover; object-position: center top;
+    filter: grayscale(1) contrast(1.05); transition: filter .45s ease, transform .6s ease;
+}
+.tm-initials {
+    width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;
+    background: linear-gradient(145deg, #dbe6f5, #f3eefe);
+    font-family: var(--font-heading, 'Poppins', sans-serif); font-size: 3.5rem; font-weight: 700; color: var(--color-primary, #3C77C3);
+}
+.tm-label {
+    position: absolute; left: .75rem; right: .75rem; bottom: .75rem; padding: .8rem 1rem;
+    border-radius: .85rem; border: 1px solid rgba(255, 255, 255, .35);
+    background: rgba(255, 255, 255, .18);
+    -webkit-backdrop-filter: blur(14px) saturate(1.4); backdrop-filter: blur(14px) saturate(1.4);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .25);
+}
+.tm-label::before {   /* keeps the white text readable on light photos */
+    content: ""; position: absolute; inset: 0; border-radius: inherit; z-index: -1;
+    background: linear-gradient(180deg, rgba(11, 26, 60, .10), rgba(11, 26, 60, .35));
+}
+.tm-name { font-family: var(--font-heading, 'Poppins', sans-serif); font-size: 1.05rem; font-weight: 600; line-height: 1.3; color: #fff; margin: 0; text-shadow: 0 1px 2px rgba(0, 0, 0, .25); }
+.tm-role { font-size: .85rem; line-height: 1.35; color: rgba(255, 255, 255, .88); margin: .15rem 0 0; text-shadow: 0 1px 2px rgba(0, 0, 0, .25); }
+
+.tm-card:hover, .tm-card:focus-visible { transform: translateY(-6px); box-shadow: 0 22px 45px rgba(91, 70, 190, .22); }
+.tm-card:hover::before, .tm-card:focus-visible::before { opacity: 1; }
+.tm-card:hover .tm-photo img, .tm-card:focus-visible .tm-photo img { filter: none; transform: scale(1.04); }
+.tm-card:focus-visible { outline: 3px solid var(--color-primary, #3C77C3); outline-offset: 4px; }
+
+/* Touch screens have no hover: show the photos in colour */
+@media (hover: none) { .tm-photo img { filter: none; } }
+
 .tm-note { width: 100%; text-align: center; color: #6b7280; }
-.tm-skel { pointer-events: none; }
-.tm-skel .tm-photo { box-shadow: none; }
+.tm-skel { pointer-events: none; box-shadow: none; }
+.tm-skel .tm-label { background: rgba(255, 255, 255, .6); }
+
+@media (max-width: 480px) {
+    .tm-grid { gap: 1.25rem; }
+    .tm-card { max-width: 20rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .tm-card, .tm-photo img, .tm-card::before { transition: none; }
+    .tm-card:hover, .tm-card:focus-visible { transform: none; }
+    .tm-card:hover .tm-photo img { transform: none; }
+}
 
 /* Profile modal (markup in about.html, behaviour in js/script.js) */
 #team-modal { align-items: flex-end; }
@@ -42,5 +77,3 @@
     #team-modal-content { width: auto; max-width: 32rem; padding: 2.5rem; border-radius: 1.5rem; }
     #team-modal-content > div > div:first-child { width: 10rem; height: 10rem; }
 }
-@media (max-width: 480px) { .tm-card { max-width: none; } }
-@media (prefers-reduced-motion: reduce) { .tm-card, .tm-photo img { transition: none; } .tm-card:hover { transform: none; } }

@@ -345,15 +345,16 @@ function renderTeam(items, container) {
         };
         if (photo) {
             const img = el('img');
-            img.src = photo; img.alt = name; img.loading = 'lazy'; img.decoding = 'async'; img.width = 144; img.height = 144;
+            img.src = photo; img.alt = name; img.loading = 'lazy'; img.decoding = 'async'; img.width = 264; img.height = 330;
             img.addEventListener('error', initials, { once: true });
             frame.appendChild(img);
         } else {
             initials();
         }
-        card.append(frame, el('h3', 'tm-name', name));
-        if (role) card.appendChild(el('p', 'tm-role', role));
-        if (clean(member.bio)) card.appendChild(el('span', 'tm-more', 'View profile →'));
+        const label = el('div', 'tm-label');
+        label.appendChild(el('h3', 'tm-name', name));
+        if (role) label.appendChild(el('p', 'tm-role', role));
+        card.append(frame, label);
 
         card.addEventListener('click', () => {
             if (!window.openTeamModal) return console.error('openTeamModal function not found');
@@ -449,8 +450,7 @@ function showSkeleton(container, type) {
         const itemHTML = `
             <div class="tm-card tm-skel" aria-hidden="true">
                 <div class="tm-photo skeleton"></div>
-                <div class="h-5 w-32 skeleton mb-2"></div>
-                <div class="h-4 w-24 skeleton"></div>
+                <div class="tm-label"><div class="h-5 w-32 skeleton mb-2"></div><div class="h-4 w-24 skeleton"></div></div>
             </div>
         `;
         skeletonHTML = Array(3).fill(itemHTML).join('');
