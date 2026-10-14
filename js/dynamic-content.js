@@ -103,11 +103,11 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (team && team.length > 0) {
                 renderTeam(team, teamContainer);
             } else {
-                teamContainer.innerHTML = '<p class="text-gray-500 col-span-4 text-center">No team members listed yet.</p>';
+                teamContainer.innerHTML = '<p class="tm-note">No team members listed yet.</p>';
             }
         } catch (err) {
             console.error('Error loading team:', err);
-            teamContainer.innerHTML = `<div class="col-span-4 text-center text-red-500 p-4 border border-red-100 rounded-lg bg-red-50"><p class="font-bold">Error loading team</p><p class="text-sm">${err.message}</p></div>`;
+            teamContainer.innerHTML = '<p class="tm-note">Team details could not be loaded right now. Please refresh the page.</p>';
         }
     }
 
@@ -322,42 +322,51 @@ function renderServices(items, container) {
     if (window.lucide) window.lucide.createIcons();
 }
 
+// Team cards (styles in css/team.css). Built with DOM APIs so names/bios are always shown as plain text.
 function renderTeam(items, container) {
     container.innerHTML = '';
+    const clean = (v) => String(v || '').trim();
+    const safeUrl = (v) => /^https?:\/\//i.test(clean(v)) ? clean(v) : '';   // empty = icon hidden in the modal
+    const el = (tag, cls, text) => { const n = document.createElement(tag); if (cls) n.className = cls; if (text) n.textContent = text; return n; };
+
     items.forEach(member => {
-        const div = document.createElement('div');
-        div.className = "flex flex-col items-center text-center group cursor-pointer";
+        const name = clean(member.name);
+        const role = clean(member.role);
+        const photo = safeUrl(member.photo_url);
 
-        // Use addEventListener directly to avoid JSON quoting issues in HTML attributes
-        div.addEventListener('click', () => {
-            if (window.openTeamModal) {
-                window.openTeamModal({
-                    name: member.name,
-                    role: member.role,
-                    image: member.photo_url || 'https://via.placeholder.com/150',
-                    bio: member.bio || '',
-                    linkedin: member.linkedin_url || '#',
-                    instagram: member.instagram_url || '#',
-                    facebook: member.facebook_url || '#'
-                });
-            } else {
-                console.error('openTeamModal function not found');
-            }
+        const card = el('button', 'tm-card');
+        card.type = 'button';
+        card.setAttribute('aria-label', `View profile of ${name}${role ? ', ' + role : ''}`);
+
+        const frame = el('div', 'tm-photo');
+        const initials = () => {
+            frame.textContent = '';
+            frame.appendChild(el('span', 'tm-initials', name.split(/\s+/).map(w => w[0]).join('').slice(0, 2).toUpperCase()));
+        };
+        if (photo) {
+            const img = el('img');
+            img.src = photo; img.alt = name; img.loading = 'lazy'; img.decoding = 'async'; img.width = 144; img.height = 144;
+            img.addEventListener('error', initials, { once: true });
+            frame.appendChild(img);
+        } else {
+            initials();
+        }
+        card.append(frame, el('h3', 'tm-name', name));
+        if (role) card.appendChild(el('p', 'tm-role', role));
+        if (clean(member.bio)) card.appendChild(el('span', 'tm-more', 'View profile →'));
+
+        card.addEventListener('click', () => {
+            if (!window.openTeamModal) return console.error('openTeamModal function not found');
+            window.openTeamModal({
+                name, role,
+                image: photo || 'assets/creva-logo.svg',
+                bio: clean(member.bio),
+                linkedin: safeUrl(member.linkedin_url),
+                instagram: safeUrl(member.instagram_url),
+                facebook: safeUrl(member.facebook_url)
+            });
         });
-
-        div.innerHTML = `
-            <div class="w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden mb-6 border-4 border-white shadow-sm group-hover:border-blue-50 group-hover:shadow-md transition-all duration-300 relative">
-                <div class="absolute inset-0 bg-dark/0 group-hover:bg-dark/10 transition-colors duration-300 z-10 flex items-center justify-center">
-                    <span class="opacity-0 group-hover:opacity-100 text-white font-medium text-sm transition-opacity duration-300 bg-black/50 px-3 py-1 rounded-full backdrop-blur-sm">View</span>
-                </div>
-                <img src="${member.photo_url || 'https://via.placeholder.com/150'}"
-                    alt="${member.name}"
-                    class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
-            </div>
-            <h3 class="text-lg font-bold text-dark mb-1 group-hover:text-primary transition-colors">${member.name}</h3>
-            <p class="text-sm text-primary font-medium uppercase tracking-wide">${member.role}</p>
-        `;
-        container.appendChild(div);
+        container.appendChild(card);
     });
 }
 
@@ -438,13 +447,13 @@ function showSkeleton(container, type) {
 
     } else if (type === 'team') {
         const itemHTML = `
-            <div class="flex flex-col items-center text-center">
-                <div class="w-32 h-32 md:w-40 md:h-40 rounded-full skeleton mb-6"></div>
+            <div class="tm-card tm-skel" aria-hidden="true">
+                <div class="tm-photo skeleton"></div>
                 <div class="h-5 w-32 skeleton mb-2"></div>
                 <div class="h-4 w-24 skeleton"></div>
             </div>
         `;
-        skeletonHTML = Array(4).fill(itemHTML).join('');
+        skeletonHTML = Array(3).fill(itemHTML).join('');
 
     } else if (type === 'clients-grid') {
         const itemHTML = `

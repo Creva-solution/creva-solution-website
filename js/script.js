@@ -75,6 +75,7 @@ document.addEventListener('DOMContentLoaded', function () {
         // Function to open modal (exposed to global scope for onclick)
         window.openTeamModal = function (member) {
             modalImage.src = member.image;
+            modalImage.alt = member.name || '';
             modalName.textContent = member.name;
             modalRole.textContent = member.role;
             modalBio.textContent = member.bio;

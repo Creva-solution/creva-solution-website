@@ -37,6 +37,7 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/extras.css">
+    <link rel="stylesheet" href="css/team.css">
     <link rel="icon" type="image/svg+xml" href="assets/creva-logo.svg">
     <script type="application/ld+json">
     {"@context":"https://schema.org","@type":"AboutPage","name":"About Creva Solutions | IT & Civil Solutions in Kallakurichi","url":"https://crevasolution.in/about.html","mainEntity":{"@id":"https://crevasolution.in/#organization"},"isPartOf":{"@type":"WebSite","@id":"https://crevasolution.in/#website","name":"Creva Solutions","url":"https://crevasolution.in/"}}
@@ -196,19 +197,18 @@
             </div>
         </section>
 
-        <!-- Our Team -->
-        <!-- <section class="py-16 md:py-24 bg-gray-50">
+        <!-- Our Team (members are managed in Admin Panel -> Team, table public.team_members) -->
+        <section id="team" class="py-16 md:py-24 bg-gray-50" aria-labelledby="team-heading">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center mb-16">
-                    <h2 class="text-3xl font-bold text-dark mb-4">Our Team</h2>
+                <div class="text-center mb-12">
+                    <h2 id="team-heading" class="text-3xl font-bold text-dark mb-4">Our Team</h2>
                     <p class="text-gray-600">The dedicated professionals driving our vision.</p>
                 </div>
-                <div id="team-container"
-                    class="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 max-w-5xl mx-auto justify-center">
-                    <p class="col-span-4 text-center text-gray-400">Loading team members...</p>
+                <div id="team-container" class="tm-grid" aria-live="polite">
+                    <p class="tm-note">Loading team members...</p>
                 </div>
             </div>
-        </section> -->
+        </section>
 
         <!-- Timeline -->
         <section class="py-24 bg-gray-50">
