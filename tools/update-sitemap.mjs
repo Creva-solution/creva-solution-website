@@ -1,12 +1,16 @@
 // Builds the crawlable parts of the blog and the sitemap (static hosting cannot generate these automatically).
 // Usage (Node 18+):  node tools/update-sitemap.mjs
-// Run it after publishing, editing or unpublishing articles in Admin Panel -> Blog, then commit + push.
+// Run it after publishing, editing or unpublishing articles in Admin Panel -> Blog, or after changing
+// Clients or Testimonials, then commit + push.
 //
 // What it writes:
 //   blog/<slug>.html   a pre-rendered page for every PUBLISHED article (full content, metadata, JSON-LD)
 //   js/blog-static.js  the list of pre-rendered slugs (cards and /blog/post.html?slug=... redirect to them)
 //   blog.html          static article cards between the BLOG_LIST markers (replaced by the live list in the browser)
 //   sitemap.xml        every public page + every published article, canonical URLs only
+//   index.html, clients.html  client logos, testimonials and portfolio cards written into the HTML, so search
+//                      engines and AI assistants can read them without running JavaScript
+//                      (the browser still swaps in the live list from Admin Panel -> Clients / Testimonials)
 //
 // Articles published after the last run still work at /blog/post.html?slug=<slug> until this is run again.
 // Uses the public anon key only (published posts are publicly readable by design).
@@ -265,6 +269,85 @@ for (const p of SERVICE_PAGES) {
         return `<!-- RELATED_ARTICLES:START ${key} -->${list}<!-- RELATED_ARTICLES:END -->`;
     });
     writeFileSync(file(p), h);
+}
+
+// ---------- 5b. crawlable client logos, testimonials and portfolio cards (index.html, clients.html)
+async function readTable(table) {
+    try {
+        const r = await fetch(`${SUPABASE_URL}/rest/v1/${table}?select=*&order=created_at.desc`, {
+            headers: { apikey: ANON_KEY, Authorization: `Bearer ${ANON_KEY}` }
+        });
+        if (!r.ok) throw new Error(r.status + ' ' + await r.text());
+        return await r.json();
+    } catch (e) {
+        console.warn(`Skipped ${table} (left the pages as they are):`, e.message);
+        return null;
+    }
+}
+const httpUrl = (u) => (/^https?:\/\//i.test(String(u || '').trim()) ? String(u).trim() : '');
+const between = (html, key, inner) => html.replace(new RegExp(`<!-- ${key}:START -->[\\s\\S]*?<!-- ${key}:END -->`),
+    `<!-- ${key}:START -->${inner ? '\n' + inner + '\n' : ''}<!-- ${key}:END -->`);
+
+function logosHtml(list) {
+    if (!list.length) return '';
+    const items = list.map(c => {
+        const name = esc((c.name || '').trim());
+        const inner = httpUrl(c.logo_url)
+            ? `<img src="${esc(httpUrl(c.logo_url))}" alt="${name}" loading="lazy" decoding="async">`
+            : `<span class="cl-text">${name}</span>`;
+        return `<div class="cl-item">${inner}</div>`;
+    }).join('');
+    return `<div class="cl-row" data-prerendered style="flex-wrap:wrap;--cl-w:10rem">${items}</div>`;
+}
+
+function testimonialsHtml(list) {
+    return list.slice(0, 3).filter(t => (t.quote || '').trim() && (t.name || '').trim()).map(t => {
+        const name = esc(t.name.trim());
+        const initials = esc(t.name.trim().split(/\s+/).slice(0, 2).map(w => w[0]).join('').toUpperCase());
+        const avatarCls = 'w-14 h-14 rounded-full mr-4 shadow-sm border-2 border-white ring-1 ring-gray-100';
+        const avatar = httpUrl(t.photo_url)
+            ? `<img src="${esc(httpUrl(t.photo_url))}" alt="${name}" class="${avatarCls} object-cover" loading="lazy" decoding="async" />`
+            : `<span class="${avatarCls} flex items-center justify-center bg-blue-50 text-primary font-bold text-lg flex-shrink-0" aria-hidden="true">${initials}</span>`;
+        return `<figure class="h-full" data-prerendered><div class="bg-white rounded-xl shadow-sm border border-gray-100 p-8 h-full flex flex-col relative overflow-hidden">` +
+            `<blockquote class="relative z-10 flex-grow border-l-4 border-primary/20 pl-6 my-4"><p class="text-gray-600 text-lg leading-relaxed">${esc(t.quote.trim())}</p></blockquote>` +
+            `<figcaption class="flex items-center mt-8 relative z-10 pt-6 border-t border-gray-100">${avatar}` +
+            `<div><p class="font-bold text-dark text-lg">${name}</p><p class="text-sm text-primary font-medium tracking-wide uppercase">${esc((t.role || 'Client').trim())}</p></div>` +
+            `</figcaption></div></figure>`;
+    }).join('\n');
+}
+
+function portfolioHtml(list) {
+    return list.filter(c => (c.description || '').trim() && (c.name || '').trim()).map(c => {
+        const civil = c.category === 'Civil';
+        const desc = c.description.trim();
+        const tag = civil ? 'Civil Services' : (/web/i.test(desc) ? 'Web Development' : 'IT Services');
+        const name = esc(c.name.trim());
+        const site = httpUrl(c.website_url);
+        const cta = site
+            ? `<a class="pf-cta" href="${esc(site)}" target="_blank" rel="noopener noreferrer">View Project <i data-lucide="arrow-up-right" class="w-4 h-4"></i></a>`
+            : `<a class="pf-cta" href="contact.html">Start a Similar Project <i data-lucide="arrow-right" class="w-4 h-4"></i></a>`;
+        const media = httpUrl(c.logo_url)
+            ? `<img src="${esc(httpUrl(c.logo_url))}" alt="${name} logo" loading="lazy" decoding="async">`
+            : `<span class="pf-media-name">${name}</span>`;
+        return `<article class="pf-card" data-cat="${civil ? 'civil' : 'it'}" data-prerendered>` +
+            `<div class="pf-media pf-media-logo">${media}<div class="pf-overlay">${cta}</div></div>` +
+            `<div class="pf-body"><span class="pf-chip${civil ? ' pf-chip-civil' : ''}">${tag}</span><h3>${name}</h3>` +
+            `<p class="pf-quote">\u201C${esc(desc)}\u201D</p></div></article>`;
+    }).join('\n');
+}
+
+const clientRows = await readTable('clients');
+const testimonialRows = await readTable('testimonials');
+for (const p of ['index.html', 'clients.html']) {
+    let h = read(p);
+    const before = h;
+    if (clientRows) h = between(h, 'CLIENT_LOGOS', logosHtml(clientRows));
+    if (clientRows && p === 'clients.html') h = between(h, 'PORTFOLIO', portfolioHtml(clientRows));
+    if (testimonialRows && p === 'index.html') h = between(h, 'TESTIMONIALS', testimonialsHtml(testimonialRows));
+    if (h !== before) writeFileSync(file(p), h);
+}
+if (clientRows || testimonialRows) {
+    console.log(`Wrote ${clientRows ? clientRows.length : 0} client(s) and ${testimonialRows ? Math.min(testimonialRows.length, 3) : 0} testimonial(s) into index.html / clients.html.`);
 }
 
 // ---------- 6. sitemap.xml
