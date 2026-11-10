@@ -1,0 +1,49 @@
+# Creva Solutions
+
+> Creva Solutions is an IT and civil solutions company based in Sankarapuram, Kallakurichi District, Tamil Nadu, India (PIN 606401). It builds websites, mobile apps, custom software, digital marketing and branding for businesses, and prepares 2D drawings, 3D elevations, house plans and civil designs for homeowners and builders. It serves Sankarapuram, Kallakurichi, Chinnasalem, Tirukoilur, Ulundurpet and nearby towns in person, and clients elsewhere in India remotely.
+
+- Phone / WhatsApp: +91 86676 22236
+- Email: info@crevasolution.in
+- Hours: Monday to Saturday, 9:00 AM to 6:00 PM IST
+- Languages: English and Tamil
+- Google Maps: https://www.google.com/maps?cid=6873692932345960169
+
+## Company
+
+- [About Creva Solutions](https://crevasolution.in/about.html): who we are and how we work
+- [IT company in Sankarapuram](https://crevasolution.in/it-company-sankarapuram.html): our base and local services in Sankarapuram
+- [IT and building design across Kallakurichi district](https://crevasolution.in/best-it-company-kallakurichi.html): how we serve Kallakurichi, Chinnasalem, Tirukoilur and Ulundurpet
+- [Portfolio and clients](https://crevasolution.in/clients.html): projects delivered and client feedback
+- [Contact and quotes](https://crevasolution.in/contact.html): phone, email, address and enquiry form
+
+## IT services
+
+- [Web development](https://crevasolution.in/it-services/web-development.html): business websites, e-commerce stores and web applications; mobile-friendly and SEO-ready
+- [Mobile app development](https://crevasolution.in/it-services/mobile-app-development.html): Android and iOS apps from prototype to Play Store and App Store launch
+- [UI/UX design](https://crevasolution.in/it-services/ui-ux-design.html): user research, wireframes, prototypes and interface design
+- [Software development](https://crevasolution.in/it-services/software-development.html): custom business software, management systems and integrations
+- [Digital marketing](https://crevasolution.in/it-services/digital-marketing.html): local SEO, Google Business Profile, social media and content marketing
+- [Branding](https://crevasolution.in/it-services/branding.html): logo design, brand identity and visual guidelines
+
+## Civil services
+
+- [2D drafting](https://crevasolution.in/civil-services/2d-drafting.html): floor plans, elevations, sections and working drawings in CAD
+- [3D elevation and 3D modeling](https://crevasolution.in/civil-services/3d-modeling.html): 3D house models and realistic renders before construction
+- [House plan and building planning](https://crevasolution.in/civil-services/planning.html): layouts that fit the plot, budget and family
+- [Civil design](https://crevasolution.in/civil-services/civil-design.html): structural layouts, site planning, detailing and estimates
+
+## Guides
+
+- [Blog: guides for local businesses and homeowners](https://crevasolution.in/blog.html)
+- [What does a business website cost in Tamil Nadu?](https://crevasolution.in/blog/business-website-cost-tamil-nadu.html)
+- [Local SEO basics for small businesses in Tamil Nadu](https://crevasolution.in/blog/local-seo-basics.html)
+- [Google Business Profile guide for local businesses](https://crevasolution.in/blog/google-business-profile-guide.html)
+- [What is a 3D elevation?](https://crevasolution.in/blog/what-is-3d-elevation.html)
+- [2D vs 3D building design](https://crevasolution.in/blog/2d-vs-3d-building-design.html)
+- [What to prepare before you start a house plan](https://crevasolution.in/blog/prepare-for-house-plan.html)
+
+## Optional
+
+- [Sitemap](https://crevasolution.in/sitemap.xml)
+- [Privacy policy](https://crevasolution.in/privacy-policy.html)
+- [Terms and conditions](https://crevasolution.in/terms-and-conditions.html)

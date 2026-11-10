@@ -12,7 +12,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     // 2. Load Clients (Partners)
     const clientsContainer = document.getElementById('clients-container');
     if (clientsContainer) {
-        showSkeleton(clientsContainer, 'clients-scroll'); // Show skeleton
+        const clientsStatic = hasPrerendered(clientsContainer);
+        if (!clientsStatic) showSkeleton(clientsContainer, 'clients-scroll'); // Show skeleton
         try {
             const { data: clients, error } = await client
                 .from('clients')
@@ -23,19 +24,20 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             if (clients && clients.length > 0) {
                 renderClients(clients, clientsContainer);
-            } else {
+            } else if (!clientsStatic) {
                 clientsContainer.innerHTML = ''; // Clear loading text
             }
         } catch (err) {
             console.error('Error loading clients:', err);
-            clientsContainer.innerHTML = ''; // Hide on error
+            if (!clientsStatic) clientsContainer.innerHTML = ''; // Hide on error
         }
     }
 
     // 3. Load Testimonials
     const testimonialsContainer = document.getElementById('testimonials-container');
     if (testimonialsContainer) {
-        showSkeleton(testimonialsContainer, 'testimonials'); // Show skeleton
+        const testimonialsStatic = hasPrerendered(testimonialsContainer);
+        if (!testimonialsStatic) showSkeleton(testimonialsContainer, 'testimonials'); // Show skeleton
         try {
             const { data: testimonials, error } = await client
                 .from('testimonials')
@@ -46,12 +48,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             if (testimonials && testimonials.length > 0) {
                 renderTestimonials(testimonials, testimonialsContainer);
-            } else {
-                testimonialsContainer.innerHTML = '<div class="col-span-3 text-center text-gray-400">No testimonials yet.</div>';
+            } else if (!testimonialsStatic) {
+                const section = testimonialsContainer.closest('section');
+                if (section) section.style.display = 'none'; // no empty "What Our Clients Say" block
             }
         } catch (err) {
             console.error('Error loading testimonials:', err);
-            testimonialsContainer.innerHTML = '';
+            if (!testimonialsStatic) testimonialsContainer.innerHTML = '';
         }
     }
 
@@ -157,6 +160,20 @@ function clientSlots(clientCount) {
     let n = w >= 1280 ? 7 : w >= 1024 ? 6 : w >= 768 ? 4 : w >= 640 ? 3 : 2;
     // One set must be wider than the viewport for a gap-free loop, so never use more slots than logos - 1.
     return Math.max(2, Math.min(n, clientCount - 1));
+}
+
+// Content written into the HTML by tools/update-sitemap.mjs so search engines and AI tools can read it without JavaScript.
+function hasPrerendered(container) {
+    return !!(container && container.querySelector('[data-prerendered]'));
+}
+
+function testimonialAvatar(item) {
+    const cls = 'w-14 h-14 rounded-full mr-4 shadow-sm border-2 border-white ring-1 ring-gray-100';
+    if (item.photo_url) {
+        return `<img src="${escapeAttr(item.photo_url)}" alt="${escapeAttr(item.name)}" class="${cls} object-cover" loading="lazy" decoding="async" />`;
+    }
+    const initials = String(item.name || 'C').trim().split(/\s+/).slice(0, 2).map(w => w[0]).join('').toUpperCase();
+    return `<span class="${cls} flex items-center justify-center bg-blue-50 text-primary font-bold text-lg flex-shrink-0" aria-hidden="true">${escapeAttr(initials)}</span>`;
 }
 
 function escapeAttr(s) {
@@ -270,17 +287,15 @@ function renderTestimonials(items, container) {
                 <!-- Content with left accent line for emphasis -->
                 <div class="relative z-10 flex-grow border-l-4 border-primary/20 pl-6 my-4">
                     <p class="text-gray-600 text-lg leading-relaxed">
-                        ${item.quote}
+                        ${escapeAttr(item.quote)}
                     </p>
                 </div>
 
                 <div class="flex items-center mt-8 relative z-10 pt-6 border-t border-gray-100">
-                    <img src="${item.photo_url || 'https://via.placeholder.com/60'}" 
-                        alt="${item.name}" 
-                        class="w-14 h-14 rounded-full object-cover mr-4 shadow-sm border-2 border-white ring-1 ring-gray-100" />
+                    ${testimonialAvatar(item)}
                     <div>
-                        <h4 class="font-bold text-dark text-lg">${item.name}</h4>
-                        <p class="text-sm text-primary font-medium tracking-wide uppercase">${item.role || 'Client'}</p>
+                        <h4 class="font-bold text-dark text-lg">${escapeAttr(item.name)}</h4>
+                        <p class="text-sm text-primary font-medium tracking-wide uppercase">${escapeAttr(item.role || 'Client')}</p>
                     </div>
                 </div>
             </div>
@@ -484,6 +499,7 @@ function showSkeleton(container, type) {
 function renderPortfolioClients(clients) {
     const grid = document.getElementById('portfolio-grid');
     if (!grid) return;
+    grid.querySelectorAll('[data-prerendered]').forEach(el => el.remove());
     clients.filter(c => (c.description || '').trim()).forEach((c, i) => {
         const civil = c.category === 'Civil';
         const desc = c.description.trim();
