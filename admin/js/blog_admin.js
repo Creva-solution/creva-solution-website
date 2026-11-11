@@ -12,6 +12,8 @@ const BLOG_SERVICE_LINKS = [
     ['Software Development', '/it-services/software-development.html'],
     ['Digital Marketing', '/it-services/digital-marketing.html'],
     ['Branding', '/it-services/branding.html'],
+    ['Logo Design', '/it-services/logo-design.html'],
+    ['Graphic Design', '/it-services/graphic-design.html'],
     ['Civil Services', '/civil-services.html'],
     ['2D Drafting', '/civil-services/2d-drafting.html'],
     ['3D Modeling', '/civil-services/3d-modeling.html'],

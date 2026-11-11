@@ -1,6 +1,6 @@
 # Creva Solutions
 
-> Creva Solutions is an IT and civil solutions company based in Sankarapuram, Kallakurichi District, Tamil Nadu, India (PIN 606401). It builds websites, mobile apps, custom software, digital marketing and branding for businesses, and prepares 2D drawings, 3D elevations, house plans and civil designs for homeowners and builders. It serves Sankarapuram, Kallakurichi, Chinnasalem, Tirukoilur, Ulundurpet and nearby towns in person, and clients elsewhere in India remotely.
+> Creva Solutions is an IT and civil solutions company based in Sankarapuram, Kallakurichi District, Tamil Nadu, India (PIN 606401). It builds websites, mobile apps and custom software, and provides digital marketing, branding, logo design and graphic design for businesses, and prepares 2D drawings, 3D elevations, house plans and civil designs for homeowners and builders. It serves Sankarapuram, Kallakurichi, Chinnasalem, Tirukoilur, Ulundurpet and nearby towns in person, and clients elsewhere in India remotely.
 
 - Phone / WhatsApp: +91 86676 22236
 - Email: info@crevasolution.in
@@ -18,12 +18,14 @@
 
 ## IT services
 
-- [Web development](https://crevasolution.in/it-services/web-development.html): business websites, e-commerce stores and web applications; mobile-friendly and SEO-ready
+- [Website design and development](https://crevasolution.in/it-services/web-development.html): business websites, e-commerce stores and web applications; mobile-friendly and SEO-ready
 - [Mobile app development](https://crevasolution.in/it-services/mobile-app-development.html): Android and iOS apps from prototype to Play Store and App Store launch
 - [UI/UX design](https://crevasolution.in/it-services/ui-ux-design.html): user research, wireframes, prototypes and interface design
 - [Software development](https://crevasolution.in/it-services/software-development.html): custom business software, management systems and integrations
 - [Digital marketing](https://crevasolution.in/it-services/digital-marketing.html): local SEO, Google Business Profile, social media and content marketing
-- [Branding](https://crevasolution.in/it-services/branding.html): logo design, brand identity and visual guidelines
+- [Branding](https://crevasolution.in/it-services/branding.html): brand identity, colours, typography and brand guidelines
+- [Logo design](https://crevasolution.in/it-services/logo-design.html): original logos in Tamil and English, with print and digital files
+- [Graphic design](https://crevasolution.in/it-services/graphic-design.html): posters, flyers, flex banners, brochures, visiting cards, menu cards and social media posts
 
 ## Civil services
 
