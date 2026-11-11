@@ -1,6 +1,6 @@
 # Creva Admin – React Native Android app
 
-Native Admin App for Creva Solutions (React Native 0.86 + Expo SDK 57). It uses the **same Supabase project,
+Native Admin App for Creva Solution (React Native 0.86 + Expo SDK 57). It uses the **same Supabase project,
 logins and data** as the web Admin Panel, and receives **Firebase Cloud Messaging push notifications** for every new
 website contact submission.
 

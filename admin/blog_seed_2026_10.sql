@@ -1,5 +1,5 @@
 -- ====================================================================
--- OPTIONAL: ten new Creva Solutions articles (web, digital marketing, civil design).
+-- OPTIONAL: ten new Creva Solution articles (web, digital marketing, civil design).
 -- Run in Supabase -> SQL Editor AFTER admin/blog_setup.sql. Safe to re-run (existing slugs are skipped).
 -- They are ordinary posts afterwards: edit, unpublish or delete them from Admin Panel -> Blog.
 -- Then run:  node tools/update-sitemap.mjs   and commit + push, so each article gets its
@@ -35,7 +35,7 @@ VALUES
 <h3>Are there yearly costs after a website is built?</h3>
 <p>Yes. Domain renewal, hosting and maintenance are ongoing costs, and some sites also pay for plugins, email accounts or third-party services.</p>
 <h3>How can I reduce the cost of my website?</h3>
-<p>Start with the pages and features you need now, provide your own content and photos, and add features later once the website is bringing in enquiries.</p>$q$, $q$Web Development$q$, 'Creva Solutions', $q$Business Website Cost in Tamil Nadu: Price Factors | Creva Solutions$q$, $q$Why website quotes vary so much, what actually drives the cost of a business website in Tamil Nadu, and how to compare quotes fairly before you decide.$q$, true, now()),
+<p>Start with the pages and features you need now, provide your own content and photos, and add features later once the website is bringing in enquiries.</p>$q$, $q$Web Development$q$, 'Creva Solution', $q$Business Website Cost in Tamil Nadu: Price Factors | Creva Solution$q$, $q$Why website quotes vary so much, what actually drives the cost of a business website in Tamil Nadu, and how to compare quotes fairly before you decide.$q$, true, now()),
 ($q$How to Choose a Web Development Company: 10 Questions to Ask$q$, $q$choose-web-development-company$q$, $q$Ten practical questions to ask before you hire anyone to build your website, and the warning signs that should make you pause.$q$, $q$<p>Your website will represent your business for years, so the company that builds it matters. Whether you are in Sankarapuram, Kallakurichi or anywhere else, these questions will help you compare web development companies and choose one you can trust.</p>
 <h2>1. Can I see websites you have built?</h2>
 <p>Ask for live websites, not just screenshots. Open them on your phone. Do they load quickly? Is the text easy to read? Can you find the phone number and enquiry form within a few seconds? A company’s past work is the best guide to what you will get.</p>
@@ -60,14 +60,14 @@ VALUES
 <h2>Warning signs to watch for</h2>
 <ul><li>Guaranteed rankings or a guaranteed number of leads</li><li>The domain registered in the developer’s name instead of yours</li><li>No written scope or timeline</li><li>No live examples of previous work</li><li>A very low price with nothing said about hosting, support or content</li></ul>
 <h2>Talk to us about your website</h2>
-<p>Creva Solutions builds websites for businesses across Kallakurichi district. Ask us any of these questions: see our <a href="/it-services/web-development.html">web development service</a>, browse our <a href="/clients.html">portfolio</a>, or <a href="/contact.html">contact us</a>.</p>
+<p>Creva Solution builds websites for businesses across Kallakurichi district. Ask us any of these questions: see our <a href="/it-services/web-development.html">web development service</a>, browse our <a href="/clients.html">portfolio</a>, or <a href="/contact.html">contact us</a>.</p>
 <h2>Frequently Asked Questions</h2>
 <h3>Should I choose a local web development company?</h3>
 <p>A local company can be easier to meet and may understand your customers better, but quality, communication and support matter more than distance. Many projects are handled well over phone, WhatsApp and video calls.</p>
 <h3>Who should own my website domain?</h3>
 <p>Your business should own the domain, and you should have the login details for the domain, hosting and website.</p>
 <h3>Can a web development company guarantee first-page rankings?</h3>
-<p>No. Search engines decide rankings. A good company builds a fast, well-structured site and can help with SEO, but should not guarantee positions.</p>$q$, $q$Web Development$q$, 'Creva Solutions', $q$How to Choose a Web Development Company | Creva Solutions$q$, $q$Ten practical questions to ask before hiring a web development company, from portfolio and ownership to support, speed and SEO, plus the warning signs to avoid.$q$, true, now()),
+<p>No. Search engines decide rankings. A good company builds a fast, well-structured site and can help with SEO, but should not guarantee positions.</p>$q$, $q$Web Development$q$, 'Creva Solution', $q$How to Choose a Web Development Company | Creva Solution$q$, $q$Ten practical questions to ask before hiring a web development company, from portfolio and ownership to support, speed and SEO, plus the warning signs to avoid.$q$, true, now()),
 ($q$Static vs Dynamic Website: Which One Does Your Business Need?$q$, $q$static-vs-dynamic-website$q$, $q$Static sites are fast and simple; dynamic sites are flexible and interactive. Here is how to decide which your business needs.$q$, $q$<p>When you plan a website, a developer may ask whether you need a static or a dynamic site. The choice affects cost, speed, security and how easily you can update content. Here is the difference in plain language.</p>
 <h2>What is a static website?</h2>
 <p>A static website is made of ready-made pages. When someone visits, the server sends the same page to everyone. Changing the content usually means editing the page files, or rebuilding the site with a tool.</p>
@@ -89,7 +89,7 @@ VALUES
 <h3>Can I update a static website myself?</h3>
 <p>Not always directly. Some static sites use a content editor or a connected CMS so you can edit text without coding. Ask your developer how updates will work.</p>
 <h3>Is a dynamic website more expensive?</h3>
-<p>Usually, because it needs a database, an admin panel and more maintenance. The extra cost is worth it when you need features such as bookings, payments or frequent content updates.</p>$q$, $q$Web Development$q$, 'Creva Solutions', $q$Static vs Dynamic Website: Which Is Right for You? | Creva Solutions$q$, $q$The difference between static and dynamic websites explained simply, with the pros, cons and typical uses of each, so you can choose the right type for your business.$q$, true, now()),
+<p>Usually, because it needs a database, an admin panel and more maintenance. The extra cost is worth it when you need features such as bookings, payments or frequent content updates.</p>$q$, $q$Web Development$q$, 'Creva Solution', $q$Static vs Dynamic Website: Which Is Right for You? | Creva Solution$q$, $q$The difference between static and dynamic websites explained simply, with the pros, cons and typical uses of each, so you can choose the right type for your business.$q$, true, now()),
 ($q$Website Maintenance Checklist for Small Businesses$q$, $q$website-maintenance-checklist$q$, $q$A website needs regular care to stay fast, secure and useful. Use this weekly, monthly and yearly checklist.$q$, $q$<p>A website is not finished on launch day. Without regular care, forms stop working, software goes out of date, pages slow down and information becomes wrong. This checklist shows what to check and how often. You can do much of it yourself or ask your web developer to handle it.</p>
 <h2>Every week</h2>
 <ul><li><strong>Test your enquiry form.</strong> Send a test message and confirm it arrives. A broken form silently loses customers.</li><li><strong>Click your phone and WhatsApp buttons</strong> on a mobile phone to make sure they work.</li><li><strong>Check that backups ran</strong>, if your site has automatic backups.</li><li><strong>Reply to enquiries</strong> and reviews quickly.</li></ul>
@@ -102,14 +102,14 @@ VALUES
 <h2>Signs your website needs attention now</h2>
 <ul><li>The browser shows a “Not secure” warning</li><li>Enquiries suddenly stop</li><li>Pages take several seconds to load on a phone</li><li>The site shows old phone numbers, prices or opening hours</li></ul>
 <h2>Need help maintaining your site?</h2>
-<p>Creva Solutions provides website maintenance for businesses in Sankarapuram, Kallakurichi and nearby towns, including updates, backups, fixes and small changes. See our <a href="/it-services/web-development.html">web development service</a> or <a href="/contact.html">contact us</a>. Keeping the site fast also helps your <a href="/it-services/digital-marketing.html">digital marketing</a>.</p>
+<p>Creva Solution provides website maintenance for businesses in Sankarapuram, Kallakurichi and nearby towns, including updates, backups, fixes and small changes. See our <a href="/it-services/web-development.html">web development service</a> or <a href="/contact.html">contact us</a>. Keeping the site fast also helps your <a href="/it-services/digital-marketing.html">digital marketing</a>.</p>
 <h2>Frequently Asked Questions</h2>
 <h3>How often should a website be updated?</h3>
 <p>Check forms and backups weekly, install software updates and review speed monthly, and review content, access and renewals every few months and yearly.</p>
 <h3>What happens if I do not maintain my website?</h3>
 <p>Outdated software can be hacked, forms can stop working, pages can slow down and information can become wrong, all of which cost you customers.</p>
 <h3>Do static websites need maintenance?</h3>
-<p>Less than dynamic ones, but they still need domain and hosting renewals, content updates, form checks and occasional speed and link checks.</p>$q$, $q$Web Development$q$, 'Creva Solutions', $q$Website Maintenance Checklist for Small Businesses | Creva Solutions$q$, $q$A practical weekly, monthly and yearly website maintenance checklist for small businesses: backups, updates, security, speed, forms, content and SEO checks.$q$, true, now()),
+<p>Less than dynamic ones, but they still need domain and hosting renewals, content updates, form checks and occasional speed and link checks.</p>$q$, $q$Web Development$q$, 'Creva Solution', $q$Website Maintenance Checklist for Small Businesses | Creva Solution$q$, $q$A practical weekly, monthly and yearly website maintenance checklist for small businesses: backups, updates, security, speed, forms, content and SEO checks.$q$, true, now()),
 ($q$Why Small Businesses Need a Professional Website (Even With Social Media)$q$, $q$why-small-businesses-need-a-website$q$, $q$Instagram and Google Maps are useful, but they are not a replacement for a website you own. Here is why.$q$, $q$<p>Many small businesses in towns like Sankarapuram and Kallakurichi start with a WhatsApp number, an Instagram page and a Google Business Profile. Those are good tools, and they work best alongside a professional website. Here is why a website is still worth having.</p>
 <h2>You own it</h2>
 <p>Social media platforms change their rules, reach and layouts often, and accounts can be restricted. Your website and domain belong to you. Whatever happens on other platforms, customers can always find your services and contact details at your own address.</p>
@@ -126,14 +126,14 @@ VALUES
 <h2>What a small business website should include</h2>
 <ul><li>A clear headline saying what you do and where</li><li>A page for each main service or product group</li><li>Real photos of your work, shop or team</li><li>Your phone number, WhatsApp, address, map and working hours</li><li>An easy enquiry form</li><li>Fast loading on mobile phones</li></ul>
 <h2>Start with a simple, professional site</h2>
-<p>You do not need a large website to begin. Creva Solutions builds websites for small businesses across Kallakurichi district that can grow over time. See our <a href="/it-services/web-development.html">web development service</a>, read <a href="/blog/plan-a-business-website.html">how to plan a business website</a>, or <a href="/contact.html">contact us</a>.</p>
+<p>You do not need a large website to begin. Creva Solution builds websites for small businesses across Kallakurichi district that can grow over time. See our <a href="/it-services/web-development.html">web development service</a>, read <a href="/blog/plan-a-business-website.html">how to plan a business website</a>, or <a href="/contact.html">contact us</a>.</p>
 <h2>Frequently Asked Questions</h2>
 <h3>Is social media enough for a small business?</h3>
 <p>Social media is useful for reaching people, but you do not control the platform. A website you own gives customers full information and helps you appear in Google search.</p>
 <h3>Does a Google Business Profile replace a website?</h3>
 <p>No. The profile helps people find you on Google Maps, and a website gives them the detail and trust they need to choose you. The two work best together.</p>
 <h3>How many pages does a small business website need?</h3>
-<p>Many small businesses start with five to ten pages: home, about, a page for each main service, a projects or gallery page, and contact.</p>$q$, $q$Web Development$q$, 'Creva Solutions', $q$Why Small Businesses Need a Professional Website | Creva Solutions$q$, $q$Social media and Google Business Profile help, but a professional website gives small businesses trust, control and visibility. Here is why, and what it should include.$q$, true, now()),
+<p>Many small businesses start with five to ten pages: home, about, a page for each main service, a projects or gallery page, and contact.</p>$q$, $q$Web Development$q$, 'Creva Solution', $q$Why Small Businesses Need a Professional Website | Creva Solution$q$, $q$Social media and Google Business Profile help, but a professional website gives small businesses trust, control and visibility. Here is why, and what it should include.$q$, true, now()),
 ($q$Google Business Profile Guide for Local Businesses$q$, $q$google-business-profile-guide$q$, $q$Your Google Business Profile is often the first thing local customers see. Here is how to set it up and keep it working for you.$q$, $q$<p>When someone searches for a business “near me” or looks at Google Maps, the result they see first is usually a Google Business Profile. For local businesses in Sankarapuram, Kallakurichi, Chinnasalem, Tirukoilur, Ulundurpet and nearby towns, a complete and accurate profile can bring calls, direction requests and website visits. This guide walks you through it.</p>
 <h2>Step 1: Claim or create your profile</h2>
 <p>Search for your business name on Google Maps. If a profile already exists, claim it; if not, create one. Google will ask you to verify that you run the business, for example by phone, email, video or another method it offers. Use an email address the business will keep long term.</p>
@@ -155,7 +155,7 @@ VALUES
 <h2>Connect your profile and your website</h2>
 <p>Your profile works best with a website that has a page for each service and the same contact details. Read our <a href="/blog/local-seo-basics.html">local SEO basics</a> for the bigger picture.</p>
 <h2>Want help with your profile?</h2>
-<p>Creva Solutions sets up and manages Google Business Profiles for businesses across Kallakurichi district as part of our <a href="/it-services/digital-marketing.html">digital marketing service</a>, and builds the <a href="/it-services/web-development.html">websites</a> they link to. <a href="/contact.html">Contact us</a> to get started.</p>
+<p>Creva Solution sets up and manages Google Business Profiles for businesses across Kallakurichi district as part of our <a href="/it-services/digital-marketing.html">digital marketing service</a>, and builds the <a href="/it-services/web-development.html">websites</a> they link to. <a href="/contact.html">Contact us</a> to get started.</p>
 <h2>Frequently Asked Questions</h2>
 <h3>Is a Google Business Profile free?</h3>
 <p>Yes. Creating and managing a Google Business Profile is free.</p>
@@ -164,7 +164,7 @@ VALUES
 <h3>How do I get more reviews?</h3>
 <p>Ask happy customers directly, share your review link on WhatsApp or a printed card, and reply to every review. Do not buy reviews or offer rewards for them.</p>
 <h3>What if I serve customers at their location?</h3>
-<p>You can set a service area instead of showing your address, which suits businesses that visit customers rather than receiving them.</p>$q$, $q$Digital Marketing$q$, 'Creva Solutions', $q$Google Business Profile Guide for Local Businesses | Creva Solutions$q$, $q$A step-by-step guide to setting up and improving your Google Business Profile: categories, contact details, photos, services, posts and reviews, for local businesses.$q$, true, now()),
+<p>You can set a service area instead of showing your address, which suits businesses that visit customers rather than receiving them.</p>$q$, $q$Digital Marketing$q$, 'Creva Solution', $q$Google Business Profile Guide for Local Businesses | Creva Solution$q$, $q$A step-by-step guide to setting up and improving your Google Business Profile: categories, contact details, photos, services, posts and reviews, for local businesses.$q$, true, now()),
 ($q$SEO for Small Businesses: A Practical Starter Guide$q$, $q$seo-for-small-businesses$q$, $q$SEO does not have to be mysterious. These are the steps that matter most for a small business website.$q$, $q$<p>Search engine optimisation (SEO) means making your website easy for search engines to understand and useful for the people searching. For a small business, it is less about tricks and more about doing a few basics well and consistently. Here is where to start.</p>
 <h2>1. Find the words your customers actually use</h2>
 <p>Write down how customers describe what you sell. Someone looking for your service may search “house plan in Kallakurichi”, “website design near me” or “mobile shop Sankarapuram”. Look at the suggestions Google shows as you type, and the questions in the “People also ask” box. Use these phrases naturally in your pages.</p>
@@ -186,14 +186,14 @@ VALUES
 <h2>What to avoid</h2>
 <ul><li>Stuffing town names or keywords into every sentence</li><li>Copying content from other websites</li><li>Buying links or fake reviews</li><li>Creating many near-identical pages for different towns</li></ul>
 <h2>Get help with SEO</h2>
-<p>Creva Solutions provides SEO and local SEO for businesses in Sankarapuram, Kallakurichi and nearby towns as part of our <a href="/it-services/digital-marketing.html">digital marketing service</a>, and builds SEO-ready <a href="/it-services/web-development.html">websites</a>. <a href="/contact.html">Contact us</a> for a review of your current site.</p>
+<p>Creva Solution provides SEO and local SEO for businesses in Sankarapuram, Kallakurichi and nearby towns as part of our <a href="/it-services/digital-marketing.html">digital marketing service</a>, and builds SEO-ready <a href="/it-services/web-development.html">websites</a>. <a href="/contact.html">Contact us</a> for a review of your current site.</p>
 <h2>Frequently Asked Questions</h2>
 <h3>How long does SEO take to show results?</h3>
 <p>Usually several months. New or small websites take time to build trust with search engines, and results depend on competition and the quality of your content.</p>
 <h3>Can I do SEO myself?</h3>
 <p>Yes, the basics in this guide can be done by a business owner. Technical fixes, content planning and ongoing tracking are where professional help saves time.</p>
 <h3>Is local SEO different from regular SEO?</h3>
-<p>Local SEO focuses on appearing for searches in a specific area, including Google Maps. It relies heavily on your Google Business Profile, consistent contact details and locally relevant service pages.</p>$q$, $q$Digital Marketing$q$, 'Creva Solutions', $q$SEO for Small Businesses: A Practical Starter Guide | Creva Solutions$q$, $q$A plain-English SEO guide for small businesses: choosing keywords, building service pages, titles and descriptions, speed, local signals and how to measure results.$q$, true, now()),
+<p>Local SEO focuses on appearing for searches in a specific area, including Google Maps. It relies heavily on your Google Business Profile, consistent contact details and locally relevant service pages.</p>$q$, $q$Digital Marketing$q$, 'Creva Solution', $q$SEO for Small Businesses: A Practical Starter Guide | Creva Solution$q$, $q$A plain-English SEO guide for small businesses: choosing keywords, building service pages, titles and descriptions, speed, local signals and how to measure results.$q$, true, now()),
 ($q$Digital Marketing for Local Businesses: How to Get More Customers Online$q$, $q$digital-marketing-for-local-businesses$q$, $q$You do not need every channel. Here is a practical plan for local businesses to get more enquiries online, step by step.$q$, $q$<p>For a shop, clinic, school, builder or service business in Sankarapuram, Kallakurichi or a nearby town, digital marketing does not mean being everywhere. It means being easy to find, easy to trust and easy to contact in the places your customers already look. Here is a practical plan, in the order we usually recommend.</p>
 <h2>Step 1: Be easy to find on Google and Maps</h2>
 <p>Many local customers start with a Google search or a Maps search. A complete <a href="/blog/google-business-profile-guide.html">Google Business Profile</a> with correct hours, photos, services and reviews is the most valuable free step for most local businesses.</p>
@@ -213,14 +213,14 @@ VALUES
 <h2>A simple monthly routine</h2>
 <ul><li>Add new photos and a post to your Google Business Profile</li><li>Publish a few social posts showing real work</li><li>Ask recent customers for reviews and reply to new ones</li><li>Check your website enquiries and fix anything that is not working</li><li>Look at last month’s numbers and adjust</li></ul>
 <h2>Want a plan for your business?</h2>
-<p>Creva Solutions helps businesses across Kallakurichi district with <a href="/it-services/digital-marketing.html">digital marketing</a>, <a href="/it-services/web-development.html">websites</a> and <a href="/it-services/branding.html">branding</a>. <a href="/contact.html">Contact us</a> and we will suggest where to start for your budget.</p>
+<p>Creva Solution helps businesses across Kallakurichi district with <a href="/it-services/digital-marketing.html">digital marketing</a>, <a href="/it-services/web-development.html">websites</a> and <a href="/it-services/branding.html">branding</a>. <a href="/contact.html">Contact us</a> and we will suggest where to start for your budget.</p>
 <h2>Frequently Asked Questions</h2>
 <h3>What is the best digital marketing channel for a local business?</h3>
 <p>For most local businesses, a complete Google Business Profile combined with a clear website brings the most value, followed by WhatsApp and one or two social media channels.</p>
 <h3>Do I need to run paid ads?</h3>
 <p>Not always. Many local businesses grow with their Google profile, website, reviews and social media. Ads can speed things up when targeted carefully and measured.</p>
 <h3>How much time does digital marketing take each week?</h3>
-<p>A basic routine of posting, replying to reviews and messages, and checking enquiries can take a few hours a week. An agency can handle it if you do not have the time.</p>$q$, $q$Digital Marketing$q$, 'Creva Solutions', $q$Digital Marketing for Local Businesses | Creva Solutions$q$, $q$A practical plan for local businesses to get more customers online: Google Business Profile, website, WhatsApp, social media, reviews, ads and simple measurement.$q$, true, now()),
+<p>A basic routine of posting, replying to reviews and messages, and checking enquiries can take a few hours a week. An agency can handle it if you do not have the time.</p>$q$, $q$Digital Marketing$q$, 'Creva Solution', $q$Digital Marketing for Local Businesses | Creva Solution$q$, $q$A practical plan for local businesses to get more customers online: Google Business Profile, website, WhatsApp, social media, reviews, ads and simple measurement.$q$, true, now()),
 ($q$2D vs 3D Building Design: What Is the Difference and Which Do You Need?$q$, $q$2d-vs-3d-building-design$q$, $q$2D drawings tell the builder how to build; 3D models show everyone what it will look like. Most projects need both.$q$, $q$<p>When you plan a house or building, you will hear about 2D plans and 3D designs. They are not competing options. They do different jobs, and most projects benefit from both. Here is how they differ.</p>
 <h2>What is 2D building design?</h2>
 <p>2D design means flat, measured technical drawings. The main types are:</p>
@@ -237,7 +237,7 @@ VALUES
 <p>Changing a colour or a window in a 3D model takes minutes. Changing it on site costs time and money. See <a href="/blog/3d-modeling-before-you-build.html">why 3D modeling helps before you build</a>.</p>
 <h2>A typical sequence for a new house</h2>
 <ol><li>Collect plot details and requirements</li><li>Plan the layout (<a href="/civil-services/planning.html">house planning</a>)</li><li>Prepare 2D plans, elevations and sections (<a href="/civil-services/2d-drafting.html">2D drafting</a>)</li><li>Create the 3D elevation and agree the design (<a href="/civil-services/3d-modeling.html">3D modeling</a>)</li><li>Finalise working drawings and structural details (<a href="/civil-services/civil-design.html">civil design</a>)</li></ol>
-<h2>Plan your project with Creva Solutions</h2>
+<h2>Plan your project with Creva Solution</h2>
 <p>We prepare 2D drawings and 3D elevations for homes and buildings in Sankarapuram, Kallakurichi and nearby towns. <a href="/contact.html">Contact us</a> with your plot details to get started.</p>
 <h2>Frequently Asked Questions</h2>
 <h3>Do I need both 2D and 3D designs for my house?</h3>
@@ -245,7 +245,7 @@ VALUES
 <h3>Which comes first, 2D or 3D?</h3>
 <p>Usually 2D. The layout and dimensions are planned in 2D, and the 3D model is built from those drawings.</p>
 <h3>Can a builder work from a 3D model alone?</h3>
-<p>No. Builders need dimensioned 2D working drawings. The 3D model helps everyone understand the intended appearance.</p>$q$, $q$3D Modeling$q$, 'Creva Solutions', $q$2D vs 3D Building Design: Differences and Uses | Creva Solutions$q$, $q$How 2D drawings and 3D models differ, what each is used for in house and building projects, and why most projects benefit from both. A guide from Creva Solutions.$q$, true, now()),
+<p>No. Builders need dimensioned 2D working drawings. The 3D model helps everyone understand the intended appearance.</p>$q$, $q$3D Modeling$q$, 'Creva Solution', $q$2D vs 3D Building Design: Differences and Uses | Creva Solution$q$, $q$How 2D drawings and 3D models differ, what each is used for in house and building projects, and why most projects benefit from both. A guide from Creva Solution.$q$, true, now()),
 ($q$What Is a 3D Elevation? A Simple Guide for Homeowners$q$, $q$what-is-3d-elevation$q$, $q$A 3D elevation shows how your house will look from the outside before construction begins. Here is what it includes and how to prepare.$q$, $q$<p>If you are building a house in Sankarapuram, Kallakurichi or nearby, you have probably seen realistic images of house fronts shared by builders and designers. These are 3D elevations. This guide explains what they are and how to make the most of one.</p>
 <h2>What is a 3D elevation?</h2>
 <p>A 3D elevation is a realistic, three-dimensional image of the outside of a building, usually the front. It shows the shape of the building, wall finishes, colours, windows, balconies, railings, compound wall, gate and sometimes landscaping and lighting, as they will look after construction.</p>
@@ -261,12 +261,12 @@ VALUES
 <h2>Tips for a better 3D elevation</h2>
 <ul><li>Choose a style that suits your plot size, budget and climate, not just a photo you liked</li><li>Ask for a view at the height of a person standing on the road; it shows how the house will really look</li><li>Discuss maintenance: some finishes look good on screen but need more care in heat and rain</li><li>Keep the final approved image to share with your builder</li></ul>
 <h2>Get your 3D elevation designed</h2>
-<p>Creva Solutions creates 3D elevations and 3D models for homes and commercial buildings across Kallakurichi district. See our <a href="/civil-services/3d-modeling.html">3D elevation and modeling service</a> or <a href="/contact.html">contact us</a>.</p>
+<p>Creva Solution creates 3D elevations and 3D models for homes and commercial buildings across Kallakurichi district. See our <a href="/civil-services/3d-modeling.html">3D elevation and modeling service</a> or <a href="/contact.html">contact us</a>.</p>
 <h2>Frequently Asked Questions</h2>
 <h3>What is a 3D front elevation?</h3>
 <p>It is a realistic 3D image of the front of a house or building that shows its shape, colours, materials and features as they will look after construction.</p>
 <h3>Will the finished house look exactly like the 3D elevation?</h3>
 <p>It should closely match the approved design, but real materials, lighting and site conditions can cause small differences.</p>
 <h3>Can I get a 3D elevation without floor plans?</h3>
-<p>The elevation needs accurate dimensions, so plans are usually prepared first. If you only have plot dimensions, planning and drafting can be done before the 3D work.</p>$q$, $q$3D Modeling$q$, 'Creva Solutions', $q$What Is a 3D Elevation? A Guide for Homeowners | Creva Solutions$q$, $q$What a 3D elevation is, how it differs from a 2D elevation drawing, what it shows, what you need to provide and how to get the most from your 3D front elevation design.$q$, true, now())
+<p>The elevation needs accurate dimensions, so plans are usually prepared first. If you only have plot dimensions, planning and drafting can be done before the 3D work.</p>$q$, $q$3D Modeling$q$, 'Creva Solution', $q$What Is a 3D Elevation? A Guide for Homeowners | Creva Solution$q$, $q$What a 3D elevation is, how it differs from a 2D elevation drawing, what it shows, what you need to provide and how to get the most from your 3D front elevation design.$q$, true, now())
 ON CONFLICT (slug) DO NOTHING;

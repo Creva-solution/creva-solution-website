@@ -1,5 +1,5 @@
 -- ====================================================================
--- OPTIONAL: import the nine existing Creva Solutions articles into the blog system.
+-- OPTIONAL: import the nine existing Creva Solution articles into the blog system.
 -- Run AFTER admin/blog_setup.sql. Safe to re-run (existing slugs are skipped).
 -- These are ordinary posts afterwards: edit, unpublish or delete them from Admin Panel -> Blog.
 -- ====================================================================
@@ -22,7 +22,7 @@ VALUES
 <h3>How many pages should a small business website have?</h3>
 <p>Most small business websites work well with five to ten pages: home, about, individual service pages, projects or testimonials, and contact.</p>
 <h3>What should I prepare before starting a website?</h3>
-<p>Prepare your logo, service descriptions, photos, contact details, testimonials and a clear goal for the website.</p>$q$, $q$Web Development$q$, 'Creva Solutions', $q$How to Plan a Business Website That Gets Enquiries | Creva Solutions$q$, $q$A practical checklist for planning a business website: goals, pages, content, speed and calls to action, from the web team at Creva Solutions.$q$, true, '2026-09-02T09:00:00+05:30'),
+<p>Prepare your logo, service descriptions, photos, contact details, testimonials and a clear goal for the website.</p>$q$, $q$Web Development$q$, 'Creva Solution', $q$How to Plan a Business Website That Gets Enquiries | Creva Solution$q$, $q$A practical checklist for planning a business website: goals, pages, content, speed and calls to action, from the web team at Creva Solution.$q$, true, '2026-09-02T09:00:00+05:30'),
 ($q$UI vs UX Design: What’s the Difference and Why It Matters$q$, $q$ui-vs-ux-difference$q$, $q$UI is how a product looks; UX is how it works for the person using it. Here is how the two fit together.$q$, $q$<h2>What is UX design?</h2>
 <p>UX stands for user experience. It covers the whole journey a person has with a website, app or software: can they find what they need, understand what to do next and complete their task without frustration?</p>
 <p>UX work includes understanding users, organising information, mapping flows and testing whether real people can use the result.</p>
@@ -38,7 +38,7 @@ VALUES
 <h3>What is UI/UX design?</h3>
 <p>UI/UX design is the practice of designing how a digital product looks (UI) and how it works for users (UX) so that it is clear, usable and pleasant.</p>
 <h3>Do I need both UI and UX?</h3>
-<p>Yes. UX makes sure the product is useful and easy to use; UI makes it visually clear and consistent. They work best together.</p>$q$, $q$UI/UX Design$q$, 'Creva Solutions', $q$UI vs UX Design: What Is the Difference? | Creva Solutions$q$, $q$UI and UX are often confused. Learn what each means, how they work together and when your business needs them. A guide from Creva Solutions.$q$, true, '2026-09-04T09:00:00+05:30'),
+<p>Yes. UX makes sure the product is useful and easy to use; UI makes it visually clear and consistent. They work best together.</p>$q$, $q$UI/UX Design$q$, 'Creva Solution', $q$UI vs UX Design: What Is the Difference? | Creva Solution$q$, $q$UI and UX are often confused. Learn what each means, how they work together and when your business needs them. A guide from Creva Solution.$q$, true, '2026-09-04T09:00:00+05:30'),
 ($q$Local SEO Basics for Small Businesses in Tamil Nadu$q$, $q$local-seo-basics$q$, $q$People search “near me” every day. Here are the basics of showing up when local customers look for what you offer.$q$, $q$<h2>Claim and complete your Google Business Profile</h2>
 <p>Your Google Business Profile is often the first thing local customers see. Claim it, choose the right categories, add your address, phone, opening hours, services and real photos. Keep the details up to date.</p>
 <h2>Keep your business details consistent</h2>
@@ -53,7 +53,7 @@ VALUES
 <h3>What is local SEO?</h3>
 <p>Local SEO is optimising your online presence so that your business appears in search results and maps for people looking for services near them.</p>
 <h3>Is a website necessary for local SEO?</h3>
-<p>A Google Business Profile helps, but a website with clear service pages, contact details and good content gives search engines and customers much more to trust.</p>$q$, $q$Digital Marketing$q$, 'Creva Solutions', $q$Local SEO Basics for Small Businesses | Creva Solutions$q$, $q$How small businesses can rank in local search: Google Business Profile, reviews, service pages and consistent details. Practical steps from Creva Solutions.$q$, true, '2026-09-06T09:00:00+05:30'),
+<p>A Google Business Profile helps, but a website with clear service pages, contact details and good content gives search engines and customers much more to trust.</p>$q$, $q$Digital Marketing$q$, 'Creva Solution', $q$Local SEO Basics for Small Businesses | Creva Solution$q$, $q$How small businesses can rank in local search: Google Business Profile, reviews, service pages and consistent details. Practical steps from Creva Solution.$q$, true, '2026-09-06T09:00:00+05:30'),
 ($q$Custom Software vs Off-the-Shelf: How to Choose$q$, $q$custom-software-vs-off-the-shelf$q$, $q$Ready-made tools are quick to start; custom software fits your process. How to decide which is right for your business.$q$, $q$<h2>When off-the-shelf software works well</h2>
 <p>If your process is standard — basic accounting, email, simple project tracking — an existing product is usually faster and cheaper to adopt. Start here whenever a tool already does what you need with few workarounds.</p>
 <h2>Signs you may need custom software</h2>
@@ -67,7 +67,7 @@ VALUES
 <h3>Is custom software more expensive than ready-made software?</h3>
 <p>Custom software usually costs more upfront, but it can save money over time if it removes manual work or replaces several subscriptions. The right choice depends on your process and scale.</p>
 <h3>Can custom software integrate with tools I already use?</h3>
-<p>Yes. Custom systems can connect to payment gateways, messaging, accounting and other tools through APIs.</p>$q$, $q$Software Development$q$, 'Creva Solutions', $q$Custom Software vs Off-the-Shelf Software | Creva Solutions$q$, $q$Should your business build custom software or buy a ready-made tool? Compare cost, fit, control and speed with this guide from Creva Solutions.$q$, true, '2026-09-08T09:00:00+05:30'),
+<p>Yes. Custom systems can connect to payment gateways, messaging, accounting and other tools through APIs.</p>$q$, $q$Software Development$q$, 'Creva Solution', $q$Custom Software vs Off-the-Shelf Software | Creva Solution$q$, $q$Should your business build custom software or buy a ready-made tool? Compare cost, fit, control and speed with this guide from Creva Solution.$q$, true, '2026-09-08T09:00:00+05:30'),
 ($q$Native, Cross-Platform or Web App? Choosing the Right Approach$q$, $q$native-vs-cross-platform-apps$q$, $q$Three ways to put your product on a phone, and how to pick between them based on budget, features and audience.$q$, $q$<h2>Native apps</h2>
 <p>Native apps are built separately for Android and iOS using each platform’s own tools. They offer the best performance and deepest access to device features, but need two codebases, which increases cost and maintenance.</p>
 <h2>Cross-platform apps</h2>
@@ -81,7 +81,7 @@ VALUES
 <h3>Is a cross-platform app as good as a native app?</h3>
 <p>For many business apps, yes. Cross-platform apps can deliver smooth performance and a native-like experience. Native still has an edge for very demanding or hardware-heavy apps.</p>
 <h3>Do I need an app or is a website enough?</h3>
-<p>If customers mainly need information or simple forms, a responsive website may be enough. An app suits frequent use, notifications, or features that benefit from device capabilities.</p>$q$, $q$Mobile App Development$q$, 'Creva Solutions', $q$Native vs Cross-Platform vs Web Apps | Creva Solutions$q$, $q$Compare native, cross-platform and web apps for your business: cost, speed, performance and features. A plain-language guide from Creva Solutions.$q$, true, '2026-09-10T09:00:00+05:30'),
+<p>If customers mainly need information or simple forms, a responsive website may be enough. An app suits frequent use, notifications, or features that benefit from device capabilities.</p>$q$, $q$Mobile App Development$q$, 'Creva Solution', $q$Native vs Cross-Platform vs Web Apps | Creva Solution$q$, $q$Compare native, cross-platform and web apps for your business: cost, speed, performance and features. A plain-language guide from Creva Solution.$q$, true, '2026-09-10T09:00:00+05:30'),
 ($q$Website Speed and Core Web Vitals in Plain English$q$, $q$website-speed-core-web-vitals$q$, $q$Slow pages lose visitors. Here is what Core Web Vitals measure and the simple changes that improve them.$q$, $q$<h2>What are Core Web Vitals?</h2>
 <p>Core Web Vitals are Google’s measures of how a page feels to use. They focus on three things.</p>
 <ul><li>Largest Contentful Paint (LCP): how quickly the main content appears</li><li>Interaction to Next Paint (INP): how quickly the page responds when someone taps or clicks</li><li>Cumulative Layout Shift (CLS): how much the layout jumps around while loading</li></ul>
@@ -96,7 +96,7 @@ VALUES
 <h3>What are Core Web Vitals?</h3>
 <p>Core Web Vitals are Google metrics measuring loading speed (LCP), responsiveness (INP) and visual stability (CLS) of a web page.</p>
 <h3>How can I check my website speed?</h3>
-<p>Use Google PageSpeed Insights for a quick test and Google Search Console for real-user Core Web Vitals data.</p>$q$, $q$Technology$q$, 'Creva Solutions', $q$Website Speed & Core Web Vitals Explained | Creva Solutions$q$, $q$What Core Web Vitals are, why website speed matters for visitors and search, and practical steps to make your site faster. By Creva Solutions.$q$, true, '2026-09-12T09:00:00+05:30'),
+<p>Use Google PageSpeed Insights for a quick test and Google Search Console for real-user Core Web Vitals data.</p>$q$, $q$Technology$q$, 'Creva Solution', $q$Website Speed & Core Web Vitals Explained | Creva Solution$q$, $q$What Core Web Vitals are, why website speed matters for visitors and search, and practical steps to make your site faster. By Creva Solution.$q$, true, '2026-09-12T09:00:00+05:30'),
 ($q$What to Prepare Before You Start a House Plan$q$, $q$prepare-for-house-plan$q$, $q$A good house plan begins with good information. Gather these details before you meet your designer.$q$, $q$<h2>Know your plot</h2>
 <p>Collect the plot dimensions, orientation (which side faces the road and north), road width, and any survey or sale deed drawings. Note existing features such as trees, wells and slopes. Accurate plot information avoids redesign later.</p>
 <h2>List your needs, not just room counts</h2>
@@ -112,7 +112,7 @@ VALUES
 <h3>What documents do I need to start a house plan?</h3>
 <p>Plot dimensions or a survey sketch, orientation, and your requirements and budget range. Ownership documents will be needed for approval submissions.</p>
 <h3>Can a house plan be changed after it is finalised?</h3>
-<p>Changes are easiest before detailed drawings and construction begin. Later changes are possible but can affect cost and schedule.</p>$q$, $q$Civil Design$q$, 'Creva Solutions', $q$What to Prepare Before Starting a House Plan | Creva Solutions$q$, $q$A checklist for homeowners planning a new house: plot details, needs, budget and reference ideas that help designers create the right plan.$q$, true, '2026-09-14T09:00:00+05:30'),
+<p>Changes are easiest before detailed drawings and construction begin. Later changes are possible but can affect cost and schedule.</p>$q$, $q$Civil Design$q$, 'Creva Solution', $q$What to Prepare Before Starting a House Plan | Creva Solution$q$, $q$A checklist for homeowners planning a new house: plot details, needs, budget and reference ideas that help designers create the right plan.$q$, true, '2026-09-14T09:00:00+05:30'),
 ($q$2D Drafting Explained: Plans, Elevations and Sections$q$, $q$2d-drafting-explained$q$, $q$Floor plans, elevations, sections: what each drawing shows and why builders need all of them.$q$, $q$<h2>What is 2D drafting?</h2>
 <p>2D drafting is the creation of flat, scaled technical drawings that describe a building. Today this is done in CAD software such as AutoCAD, which makes drawings accurate and easy to revise.</p>
 <h2>The main drawings in a set</h2>
@@ -126,7 +126,7 @@ VALUES
 <h3>What is 2D drafting?</h3>
 <p>2D drafting is creating flat, dimensioned technical drawings — such as plans, elevations and sections — that describe how a building is arranged and built.</p>
 <h3>What is the difference between a plan and an elevation?</h3>
-<p>A plan is a top-down view of a floor layout. An elevation is a straight-on view of the outside face of the building.</p>$q$, $q$2D Drafting$q$, 'Creva Solutions', $q$2D Drafting Explained: Plans, Elevations, Sections | Creva Solutions$q$, $q$What 2D drafting is and what drawings you need for construction: floor plans, elevations, sections and working drawings, explained simply.$q$, true, '2026-09-16T09:00:00+05:30'),
+<p>A plan is a top-down view of a floor layout. An elevation is a straight-on view of the outside face of the building.</p>$q$, $q$2D Drafting$q$, 'Creva Solution', $q$2D Drafting Explained: Plans, Elevations, Sections | Creva Solution$q$, $q$What 2D drafting is and what drawings you need for construction: floor plans, elevations, sections and working drawings, explained simply.$q$, true, '2026-09-16T09:00:00+05:30'),
 ($q$3D Modeling: See Your Building Before You Build It$q$, $q$3d-modeling-before-you-build$q$, $q$A 3D model lets you walk around your future home on screen. Here is what it shows and why it saves money.$q$, $q$<h2>What a 3D model shows</h2>
 <p>A 3D model is a digital version of the building with volumes, openings, materials and lighting. From it, we produce still images or walkthrough views from any angle, so you understand proportions in a way plans alone cannot show.</p>
 <h2>Benefits for homeowners</h2>
@@ -140,5 +140,5 @@ VALUES
 <h3>What is 3D modeling in architecture?</h3>
 <p>3D modeling is building a digital three-dimensional representation of a building so its shape, materials and lighting can be viewed before construction.</p>
 <h3>Will the 3D render look exactly like the finished building?</h3>
-<p>Renders closely represent the design and chosen materials, but real-world lighting, site conditions and construction finishes can cause small differences.</p>$q$, $q$3D Modeling$q$, 'Creva Solutions', $q$3D Modeling for Homes: See Before You Build | Creva Solutions$q$, $q$How 3D models and elevation renders help homeowners choose designs, compare options and avoid costly changes during construction.$q$, true, '2026-09-18T09:00:00+05:30')
+<p>Renders closely represent the design and chosen materials, but real-world lighting, site conditions and construction finishes can cause small differences.</p>$q$, $q$3D Modeling$q$, 'Creva Solution', $q$3D Modeling for Homes: See Before You Build | Creva Solution$q$, $q$How 3D models and elevation renders help homeowners choose designs, compare options and avoid costly changes during construction.$q$, true, '2026-09-18T09:00:00+05:30')
 ON CONFLICT (slug) DO NOTHING;

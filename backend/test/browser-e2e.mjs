@@ -38,7 +38,7 @@ const { app } = createApp({
     supabase: { url: `http://127.0.0.1:${db.address().port}`, anonKey: 'anon' },
     provider: 'smtp',
     smtp: { host: '127.0.0.1', port: smtp.server.address().port, secure: true, user: 'notifications@example.test', password: 'x', allowSelfSigned: true },
-    mail: { from: 'notifications@example.test', fromName: 'Creva Solutions', adminNotification: ['crevasolution@gmail.com'], siteUrl: 'https://crevasolution.in/' },
+    mail: { from: 'notifications@example.test', fromName: 'Creva Solution', adminNotification: ['crevasolution@gmail.com'], siteUrl: 'https://crevasolution.in/' },
     allowedOrigins: [SITE_ORIGIN], rateLimitPerWindow: 1000
 }, { log: { info() {}, warn() {}, error() {} } });
 const apiSrv = app.listen(0); await new Promise(r => apiSrv.once('listening', r));

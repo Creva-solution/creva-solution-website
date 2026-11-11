@@ -1,5 +1,5 @@
 /**
- * Creva Solutions - Modern Agency Hero Interactions
+ * Creva Solution - Modern Agency Hero Interactions
  * Lightweight progressive enhancement for the curved service journey
  */
 

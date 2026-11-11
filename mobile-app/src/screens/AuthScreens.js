@@ -30,7 +30,7 @@ export function LoginScreen() {
                 <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', padding: 24 }} keyboardShouldPersistTaps="handled">
                     <Image source={logo} style={{ width: 96, height: 96, borderRadius: 20, marginBottom: 12 }} accessibilityIgnoresInvertColors accessible={false} />
                     <Text style={{ fontSize: 26, fontWeight: '800', color: C.dark }}>Admin Login</Text>
-                    <Text style={[s.muted, { marginBottom: 20 }]}>Sign in with your Creva Solutions admin account.</Text>
+                    <Text style={[s.muted, { marginBottom: 20 }]}>Sign in with your Creva Solution admin account.</Text>
                     <Text style={{ fontWeight: '600', marginBottom: 6 }}>Email</Text>
                     <TextInput style={s.input} value={email} onChangeText={setEmail} autoCapitalize="none" autoComplete="email"
                         keyboardType="email-address" textContentType="username" accessibilityLabel="Email" returnKeyType="next" />

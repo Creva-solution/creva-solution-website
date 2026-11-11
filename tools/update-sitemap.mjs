@@ -110,9 +110,9 @@ function articlePage(post) {
     const services = cat.services.map(k => BLOG_SERVICES[k]).filter(Boolean);
     const img = blogSafeUrl(post.featured_image);
     const ogImage = img ? absUrl(img) : DEFAULT_OG;
-    const title = (post.seo_title || '').trim() || post.title + ' | Creva Solutions';
+    const title = (post.seo_title || '').trim() || post.title + ' | Creva Solution';
     const desc = ((post.seo_description || '').trim() || (post.excerpt || '').trim() || text.slice(0, 155)).replace(/\s+/g, ' ');
-    const author = (post.author || 'Creva Solutions').trim();
+    const author = (post.author || 'Creva Solution').trim();
     const orgAuthor = /creva/i.test(author);
     const published = post.published_at || post.created_at;
     const modified = post.updated_at || published;
@@ -125,7 +125,7 @@ function articlePage(post) {
 
     <!-- Open Graph -->
     <meta property="og:type" content="article">
-    <meta property="og:site_name" content="Creva Solutions">
+    <meta property="og:site_name" content="Creva Solution">
     <meta property="og:locale" content="en_IN">
     <meta property="og:url" content="${url}">
     <meta property="og:title" content="${esc(title)}">
@@ -149,7 +149,7 @@ function articlePage(post) {
             wordCount: words, inLanguage: 'en-IN',
             author: orgAuthor ? blogOrgRef() : { '@type': 'Person', name: author },
             publisher: blogOrgRef(),
-            isPartOf: { '@type': 'Blog', '@id': SITE + '/blog.html#blog', name: 'Creva Solutions Blog' },
+            isPartOf: { '@type': 'Blog', '@id': SITE + '/blog.html#blog', name: 'Creva Solution Blog' },
             about: services.map(s => ({ '@type': 'Service', name: s.name, url: SITE + s.url }))
         }),
         jsonLd({
@@ -192,7 +192,7 @@ function articlePage(post) {
 
         <section class="svc-section svc-soft" aria-labelledby="rs-heading">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="svc-head"><span class="svc-label">Our Services</span><h2 id="rs-heading">Related Services</h2><p>How Creva Solutions can help with what you just read, for clients in Sankarapuram, Kallakurichi and nearby areas.</p></div>
+                <div class="svc-head"><span class="svc-label">Our Services</span><h2 id="rs-heading">Related Services</h2><p>How Creva Solution can help with what you just read, for clients in Sankarapuram, Kallakurichi and nearby areas.</p></div>
                 <div class="svc-grid svc-grid-3">${serviceCards}</div>
             </div>
         </section>
@@ -208,7 +208,7 @@ ${related.length ? `
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="svc-cta-inner">
                     <h2>Have a Project in Mind?</h2>
-                    <p>Tell us what you need and Creva Solutions will help you plan the right solution.</p>
+                    <p>Tell us what you need and Creva Solution will help you plan the right solution.</p>
                     <div class="svc-cta-buttons">
                         <a href="/contact.html" class="inline-flex items-center justify-center px-6 py-3 rounded-lg font-semibold bg-white text-primary border-2 border-primary hover:bg-primary hover:text-white transition-all">Get a Free Quote</a>
                         <a href="/blog.html" class="svc-btn-ghost">More Articles</a>
@@ -231,7 +231,7 @@ const goneStub = (slug) => `<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Article no longer available | Creva Solutions</title>
+    <title>Article no longer available | Creva Solution</title>
     <meta name="robots" content="noindex, follow">
     <meta http-equiv="refresh" content="0; url=/blog.html">
 </head>

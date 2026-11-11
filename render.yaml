@@ -1,4 +1,4 @@
-# Render Blueprint for the Creva Solutions contact API (separate backend in ./backend).
+# Render Blueprint for the Creva Solution contact API (separate backend in ./backend).
 # Render Dashboard -> New -> Blueprint -> select this repository. Secret values are entered in the dashboard
 # (sync: false) and are never stored in Git.
 services:
@@ -37,6 +37,6 @@ services:
       - key: MAIL_FROM
         sync: false
       - key: MAIL_FROM_NAME
-        value: Creva Solutions Website
+        value: Creva Solution Website
       - key: ALLOWED_ORIGINS
         value: https://crevasolution.in

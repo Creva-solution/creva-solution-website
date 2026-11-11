@@ -37,7 +37,7 @@ before(async () => {
         provider: 'resend',
         resend: { apiKey: KEY, baseUrl: `http://127.0.0.1:${resend.address().port}`, timeoutMs: 1000 },
         smtp: null,
-        mail: { from: 'onboarding@resend.dev', fromName: 'Creva Solutions', adminNotification: [ADMIN_TO], siteUrl: 'https://crevasolution.in/' },
+        mail: { from: 'onboarding@resend.dev', fromName: 'Creva Solution', adminNotification: [ADMIN_TO], siteUrl: 'https://crevasolution.in/' },
         allowedOrigins: [ORIGIN], rateLimitPerWindow: 1000, retryDelaysMs: [50, 100], emailWaitMs: 5000
     }, { log: { info: (m) => logs.push(m), warn: (m) => logs.push(m), error: (m) => logs.push(m) } });
     api = app.listen(0); await new Promise((r) => api.once('listening', r));
@@ -56,7 +56,7 @@ test('resend: exactly ONE notification to crevasolution@gmail.com, nothing to th
     assert.equal(rows.get(body.id).email, 'customer@example.com');
     assert.equal(sent.length, 1);
     const m = sent[0];
-    assert.equal(m.body.from, 'Creva Solutions <onboarding@resend.dev>');
+    assert.equal(m.body.from, 'Creva Solution <onboarding@resend.dev>');
     assert.deepEqual(m.body.to, [ADMIN_TO]);
     assert.equal(m.body.cc, undefined);
     assert.equal(m.body.bcc, undefined);

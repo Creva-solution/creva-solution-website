@@ -1,5 +1,5 @@
 -- ====================================================================
--- Creva Solutions – Legal pages management (Supabase setup)
+-- Creva Solution – Legal pages management (Supabase setup)
 -- Run ONCE in the Supabase dashboard: SQL Editor -> New query -> Run.
 -- Safe to re-run: existing legal content is NEVER overwritten.
 -- Requires public.is_admin() (created by admin/blog_setup.sql – run that first).
@@ -61,7 +61,7 @@ GRANT SELECT, UPDATE ON public.legal_pages TO authenticated;
 -- --------------------------------------------------------------------
 INSERT INTO public.legal_pages (slug, title, content, is_visible) VALUES
 ('privacy-policy', 'Privacy Policy', $lg$<h2>Who we are</h2>
-<p>Creva Solutions (&quot;we&quot;, &quot;us&quot;) is an IT and civil services provider based in Sankarapuram, Kallakurichi district, Tamil Nadu, India. This policy explains how we handle information collected through crevasolution.in.</p>
+<p>Creva Solution (&quot;we&quot;, &quot;us&quot;) is an IT and civil services provider based in Sankarapuram, Kallakurichi district, Tamil Nadu, India. This policy explains how we handle information collected through crevasolution.in.</p>
 <h2>Information we collect</h2>
 <p>When you use our contact form or contact us directly, we collect the details you choose to give us, such as your name, email address, phone number and message.</p>
 <p>Our website also loads third-party resources (for example fonts and scripts) that may receive standard technical data such as your IP address and browser type.</p>
@@ -76,11 +76,11 @@ INSERT INTO public.legal_pages (slug, title, content, is_visible) VALUES
 <h2>Contact</h2>
 <p>You can reach us at info@crevasolution.in, by phone on +91 86676 22236, or through our <a href="/contact.html">contact page</a>.</p>$lg$, true),
 ('terms-and-conditions', 'Terms & Conditions', $lg$<h2>Using this website</h2>
-<p>By using crevasolution.in you agree to these terms. The content is provided for general information about Creva Solutions and our services.</p>
+<p>By using crevasolution.in you agree to these terms. The content is provided for general information about Creva Solution and our services.</p>
 <h2>Services and quotations</h2>
 <p>Descriptions of services on this website are general. The scope, timeline, fees and deliverables for any project are set out in a written quotation or agreement between you and us.</p>
 <h2>Intellectual property</h2>
-<p>The content, design and logo on this website belong to Creva Solutions unless stated otherwise. Ownership of work delivered to clients is defined in the project agreement.</p>
+<p>The content, design and logo on this website belong to Creva Solution unless stated otherwise. Ownership of work delivered to clients is defined in the project agreement.</p>
 <h2>Civil and technical drawings</h2>
 <p>Drawings, models and designs we prepare support your project. Regulatory approvals and structural certification are governed by local law and are the responsibility of the appropriately licensed professionals and authorities involved.</p>
 <h2>Limitation of liability</h2>

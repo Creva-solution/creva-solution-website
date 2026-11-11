@@ -143,7 +143,7 @@ export function AppProvider({ children, onOpenInquiry }) {
             const { data: isAdmin, error } = await withTimeout(supabase.rpc('is_admin'));
             if (error) throw error;
             next.ok = isAdmin === true;
-            if (!next.ok) next.error = 'This account is signed in but is not listed as a Creva Solutions admin (public.admin_users).';
+            if (!next.ok) next.error = 'This account is signed in but is not listed as a Creva Solution admin (public.admin_users).';
             else await store.setAdminFor(uid);
         } catch (err) {
             const msg = friendlyError(err);

@@ -1,4 +1,4 @@
-# Creva Solutions – Contact API (Render)
+# Creva Solution – Contact API (Render)
 
 Separate Node.js backend for the website contact form. It runs on **Render**; the website only calls its API.
 
@@ -100,7 +100,7 @@ logs never include passwords or keys.
 | `SUPABASE_ANON_KEY` | the public anon key (same as in `admin/js/config.js`) |
 | `ADMIN_NOTIFICATION_EMAIL` | `crevasolution@gmail.com` |
 | `EMAIL_PROVIDER` | `smtp` (paid instance) or `resend` (Free plan) |
-| `MAIL_FROM_NAME` | e.g. `Creva Solutions Website` |
+| `MAIL_FROM_NAME` | e.g. `Creva Solution Website` |
 | `MAIL_FROM` | sender address (SMTP: defaults to `SMTP_USER`; Resend: see below) |
 | `SMTP_HOST` `SMTP_PORT` `SMTP_SECURE` `SMTP_USER` `SMTP_PASSWORD` | the SMTP account that sends the notification (smtp only) |
 | `RESEND_API_KEY` | `re_…` (resend only) |

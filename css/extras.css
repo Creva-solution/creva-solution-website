@@ -1,4 +1,4 @@
-/* Creva Solutions – supplementary styles.
+/* Creva Solution – supplementary styles.
    Small additions for the Services dropdown, service/blog pages, FAQ, and responsive/accessibility fixes.
    Uses the existing brand tokens from style.css; no new colours or fonts. */
 
@@ -462,8 +462,8 @@ body { overflow-x: clip; }
 .pf-section + .cl-section { border-top: 1px solid #f1f5f9; }
 
 /* Navbar logo: smaller size (proportions unchanged) */
-nav a[aria-label="Creva Solutions home"] img { height: 2.5rem; width: auto; }
-@media (min-width: 768px) { nav a[aria-label="Creva Solutions home"] img { height: 3rem; } }
+nav a[aria-label="Creva Solution home"] img { height: 2.5rem; width: auto; }
+@media (min-width: 768px) { nav a[aria-label="Creva Solution home"] img { height: 3rem; } }
 
 /* =====================================================================
    Contact page (.ct-*)

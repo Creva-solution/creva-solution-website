@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // ---------- not found
     function notFound(message) {
-        document.title = 'Article not found | Creva Solutions';
+        document.title = 'Article not found | Creva Solution';
         setMeta('name', 'robots', 'noindex, follow');
         setMeta('name', 'description', 'This article could not be found.');
         root.innerHTML = `
@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const seoTitle = (post.seo_title || '').trim() || post.title;
     const seoDesc = (post.seo_description || '').trim() || (post.excerpt || '').trim() || text.slice(0, 155);
     const ogImage = imgUrl ? (imgUrl.startsWith('/') ? BLOG_SITE + imgUrl : imgUrl) : BLOG_SITE + '/assets/creva-solutions-og.jpg';
-    const authorName = (post.author || 'Creva Solutions').trim();
+    const authorName = (post.author || 'Creva Solution').trim();
     const isOrgAuthor = /creva/i.test(authorName);
 
     // ---------- SEO metadata
@@ -109,7 +109,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     setMeta('name', 'robots', wantPreview && !post.published ? 'noindex, nofollow' : 'index, follow, max-image-preview:large');
     setCanonical(pageUrl);
     setMeta('property', 'og:type', 'article');
-    setMeta('property', 'og:site_name', 'Creva Solutions');
+    setMeta('property', 'og:site_name', 'Creva Solution');
     setMeta('property', 'og:url', pageUrl);
     setMeta('property', 'og:title', seoTitle);
     setMeta('property', 'og:description', seoDesc);
@@ -127,7 +127,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         image: [ogImage], datePublished: post.published_at || post.created_at, dateModified: post.updated_at || post.published_at || post.created_at,
         articleSection: post.category || undefined, wordCount: words,
         author: isOrgAuthor ? blogOrgRef() : { '@type': 'Person', name: authorName },
-        publisher: blogOrgRef(), isPartOf: { '@type': 'Blog', '@id': BLOG_SITE + '/blog.html#blog', name: 'Creva Solutions Blog' }, inLanguage: 'en-IN'
+        publisher: blogOrgRef(), isPartOf: { '@type': 'Blog', '@id': BLOG_SITE + '/blog.html#blog', name: 'Creva Solution Blog' }, inLanguage: 'en-IN'
     });
     addJsonLd('ld-breadcrumb', {
         '@context': 'https://schema.org', '@type': 'BreadcrumbList',
@@ -169,7 +169,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         <section class="svc-section svc-soft" aria-labelledby="rs-heading">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="svc-head"><span class="svc-label">Our Services</span><h2 id="rs-heading">Related Services</h2><p>How Creva Solutions can help with what you just read.</p></div>
+                <div class="svc-head"><span class="svc-label">Our Services</span><h2 id="rs-heading">Related Services</h2><p>How Creva Solution can help with what you just read.</p></div>
                 <div class="svc-grid svc-grid-3">${serviceCards}</div>
             </div>
         </section>
@@ -185,7 +185,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             <div class="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="svc-cta-inner">
                     <h2>Have a Project in Mind?</h2>
-                    <p>Tell us what you need and Creva Solutions will help you plan the right solution.</p>
+                    <p>Tell us what you need and Creva Solution will help you plan the right solution.</p>
                     <div class="svc-cta-buttons">
                         <a href="/contact.html" class="inline-flex items-center justify-center px-6 py-3 rounded-lg font-semibold bg-white text-primary border-2 border-primary hover:bg-primary hover:text-white transition-all">Get a Free Quote</a>
                         <a href="/blog.html" class="svc-btn-ghost">More Articles</a>
