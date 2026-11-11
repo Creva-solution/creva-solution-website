@@ -36,7 +36,7 @@ var BLOG_TONE_CHIP = { it: 'bg-blue-100 text-primary', civil: 'bg-orange-100 tex
 
 // The site-wide business entity (defined in full on the homepage and contact page).
 function blogOrgRef() {
-    return { '@type': 'Organization', '@id': BLOG_SITE + '/#organization', name: 'Creva Solutions', url: BLOG_SITE + '/', logo: { '@type': 'ImageObject', url: BLOG_SITE + '/assets/creva-logo-512.png' } };
+    return { '@type': 'Organization', '@id': BLOG_SITE + '/#organization', name: 'Creva Solution', url: BLOG_SITE + '/', logo: { '@type': 'ImageObject', url: BLOG_SITE + '/assets/creva-logo-512.png' } };
 }
 
 function blogCat(name) { return BLOG_CATEGORIES[name] || BLOG_DEFAULT_CAT; }

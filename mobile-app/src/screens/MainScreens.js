@@ -140,7 +140,7 @@ export function InquiryScreen({ route, navigation }) {
             <View style={{ flexDirection: 'row', gap: 10, flexWrap: 'wrap' }}>
                 {!!row.mobile && <Button kind="primary" title="📞 Call" onPress={() => Linking.openURL(tel)} style={{ flexGrow: 1, flexBasis: '45%' }} />}
                 {!!row.email && <Button kind="primary" title="✉ Email" style={{ flexGrow: 1, flexBasis: '45%' }}
-                    onPress={() => Linking.openURL(`mailto:${row.email}?subject=${encodeURIComponent('Re: Your inquiry to Creva Solutions')}`)} />}
+                    onPress={() => Linking.openURL(`mailto:${row.email}?subject=${encodeURIComponent('Re: Your inquiry to Creva Solution')}`)} />}
                 {!!row.mobile && <Button title="Copy mobile" onPress={() => copy(row.mobile, 'Mobile number')} style={{ flexGrow: 1, flexBasis: '45%' }} />}
                 {!!row.email && <Button title="Copy email" onPress={() => copy(row.email, 'Email')} style={{ flexGrow: 1, flexBasis: '45%' }} />}
             </View>

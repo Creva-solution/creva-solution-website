@@ -19,7 +19,7 @@ const config = (over = {}) => ({
     port: 0, isProduction: true, provider: 'smtp',
     supabase: { url: `http://127.0.0.1:${db.address().port}`, anonKey: ANON },
     smtp: { host: '127.0.0.1', port: smtp.server.address().port, secure: true, user: SENDER, password: PASS, allowSelfSigned: true },
-    mail: { from: SENDER, fromName: 'Creva Solutions', adminNotification: [ADMIN_TO], siteUrl: 'https://crevasolution.in/' },
+    mail: { from: SENDER, fromName: 'Creva Solution', adminNotification: [ADMIN_TO], siteUrl: 'https://crevasolution.in/' },
     allowedOrigins: [ORIGIN], rateLimitPerWindow: 1000, retryDelaysMs: [50, 100], emailWaitMs: 15000, ...over
 });
 const capture = { info: (m) => logs.push(m), warn: (m) => logs.push(m), error: (m) => logs.push(m) };
@@ -114,7 +114,7 @@ test('valid submission: saved to Supabase (customer email stored), exactly ONE n
     assert.deepEqual(rcpts(), [ADMIN_TO], 'only crevasolution@gmail.com, never the customer');
     const m = captured[0];
     assert.equal(m.env.mailFrom.address, SENDER);
-    assert.equal(m.mail.headers.get('from').text, `"Creva Solutions" <${SENDER}>`);
+    assert.equal(m.mail.headers.get('from').text, `"Creva Solution" <${SENDER}>`);
     assert.equal(m.mail.headers.get('to').text, ADMIN_TO);
     assert.equal(m.mail.headers.get('cc'), undefined);
     assert.equal(m.mail.headers.get('bcc'), undefined);

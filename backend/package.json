@@ -2,7 +2,7 @@
   "name": "creva-contact-api",
   "version": "1.0.0",
   "private": true,
-  "description": "Creva Solutions contact form API: saves inquiries to Supabase and sends email via GoDaddy SMTP (Render web service)",
+  "description": "Creva Solution contact form API: saves inquiries to Supabase and sends email via GoDaddy SMTP (Render web service)",
   "type": "module",
   "main": "src/server.js",
   "scripts": {

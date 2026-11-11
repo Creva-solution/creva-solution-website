@@ -25,27 +25,27 @@ export function buildAdminNotification(s, mail) {
     const adminUrl = `${mail.siteUrl.replace(/\/$/, '')}/admin/contacts.html`;
     const text = `New Contact Inquiry
 
-A new enquiry has been submitted through the Creva Solutions website.
+A new enquiry has been submitted through the Creva Solution website.
 
 ${rows.map(([k, v]) => `${k}:\n${v}`).join('\n\n')}
 
 Please check the Admin Panel for this inquiry.
 ${adminUrl}
 
-Creva Solutions
+Creva Solution
 IT & Civil Solutions
 ${mail.siteUrl}
 `;
     const html = `<!DOCTYPE html><html><body style="margin:0;padding:24px;background:#f5f7fb;font-family:Arial,Helvetica,sans-serif;color:#1f2937;">
 <div style="max-width:560px;margin:0 auto;background:#ffffff;border:1px solid #e5e7eb;border-radius:10px;padding:24px;line-height:1.6;font-size:15px;">
 <h2 style="margin:0 0 8px;font-size:20px;color:#0b1a3c;">New Contact Inquiry</h2>
-<p>A new enquiry has been submitted through the Creva Solutions website.</p>
+<p>A new enquiry has been submitted through the Creva Solution website.</p>
 <table style="width:100%;border-collapse:collapse;font-size:14px;">${rows.map(([k, v]) => `
 <tr><td style="padding:8px 12px 8px 0;vertical-align:top;color:#6b7280;white-space:nowrap;"><strong>${escapeHtml(k)}</strong></td>
 <td style="padding:8px 0;white-space:pre-wrap;word-break:break-word;">${escapeHtml(v)}</td></tr>`).join('')}
 </table>
 <p style="margin-top:16px;">Please check the <a href="${escapeHtml(adminUrl)}" style="color:#3C77C3;">Admin Panel</a> for this inquiry.</p>
-<p style="margin-top:24px;color:#374151;">Creva Solutions<br>IT &amp; Civil Solutions<br><a href="${escapeHtml(mail.siteUrl)}" style="color:#3C77C3;">${escapeHtml(mail.siteUrl)}</a></p>
+<p style="margin-top:24px;color:#374151;">Creva Solution<br>IT &amp; Civil Solutions<br><a href="${escapeHtml(mail.siteUrl)}" style="color:#3C77C3;">${escapeHtml(mail.siteUrl)}</a></p>
 </div></body></html>`;
     return {
         from: { name: mail.fromName, address: mail.from },

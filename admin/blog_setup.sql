@@ -1,5 +1,5 @@
 -- ====================================================================
--- Creva Solutions – Blog management system (Supabase setup)
+-- Creva Solution – Blog management system (Supabase setup)
 -- Run this ONCE in the Supabase dashboard: SQL Editor -> New query -> Run
 -- Safe to re-run: every statement is idempotent.
 -- ====================================================================

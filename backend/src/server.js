@@ -1,4 +1,4 @@
-// Creva Solutions contact API (Render web service).
+// Creva Solution contact API (Render web service).
 //   GET  /health        -> {"status":"ok"}
 //   POST /api/contact   -> save to Supabase, then ONE admin notification email (never to the customer)
 //   GET  /api/contact/:id/status -> notification state of one submission
