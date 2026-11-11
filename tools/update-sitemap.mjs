@@ -31,6 +31,7 @@ const PAGES = [
     'index.html', 'about.html', 'services.html', 'it-services.html', 'civil-services.html',
     'it-services/web-development.html', 'it-services/digital-marketing.html', 'it-services/ui-ux-design.html',
     'it-services/mobile-app-development.html', 'it-services/software-development.html', 'it-services/branding.html',
+    'it-services/logo-design.html', 'it-services/graphic-design.html',
     'civil-services/2d-drafting.html', 'civil-services/3d-modeling.html', 'civil-services/planning.html',
     'civil-services/civil-design.html',
     'best-it-company-kallakurichi.html', 'it-company-sankarapuram.html',
